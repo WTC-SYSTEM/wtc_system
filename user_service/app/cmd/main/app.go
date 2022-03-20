@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"github.com/go-playground/validator/v10"
 	"github.com/gorilla/mux"
 	"github.com/hawkkiller/wtc_system/user_service/internal/config"
 	"github.com/hawkkiller/wtc_system/user_service/internal/user"
@@ -48,6 +49,7 @@ func main() {
 	usersHandler := user.Handler{
 		Logger:      logger,
 		UserService: userService,
+		Validator:   validator.New(),
 	}
 
 	usersHandler.Register(router)

@@ -3,6 +3,7 @@ package db
 import (
 	"context"
 	"fmt"
+	"github.com/hawkkiller/wtc_system/user_service/internal/apperror"
 	"github.com/hawkkiller/wtc_system/user_service/internal/user"
 	"github.com/hawkkiller/wtc_system/user_service/pkg/client/postgresql"
 	"github.com/hawkkiller/wtc_system/user_service/pkg/logging"
@@ -42,6 +43,13 @@ func (r *db) Create(ctx context.Context, user *user.User) error {
 				", Code: ", pgErr.Code,
 				", SQLState: ", pgErr.SQLState(),
 			)
+			if strings.Contains(pgErr.Message, "duplicate key value violates unique") {
+				return apperror.NewAppError(
+					"That email is already registered in the system",
+					"WTC-000004",
+					"enter another email",
+				)
+			}
 			return nil
 		}
 		return err

@@ -18,15 +18,21 @@ func NewService(userStorage Storage, logger logging.Logger) (Service, error) {
 }
 
 type Service interface {
-	Create(ctx context.Context, dto CreateUserDTO) (string, error)
+	Create(ctx context.Context, dto CreateUserDTO) error
 	GetOne(ctx context.Context, uuid string) (User, error)
-	Delete(ctx context.Context, uuid string) error
-	// GetByEmailAndPassword(ctx context.Context, email, password string) (User, error)
-	// Update(ctx context.Context, dto UpdateUserDTO) error
+	GetByEmailAndPassword(ctx context.Context, dto GetUserByEmailAndPasswordDTO) (User, error)
+	Update(ctx context.Context, dto UpdateUserDTO) error
+	//Delete(ctx context.Context, uuid string) error
 }
 
-func (s service) Create(ctx context.Context, dto CreateUserDTO) (string, error) {
-	return "", nil
+func (s service) Create(ctx context.Context, dto CreateUserDTO) error {
+	var user *User
+	user = dto.NewUser()
+	err := s.storage.Create(ctx, user)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func (s service) GetOne(ctx context.Context, uuid string) (User, error) {
@@ -34,7 +40,12 @@ func (s service) GetOne(ctx context.Context, uuid string) (User, error) {
 	panic("implement me")
 }
 
-func (s service) Delete(ctx context.Context, uuid string) error {
+func (s service) GetByEmailAndPassword(ctx context.Context, dto GetUserByEmailAndPasswordDTO) (User, error) {
+	//TODO implement me
+	panic("implement me")
+}
+
+func (s service) Update(ctx context.Context, dto UpdateUserDTO) error {
 	//TODO implement me
 	panic("implement me")
 }
