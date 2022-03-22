@@ -1,25 +1,25 @@
-name: Go
+name: ci-cd-pipeline-to-aws
+env:
+  EB_PACKAGE_S3_BUCKET_NAME : "wtc-api-packages"
+  EB_APPLICATION_BEANSTALK  : "Wtc"
+  EB_ENVIRONMENT_ENV        : "Wtc-env"
+  DEPLOY_PACKAGE_NAME       : "wtc_app_${{ github.sha }}.zip"
+  AWS_REGION_NAME           : "eu-central-1"
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    branches: 
+      - master
 
 jobs:
 
-  build:
+  ci:
     runs-on: ubuntu-latest
+    
     steps:
-    - uses: actions/checkout@v2
-
-    - name: Set up Go
-      uses: actions/setup-go@v2
-      with:
-        go-version: 1.17
-
-    - name: Build
-      run: go build -v ./...
-
-    - name: Test
-      run: go test -v ./...
+    - name: Git clone repo
+      uses: actions/checkout@v2
+      
+    - name: Create zip deployment package
+      run: zip -r ${{ env.DEPLOY_PACKAGE_NAME }} ./ -x *.git*
+      
