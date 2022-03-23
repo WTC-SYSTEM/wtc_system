@@ -1,7 +1,7 @@
 ### wtc_system
 
 ### Status Of Deployment
-<img src="https://github.com/hawkkiller/wtc_system/workflows/ci-cd-pipeline-to-aws/badge.svg?branch=master">
+<img src="https://github.com/hawkkiller/wtc_system/workflows/ci-cd-pipeline-to-aws/badge.svg?branch=main">
 
 #### services:
     user_service
