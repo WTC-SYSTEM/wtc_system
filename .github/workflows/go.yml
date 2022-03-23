@@ -35,7 +35,6 @@ jobs:
       
     - name: Print Happy Message for CI
       run: echo "CI pipeline part finished successfully"
-      
     
   cd:
     runs-on: ubuntu-latest
