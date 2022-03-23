@@ -2,7 +2,7 @@ name: ci-cd-pipeline-to-aws
 env:
   EB_PACKAGE_S3_BUCKET_NAME : "wtc-api-packages"
   EB_APPLICATION_NAME       : "Wtc"
-  EB_ENVIRONMENT_ENV        : "Wtc-env"
+  EB_ENVIRONMENT_NAME       : "Wtc-env"
   DEPLOY_PACKAGE_NAME       : "wtc_app_${{ github.sha }}.zip"
   AWS_REGION_NAME           : "eu-central-1"
 
