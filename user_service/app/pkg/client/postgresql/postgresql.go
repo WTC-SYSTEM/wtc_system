@@ -24,6 +24,7 @@ func NewClient(ctx context.Context, sc config.StorageConfig) (pool *pgxpool.Pool
 		sc.Username, sc.Password, sc.Host, sc.Port, sc.Database,
 	)
 	err = repeatable.DoWithTries(func() error {
+		log.Println("Trying to connect to ", dsn)
 		ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
 		defer cancel()
 		pool, err = pgxpool.Connect(ctx, dsn)

@@ -1,7 +1,7 @@
 ---
 
 storage:
-  host: localhost
+  host: db
   port: 5432
   database: postgres
   username: postgres
