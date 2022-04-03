@@ -36,8 +36,11 @@ func (s service) Create(ctx context.Context, dto CreateUserDTO) error {
 }
 
 func (s service) GetOne(ctx context.Context, uuid string) (User, error) {
-	//TODO implement me
-	panic("implement me")
+	user, err := s.storage.FindOne(ctx, uuid)
+	if err != nil {
+		return User{}, err
+	}
+	return user, nil
 }
 
 func (s service) GetByEmailAndPassword(ctx context.Context, dto GetUserByEmailAndPasswordDTO) (User, error) {

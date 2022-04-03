@@ -59,7 +59,7 @@ func (r *db) Create(ctx context.Context, user *user.User) error {
 
 func (r *db) FindOne(ctx context.Context, id string) (user.User, error) {
 	q := `
-		select id, username, email, password from public.users where id = $1
+		select id, username, email, password from "user" where id = $1
 		`
 	var u user.User
 

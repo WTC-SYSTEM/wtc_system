@@ -1,13 +1,16 @@
+version: "2"
+
 services:
   app:
     restart: always
+    networks:
+      default:
     build:
       context: .
       dockerfile: Dockerfile
     container_name: wtc-user-service
-    depends_on:
-      - db
-
+    ports:
+      - "4000:8080"
   db:
     image: postgres:latest
     networks:

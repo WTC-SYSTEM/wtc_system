@@ -35,5 +35,6 @@ type UpdateUserDTO struct {
 }
 
 const (
-	RegSuccess string = "REG_SUCCESS"
+	RegSuccess     string = "REG_SUCCESS"
+	GetUserSuccess string = "GET_USER_SUCCESS"
 )

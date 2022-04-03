@@ -11,8 +11,8 @@ import (
 )
 
 const (
-	usersURL = "/api/users"
-	userURL  = "/api/users/:uuid"
+	usersURL = "/api/v1/users"
+	userURL  = "/api/v1/users/{uuid}"
 )
 
 type Handler struct {
@@ -22,7 +22,10 @@ type Handler struct {
 }
 
 func (h *Handler) Register(router *mux.Router) {
-	router.HandleFunc(usersURL, apperror.Middleware(h.CreateUser)).Methods("POST")
+	router.HandleFunc(usersURL, apperror.Middleware(h.CreateUser)).
+		Methods("POST")
+	router.HandleFunc(userURL, apperror.Middleware(h.GetUser)).
+		Methods("GET")
 }
 
 func (h *Handler) CreateUser(w http.ResponseWriter, r *http.Request) error {
@@ -47,6 +50,24 @@ func (h *Handler) CreateUser(w http.ResponseWriter, r *http.Request) error {
 	b, err := utils.CreateResponse(map[string]any{
 		"message": "Successfully registered user",
 		"code":    RegSuccess,
+	})
+
+	if err != nil {
+		return err
+	}
+	w.Write(b)
+	w.WriteHeader(200)
+	return nil
+}
+
+func (h *Handler) GetUser(w http.ResponseWriter, r *http.Request) error {
+	vars := mux.Vars(r)
+	uuid := vars["uuid"]
+	user, _ := h.UserService.GetOne(r.Context(), uuid)
+	b, err := utils.CreateResponse(map[string]any{
+		"message": "Successfully get user",
+		"code":    GetUserSuccess,
+		"user":    user,
 	})
 
 	if err != nil {

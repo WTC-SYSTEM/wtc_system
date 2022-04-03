@@ -3,6 +3,7 @@ module github.com/hawkkiller/wtc_system/user_service
 go 1.18
 
 require (
+	github.com/go-playground/validator/v10 v10.10.1
 	github.com/gorilla/mux v1.8.0
 	github.com/ilyakaznacheev/cleanenv v1.2.6
 	github.com/jackc/pgconn v1.10.1
@@ -14,7 +15,6 @@ require (
 	github.com/BurntSushi/toml v1.0.0 // indirect
 	github.com/go-playground/locales v0.14.0 // indirect
 	github.com/go-playground/universal-translator v0.18.0 // indirect
-	github.com/go-playground/validator/v10 v10.10.1 // indirect
 	github.com/jackc/chunkreader/v2 v2.0.1 // indirect
 	github.com/jackc/pgio v1.0.0 // indirect
 	github.com/jackc/pgpassfile v1.0.0 // indirect
