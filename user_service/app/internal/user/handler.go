@@ -30,6 +30,7 @@ func (h *Handler) Register(router *mux.Router) {
 
 func (h *Handler) CreateUser(w http.ResponseWriter, r *http.Request) error {
 	var userDto CreateUserDTO
+	w.Header().Set("Content-Type", "application/json")
 
 	err := json.NewDecoder(r.Body).Decode(&userDto)
 	if err != nil {
@@ -61,6 +62,8 @@ func (h *Handler) CreateUser(w http.ResponseWriter, r *http.Request) error {
 }
 
 func (h *Handler) GetUser(w http.ResponseWriter, r *http.Request) error {
+	w.Header().Set("Content-Type", "application/json")
+
 	vars := mux.Vars(r)
 	uuid := vars["uuid"]
 	user, _ := h.UserService.GetOne(r.Context(), uuid)

@@ -27,6 +27,29 @@ func formatQuery(q string) string {
 	return strings.ReplaceAll(strings.ReplaceAll(q, "\t", ""), "\n", "")
 }
 
+func (r *db) FindByEmail(ctx context.Context, email string) (user.User, error) {
+	q := `
+		select id, username, email, password from "user" where email = $1
+		`
+	var u user.User
+	r.logger.Trace(fmt.Sprintf("SQL query: %s", formatQuery(q)))
+
+	if err := r.client.QueryRow(ctx, q, email).Scan(&u.ID, &u.Username, &u.Email, &u.Password); err != nil {
+		if pgErr, ok := err.(*pgconn.PgError); ok {
+			r.logger.Error(
+				"SQL Error: ", pgErr.Message,
+				", Detail: ", pgErr.Detail,
+				", Where: ", pgErr.Where,
+				", Code: ", pgErr.Code,
+				", SQLState: ", pgErr.SQLState(),
+			)
+
+		}
+		return user.User{}, err
+	}
+	return u, nil
+}
+
 func (r *db) Create(ctx context.Context, user *user.User) error {
 	q := `
 		insert into "user" (username, password, email) 
