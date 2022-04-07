@@ -5,7 +5,7 @@ WORKDIR /usr/local/go/src/
 COPY app/ .
 
 RUN go mod download
-RUN go build -mod=mod -o app cmd/main/app.go
+RUN go build --mod=mod -o app cmd/main/app.go
 
 FROM alpine:3.14
 

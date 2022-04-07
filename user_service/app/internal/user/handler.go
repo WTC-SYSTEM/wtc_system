@@ -66,7 +66,10 @@ func (h *Handler) GetUser(w http.ResponseWriter, r *http.Request) error {
 
 	vars := mux.Vars(r)
 	uuid := vars["uuid"]
-	user, _ := h.UserService.GetOne(r.Context(), uuid)
+	user, err := h.UserService.GetOne(r.Context(), uuid)
+	if err != nil {
+		return err
+	}
 	b, err := utils.CreateResponse(map[string]any{
 		"message": "Successfully get user",
 		"code":    GetUserSuccess,
