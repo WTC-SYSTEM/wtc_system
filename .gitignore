@@ -17,3 +17,4 @@
 /.idea
 /.idea/
 /user_service/app/vendor/
+/user_service/.database/
