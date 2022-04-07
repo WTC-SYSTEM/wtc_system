@@ -7,11 +7,19 @@ type User struct {
 	Password string `json:"password"`
 }
 
-func (u *CreateUserDTO) NewUser() *User {
+func (u *CreateUserHashedDTO) NewUser() *User {
 	return &User{
 		Username: u.Username,
 		Email:    u.Email,
-		Password: u.Password,
+		Password: string(u.Password),
+	}
+}
+
+func (u *CreateUserDTO) Hashed(hashedPassword []byte) *CreateUserHashedDTO {
+	return &CreateUserHashedDTO{
+		Username: u.Username,
+		Email:    u.Email,
+		Password: hashedPassword,
 	}
 }
 
@@ -21,8 +29,13 @@ type CreateUserDTO struct {
 	Password string `json:"password" validate:"required"`
 }
 
-type GetUserByEmailAndPasswordDTO struct {
+type CreateUserHashedDTO struct {
 	Username string `json:"username"`
+	Email    string `json:"email"`
+	Password []byte `json:"password"`
+}
+
+type GetUserByEmailAndPasswordDTO struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`
 }
