@@ -1,4 +1,4 @@
-create table "user"
+create table "users"
 (
     id       uuid primary key default gen_random_uuid(),
     username varchar(100) not null,
