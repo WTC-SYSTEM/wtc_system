@@ -5,11 +5,9 @@ import (
 	"encoding/json"
 )
 
-func CreateResponse(res map[string]any) ([]byte, error) {
+func CreateResponse[T any](res T) ([]byte, error) {
 	var b = new(bytes.Buffer)
-	m := map[string]map[string]any{}
-	m["payload"] = res
-	err := json.NewEncoder(b).Encode(m)
+	err := json.NewEncoder(b).Encode(&res)
 	if err != nil {
 		return nil, err
 	}

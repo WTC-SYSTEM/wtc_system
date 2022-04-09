@@ -1,7 +1,7 @@
 package user
 
 type User struct {
-	ID       string `json:"ID"`
+	ID       string `json:"id"`
 	Username string `json:"username"`
 	Email    string `json:"email"`
 	Password string `json:"password"`
@@ -41,13 +41,10 @@ type GetUserByEmailAndPasswordDTO struct {
 }
 
 type UpdateUserDTO struct {
-	ID       string `json:"ID" validate:"required"`
-	Username string `json:"username,omitempty" `
-	Email    string `json:"email,omitempty"`
-	Password string `json:"password,omitempty"`
+	ID          string `json:"id" validate:"required"`
+	Username    string `json:"username,omitempty" `
+	Email       string `json:"email,omitempty"`
+	Password    string `json:"password,omitempty"`
+	OldPassword string `json:"old_password,omitempty"`
+	NewPassword string `json:"new_password,omitempty"`
 }
-
-const (
-	RegSuccess     string = "REG_SUCCESS"
-	GetUserSuccess string = "GET_USER_SUCCESS"
-)
