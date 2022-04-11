@@ -60,6 +60,20 @@ func (s service) GetByEmailAndPassword(ctx context.Context, dto GetUserByEmailAn
 }
 
 func (s service) Update(ctx context.Context, dto UpdateUserDTO) error {
-	//TODO implement me
-	panic("implement me")
+	// we need to get user
+	user, err := s.storage.FindOne(ctx, dto.ID)
+	if err != nil {
+		return err
+	}
+	newUser, err := dto.NewUser(&user)
+	if err != nil {
+		return err
+	}
+
+	err = s.storage.Update(ctx, *newUser)
+
+	if err != nil {
+		return err
+	}
+	return nil
 }

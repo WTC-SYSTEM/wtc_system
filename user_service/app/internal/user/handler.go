@@ -24,13 +24,13 @@ type Handler struct {
 
 func (h *Handler) Register(router *mux.Router) {
 	router.HandleFunc(usersURL, apperror.Middleware(h.GetUserByEmailAndPassword)).
-		Methods("GET")
+		Methods(http.MethodGet)
 	router.HandleFunc(usersURL, apperror.Middleware(h.CreateUser)).
-		Methods("POST")
+		Methods(http.MethodPost)
 	router.HandleFunc(userURL, apperror.Middleware(h.GetUser)).
-		Methods("GET")
+		Methods(http.MethodGet)
 	router.HandleFunc(usersURL, apperror.Middleware(h.UpdateUser)).
-		Methods("UPDATE")
+		Methods(http.MethodPatch)
 }
 
 func (h *Handler) CreateUser(w http.ResponseWriter, r *http.Request) error {
@@ -129,7 +129,12 @@ func (h *Handler) UpdateUser(w http.ResponseWriter, r *http.Request) error {
 
 	defer r.Body.Close()
 	if err := json.NewDecoder(r.Body).Decode(&updateUserDto); err != nil {
-		return apperror.BadRequestError("Decoding to update user dto failed")
+		return apperror.BadRequestError("Decoding to dto failed")
+	}
+
+	err := h.UserService.Update(r.Context(), updateUserDto)
+	if err != nil {
+		return err
 	}
 
 	w.WriteHeader(http.StatusAccepted)

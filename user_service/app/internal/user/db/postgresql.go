@@ -9,6 +9,7 @@ import (
 	"github.com/hawkkiller/wtc_system/user_service/pkg/logging"
 	"github.com/jackc/pgconn"
 	"strings"
+	"time"
 )
 
 type db struct {
@@ -29,8 +30,11 @@ func formatQuery(q string) string {
 
 func (r *db) FindByEmail(ctx context.Context, email string) (user.User, error) {
 	q := `
-		select id, username, email, password from "user" where email = $1
+		SELECT "id", "username", "email", "password" 
+		FROM "users" WHERE "email" = $1
 		`
+	ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
+	defer cancel()
 	var u user.User
 	r.logger.Trace(fmt.Sprintf("SQL query: %s", formatQuery(q)))
 
@@ -52,10 +56,12 @@ func (r *db) FindByEmail(ctx context.Context, email string) (user.User, error) {
 
 func (r *db) Create(ctx context.Context, user *user.User) error {
 	q := `
-		insert into "user" (username, password, email) 
-		values ($1, $2, $3) 
-		returning id
+		INSERT INTO "users" ("username", "password", "email") 
+		VALUES ($1, $2, $3) 
+		RETURNING id
 	`
+	ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
+	defer cancel()
 	r.logger.Trace(fmt.Sprintf("SQL query: %s", formatQuery(q)))
 	if err := r.client.QueryRow(ctx, q, user.Username, user.Password, user.Email).Scan(&user.ID); err != nil {
 		if pgErr, ok := err.(*pgconn.PgError); ok {
@@ -73,7 +79,7 @@ func (r *db) Create(ctx context.Context, user *user.User) error {
 					"enter another email",
 				)
 			}
-			return nil
+			return err
 		}
 		return err
 	}
@@ -82,8 +88,11 @@ func (r *db) Create(ctx context.Context, user *user.User) error {
 
 func (r *db) FindOne(ctx context.Context, id string) (user.User, error) {
 	q := `
-		select id, username, email, password from "user" where id = $1
+		SELECT "id", "username", "email", "password" 
+		FROM "users" where id = $1
 		`
+	ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
+	defer cancel()
 	var u user.User
 
 	err := r.client.QueryRow(ctx, q, id).Scan(&u.ID, &u.Username, &u.Email, &u.Password)
@@ -96,8 +105,38 @@ func (r *db) FindOne(ctx context.Context, id string) (user.User, error) {
 }
 
 func (r *db) Update(ctx context.Context, user user.User) error {
-	//TODO implement me
-	panic("implement me")
+	q := `
+		UPDATE users
+		SET username = $1, email = $2, password = $3
+		WHERE id = $4;
+		`
+	r.logger.Trace(q)
+	r.logger.Trace(user)
+	ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
+	defer cancel()
+
+	if err := r.client.QueryRow(ctx, q, user.Username, user.Email, user.Password, user.ID).Scan(); err != nil {
+		if pgErr, ok := err.(*pgconn.PgError); ok {
+			r.logger.Error(
+				"SQL Error: ", pgErr.Message,
+				", Detail: ", pgErr.Detail,
+				", Where: ", pgErr.Where,
+				", Code: ", pgErr.Code,
+				", SQLState: ", pgErr.SQLState(),
+			)
+			if strings.Contains(pgErr.Message, "duplicate key value violates unique") {
+				return apperror.NewAppError(
+					"That email is already registered in the system",
+					"WTC-000004",
+					"enter another email",
+				)
+			}
+			return err
+		}
+		return err
+	}
+
+	return nil
 }
 
 func (r *db) Delete(ctx context.Context, id string) error {
