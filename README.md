@@ -1,7 +1,7 @@
 ### wtc_system
 
 ### Status Of Deployment
-<img src="https://github.com/hawkkiller/wtc_system/workflows/Go/badge.svg?branch=main">
+
 [![Go](https://img.shields.io/badge/1.18-golang-blue)](https://github.com/golang)
 
 #### services:
