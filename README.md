@@ -1,7 +1,7 @@
 ### wtc_system
 
 ### Status Of Deployment
-[![DEPLOY](https://github.com/hawkkiller/wtc_system/actions/workflows/publish.yml/badge.svg)](https://github.com/hawkkiller/wtc_system/actions/workflows/publish.yml)]
+[![DEPLOY](https://github.com/hawkkiller/wtc_system/actions/workflows/publish.yml/badge.svg)](https://github.com/hawkkiller/wtc_system/actions/workflows/publish.yml)
 [![Go](https://img.shields.io/badge/1.18-golang-blue)](https://github.com/golang)
 
 #### services:
