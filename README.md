@@ -1,7 +1,7 @@
 ### wtc_system
 
 ### Status Of Deployment
-<img src="https://github.com/hawkkiller/wtc_system/workflows/publish/badge.svg?branch=main">
+<img src="https://github.com/hawkkiller/wtc_system/workflows/Go/badge.svg?branch=main">
 
 #### services:
     user_service
