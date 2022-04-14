@@ -1,6 +1,5 @@
 FROM golang:1.18-alpine3.14 AS builder
 
-
 WORKDIR /usr/local/go/src/
 COPY app/ .
 
