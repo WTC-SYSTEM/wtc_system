@@ -40,5 +40,8 @@ jobs:
       run: helm repo add stable https://charts.helm.sh/stable --force-update  
       
     - name: Deploy
+      # helm install user-service ./user_service/.helm
       run: |
-           helm install user-service ./user_service/.helm
+           helm --debug upgrade --install \
+           --set image.tag=${{ env.VERSION }} \
+           user-service user-service/.helm
