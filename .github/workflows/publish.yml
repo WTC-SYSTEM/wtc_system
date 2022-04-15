@@ -36,8 +36,11 @@ jobs:
     - name: Save DigitalOcean kubeconfig with short-lived credentials
       run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 k8s-wtc
       
+    - name: check loc
+      run: ls -la
+      
     - name: Deploy
       run: |
-           helm upgrade user-service --install \
+           helm upgrade --install \
            --set image.tag=${{ env.VERSION }} \
-           ./.helm
+           user-service ./.helm
