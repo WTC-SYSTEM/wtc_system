@@ -27,7 +27,6 @@ func main() {
 
 	logger.Println("router initializing")
 	router := mux.NewRouter()
-	panic("test ci/cd")
 
 	postgresqlClient, err := postgresql.NewClient(context.Background(), cfg.Storage)
 	if err != nil {
