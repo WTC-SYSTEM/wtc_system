@@ -38,9 +38,14 @@ jobs:
       
     - name: check loc
       run: ls -la
+    
+    - name: cd user service
+      run: |
+            cd user_service
+            ls -la
       
     - name: Deploy
       run: |
            helm upgrade --install \
            --set image.tag=${{ env.VERSION }} \
-           user-service ./user-service/.helm
+           user-service user-service/.helm
