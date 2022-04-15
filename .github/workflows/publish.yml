@@ -37,6 +37,7 @@ jobs:
       run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 k8s-wtc
       
     - name: Deploy
-      run: helm upgrade user-service --install \
+      run: |
+           helm upgrade user-service --install \
            --set image.tag=${{ env.VERSION }} \
            ./.helm
