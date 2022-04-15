@@ -44,4 +44,4 @@ jobs:
       run: |
            helm --debug upgrade --install \
            --set image.tag=${{ env.VERSION }} \
-           user-service user-service/.helm
+           user-service user_service/.helm
