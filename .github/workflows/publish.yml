@@ -46,5 +46,6 @@ jobs:
       
     - name: Deploy
       run: |
-           helm upgrade --install --devel --version 2 \
+           helm upgrade --install \
+           --set image.tag=${{ env.VERSION }} \
            user-service user-service/.helm
