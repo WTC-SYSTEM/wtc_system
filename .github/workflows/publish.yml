@@ -41,4 +41,4 @@ jobs:
       
     - name: Deploy
       run: |
-           helm install user-service ./user-service/.helm
+           helm install user-service ./user_service/.helm
