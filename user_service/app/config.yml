@@ -3,8 +3,8 @@
 storage:
   host: db
   port: 5432
-  database: postgres
-  username: postgres
-  password: postgres
+  database: postgres.yaml
+  username: postgres.yaml
+  password: postgres.yaml
   maxAttempts: 5
 

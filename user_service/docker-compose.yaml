@@ -4,25 +4,25 @@ services:
   app:
     restart: always
     networks:
-      default:
+      - backend
     build:
       context: .
       dockerfile: Dockerfile
     container_name: wtc-user-service
     ports:
-      - "4000:8080"
+      - "80:8080"
   db:
     image: postgres:latest
     networks:
-      default:
+      - backend
     volumes:
-      - ./.database/postgres/data:/var/lib/postgresql/data
+      - ./.db
     environment:
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_USER: postgres
-      POSTGRES_DB: postgres
+      POSTGRES_PASSWORD: postgres.yaml
+      POSTGRES_USER: postgres.yaml
+      POSTGRES_DB: postgres.yaml
       PGDATA: /tmp
     ports:
       - "5432:5432"
 networks:
-  default:
+  backend:
