@@ -46,5 +46,5 @@ jobs:
       
     - name: Deploy
       run: |
-           helm upgrade --install --devel \
+           helm upgrade --install --devel --version 2 \
            user-service user-service/.helm
