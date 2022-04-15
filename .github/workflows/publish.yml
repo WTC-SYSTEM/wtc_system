@@ -36,13 +36,8 @@ jobs:
     - name: Save DigitalOcean kubeconfig with short-lived credentials
       run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 k8s-wtc
       
-    - name: check loc
-      run: ls -la
-    
-    - name: cd user service
-      run: |
-            cd user_service
-            ls -la
+    - name: Add repo
+      run: helm repo add stable https://charts.helm.sh/stable --force-update  
       
     - name: Deploy
       run: |
