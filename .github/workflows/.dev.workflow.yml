@@ -5,10 +5,14 @@ on:
     branches: [ main ]
 
 jobs:
-
+  
+  build:
+    uses: ./.github/workflows/build.workflow.yml
+    with:
+      version: $(git rev-parse --short "$GITHUB_SHA")
+  
   deploy-user-service:
     runs-on: ubuntu-latest
-    needs: build
     env:
       VERSION: $(git rev-parse --short "$GITHUB_SHA")
     steps: 
