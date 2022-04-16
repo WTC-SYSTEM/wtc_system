@@ -5,5 +5,10 @@ container:
   port: 80
   targetPort: 8080
   pullPolicy: Always
-replicasCount: 2
+replicaCount: 1
 
+autoscaling:
+  enabled: true
+  minReplicas: 1
+  maxReplicas: 4
+  targetCPUUtilizationPercentage: 80
