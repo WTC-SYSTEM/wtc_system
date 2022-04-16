@@ -1,6 +1,6 @@
 name: cd
 env:
-  VERSION: $(git rev-parse --short '$GITHUB_SHA')
+  VERSION: "$(git rev-parse --short '$GITHUB_SHA')"
 
 on:
   push:
