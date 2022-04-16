@@ -20,6 +20,10 @@ jobs:
     env:
       VERSION: $(git rev-parse --short "$GITHUB_SHA")
     steps: 
+    
+    - name: Checkout code
+      uses: actions/checkout@v2
+    
     - name: Install doctl
       uses: digitalocean/action-doctl@v2
       with:
