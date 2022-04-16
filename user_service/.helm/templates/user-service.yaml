@@ -34,7 +34,7 @@ spec:
     spec:
       containers:
         - name: {{ .Release.Name }}-container
-          image: {{ .Values.image.repository }}:${{ .Values.image.tag }}
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
           imagePullPolicy: {{ .Values.container.pullPolicy }}
           resources:
             limits:
