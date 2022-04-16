@@ -1,11 +1,7 @@
-name: cd
-
-
+name: CD
 on:
   push:
     branches: [ main ]
-
-
 
 jobs:
   
