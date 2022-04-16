@@ -2,8 +2,6 @@ image:
   repository: michaellazebny/wtc_system.user_service
   tag: ""
 container:
-
-
   port: 80
   targetPort: 8080
   pullPolicy: Always
