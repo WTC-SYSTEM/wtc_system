@@ -23,6 +23,10 @@ jobs:
     
     - name: Checkout code
       uses: actions/checkout@v2
+      
+    - name: Setup var
+      id: vars
+      run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
 
     - name: Log in to Docker Hub
       uses: docker/login-action@v1
@@ -35,6 +39,6 @@ jobs:
       with:
         context: user_service/
         push: true
-        tags: michaellazebny/wtc_system.user_service:${{ inputs.VERSION }}
+        tags: michaellazebny/wtc_system.user_service:${{ steps.vars.outputs.sha_short }}
         # semver should be added
   
