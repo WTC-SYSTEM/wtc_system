@@ -26,7 +26,7 @@ jobs:
       with:
         context: user_service/
         push: true
-        tags: michaellazebny/wtc_system.user_service:{{ env.VERSION }}
+        tags: michaellazebny/wtc_system.user_service:${{ env.VERSION }}
         
     - name: Install doctl
       uses: digitalocean/action-doctl@v2
