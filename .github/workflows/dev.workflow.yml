@@ -33,5 +33,5 @@ jobs:
       # helm install user-service ./user_service/.helm
       run: |
            helm upgrade --install \
-           --set container.image.tag=${{ env.VERSION }} \
+           --set image.tag=${{ env.VERSION }} \
            user-service user_service/.helm
