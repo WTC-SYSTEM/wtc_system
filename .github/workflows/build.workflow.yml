@@ -39,6 +39,6 @@ jobs:
       with:
         context: user_service/
         push: true
-        tags: michaellazebny/wtc_system.user_service:${{ inputs.VERSION }}
+        tags: michaellazebny/wtc_system.user_service:${{ github.event.inputs.VERSION }}
         # semver should be added
   
