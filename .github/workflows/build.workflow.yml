@@ -40,6 +40,6 @@ jobs:
       with:
         context: user_service/
         push: true
-        tags: michaellazebny/wtc_system.user_service:${{ inputs.VERSION }}
+        tags: michaellazebny/wtc_system.user_service:${{ steps.vars.sha_short }}
         # semver should be added
   
