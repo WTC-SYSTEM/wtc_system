@@ -24,10 +24,6 @@ spec:
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 5432
-          resources:
-            limits:
-              memory: "128Mi"
-              cpu: "200m"
           env:
             - name: POSTGRES_PASSWORD
               valueFrom:

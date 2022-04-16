@@ -36,9 +36,5 @@ spec:
         - name: {{ .Release.Name }}-container
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.container.pullPolicy }}
-          resources:
-            limits:
-              memory: "128Mi"
-              cpu: "100m"
           ports:
             - containerPort: {{ .Values.container.targetPort }}
