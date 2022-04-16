@@ -7,8 +7,8 @@ spec:
     project: {{ .Release.Name }}
   ports:
     - name: {{ .Release.Name }}-listener
-      port: 80
-      targetPort: 8080
+      port: {{ .Values.container.port }}
+      targetPort: {{ .Values.container.targetPort }}
       protocol: TCP
   type: LoadBalancer
 
@@ -33,12 +33,13 @@ spec:
       containers:
         - name: {{ .Release.Name }}-container
           image: {{ .Values.container.image }}
+          imagePullPolicy: {{ .Values.container.pullPolicy }}
           resources:
             limits:
               memory: "128Mi"
               cpu: "100m"
           ports:
-            - containerPort: 8080
+            - containerPort: {{ .Values.container.targetPort }}
 
 #---
 #
