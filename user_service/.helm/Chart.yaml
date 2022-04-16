@@ -1,4 +1,4 @@
 apiVersion: v2
 name: "User-service helm chart"
-version: 0.1.0
+version: 0.2.0
 appVersion: "0.5.0"
