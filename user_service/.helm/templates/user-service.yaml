@@ -25,6 +25,8 @@ spec:
   selector:
     matchLabels:
       project: {{ .Release.Name }}
+  strategy:
+    type: RollingUpdate
   template:
     metadata:
       labels:
