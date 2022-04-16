@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     env:
-      VERSION: "$(git rev-parse --short '$GITHUB_SHA')"
+      VERSION: $(git rev-parse --short '$GITHUB_SHA')
     steps:
     
     - name: Checkout code
