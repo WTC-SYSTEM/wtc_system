@@ -19,7 +19,7 @@ kind: Deployment
 metadata:
   name: {{ .Release.Name }}-deploy
   labels:
-    app:{{ .Release.Name }}-deploy
+    app: {{ .Release.Name }}-deploy
 spec:
   replicas: {{ .Values.replicasCount }}
   selector:
@@ -34,7 +34,7 @@ spec:
     spec:
       containers:
         - name: {{ .Release.Name }}-container
-          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          image: {{ .Values.container.image.repository }}:${{ .Values.container.image.tag }}
           imagePullPolicy: {{ .Values.container.pullPolicy }}
           resources:
             limits:
@@ -42,8 +42,3 @@ spec:
               cpu: "100m"
           ports:
             - containerPort: {{ .Values.container.targetPort }}
-
-
-
-
-
