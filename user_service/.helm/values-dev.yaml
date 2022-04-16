@@ -1,5 +1,5 @@
 image:
-  repository: ""
+  repository: michaellazebny/wtc_system.user_service
   tag: ""
 container:
   port: 80
@@ -8,7 +8,7 @@ container:
 replicaCount: 1
 
 autoscaling:
-  enabled: false
+  enabled: true
   minReplicas: 1
   maxReplicas: 4
   targetCPUUtilizationPercentage: 80
