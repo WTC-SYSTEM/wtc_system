@@ -2,11 +2,6 @@ name: Docker build and push to the registry
 
 on:
   workflow_call:
-    inputs:
-      VERSION:
-        required: true
-        description: "version"
-        type: string
     secrets:
       DOCKER_USERNAME:
         required: true
@@ -40,6 +35,6 @@ jobs:
       with:
         context: user_service/
         push: true
-        tags: michaellazebny/wtc_system.user_service:${{ steps.vars.sha_short }}
+        tags: michaellazebny/wtc_system.user_service:${{ steps.vars.outputs.sha_short }}
         # semver should be added
   
