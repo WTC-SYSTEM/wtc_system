@@ -6,6 +6,7 @@ on:
       VERSION:
         required: true
         type: string
+  workflow_call:
     
 jobs:
   build: 
