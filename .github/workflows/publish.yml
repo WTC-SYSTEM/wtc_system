@@ -26,7 +26,7 @@ jobs:
       with:
         context: user_service/
         push: true
-        tags: michaellazebny/wtc_system.user_service:latest
+        tags: michaellazebny/wtc_system.user_service:{{ env.VERSION }}
         
     - name: Install doctl
       uses: digitalocean/action-doctl@v2
@@ -35,9 +35,6 @@ jobs:
         
     - name: Save DigitalOcean kubeconfig with short-lived credentials
       run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 k8s-wtc
-      
-    - name: Add repo
-      run: helm repo add stable https://charts.helm.sh/stable --force-update  
       
     - name: Deploy
       # helm install user-service ./user_service/.helm
