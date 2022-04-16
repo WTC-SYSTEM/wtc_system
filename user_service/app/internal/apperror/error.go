@@ -40,7 +40,7 @@ func (e *AppError) Marshal() []byte {
 }
 
 func BadRequestError(message string) *AppError {
-	return NewAppError(message, "WTC-000002dsadsad", "some thing wrong with user data")
+	return NewAppError(message, "WTC-000002", "some thing wrong with user data")
 }
 
 func systemError(developerMessage string) *AppError {
