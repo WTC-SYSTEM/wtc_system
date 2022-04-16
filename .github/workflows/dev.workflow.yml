@@ -9,7 +9,7 @@ jobs:
   build:
     uses: ./.github/workflows/build.workflow.yml
     with:
-      version: ${{ github.run_number }}
+      version: $(git rev-parse --short "$GITHUB_SHA")
     secrets:
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}

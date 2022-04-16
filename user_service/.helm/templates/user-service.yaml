@@ -34,7 +34,7 @@ spec:
     spec:
       containers:
         - name: {{ .Release.Name }}-container
-          image: {{ .Values.container.image }}
+          image: {{ .Values.container.image.repository }}:${{ .Values.container.image.tag }}
           imagePullPolicy: {{ .Values.container.pullPolicy }}
           resources:
             limits:
@@ -43,10 +43,6 @@ spec:
           ports:
             - containerPort: {{ .Values.container.targetPort }}
 
-#---
-#
-#apiVersion: batch/v1
-#kind: Job
 
 
 
