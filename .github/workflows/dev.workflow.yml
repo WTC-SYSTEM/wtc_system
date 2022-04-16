@@ -1,11 +1,12 @@
 name: cd
+env:
+  VERSION: $(git rev-parse --short '$GITHUB_SHA')
 
 on:
   push:
     branches: [ main ]
 
-env:
-  VERSION: $(git rev-parse --short '$GITHUB_SHA')
+
 
 jobs:
   
