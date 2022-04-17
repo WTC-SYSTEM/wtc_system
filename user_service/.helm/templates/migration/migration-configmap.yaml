@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-configmap
+data: {{- (.Files.Glob "migration/*.sql").AsConfig | nindent 2 }}
+
+{{/*---*/}}
+
+{{/*apiVersion: batch/v1*/}}
+{{/*kind: Job*/}}
+{{/*metadata:*/}}
+{{/*  name: migration-job*/}}
+{{/*spec:*/}}
+{{/*  template:*/}}
+{{/*    spec:*/}}
+{{/*      containers:*/}}
+{{/*        - name: flyway*/}}
+{{/*          image: flyway/flyway*/}}
+{{/*          args:*/}}
+{{/*            - info*/}}
+{{/*            - repair*/}}
+{{/*            - migrate*/}}
+{{/*            - info*/}}
+{{/*          env:*/}}
+{{/*            - name: FLYWAY_URL*/}}
+{{/*              value: jdbc:postgresql://postgres-service:5432/postgres*/}}
+{{/*            - name: FLYWAY_USER*/}}
+{{/*              value: postgres*/}}
+{{/*            - name: FLYWAY_PASSWORD*/}}
+{{/*              value: postgres*/}}
+{{/*            - name: FLYWAY_PLACEHOLDER_REPLACEMENT*/}}
+{{/*              value: "true"*/}}
+{{/*            - name:*/}}
+{{/*          volumeMounts:*/}}
+{{/*            - mountPath: /flyway/sql*/}}
+{{/*              name: sql*/}}
+{{/*      volumes:*/}}
+{{/*        - name: sql*/}}
+{{/*          configMap:*/}}
+{{/*            name: postgres-configmap*/}}
+{{/*      restartPolicy: Never*/}}

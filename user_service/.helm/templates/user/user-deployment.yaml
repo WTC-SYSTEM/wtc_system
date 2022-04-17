@@ -19,9 +19,28 @@ spec:
       labels:
         project: {{ .Release.Name }}
     spec:
+      restartPolicy: {{ .Values.container.restartPolicy }}
       containers:
         - name: {{ .Release.Name }}-container
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.container.pullPolicy }}
           ports:
             - containerPort: {{ .Values.container.targetPort }}
+      initContainers:
+        - name: schema-migration
+          image: flyway/flyway
+          args: [ 'migrate' ]
+          env:
+            - name: FLYWAY_LOCATIONS
+              value: 'filesystem:/flyway/migrations'
+          envFrom:
+            - configMapRef:
+                name: user-service-cm
+          volumeMounts:
+            - name: user-volume
+              mountPath: /flyway/migrations
+      volumes:
+        - name: user-volume
+          configMap:
+            name: postgres-configmap
+
