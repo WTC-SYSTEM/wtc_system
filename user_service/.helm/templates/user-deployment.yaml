@@ -25,21 +25,3 @@ spec:
           imagePullPolicy: {{ .Values.container.pullPolicy }}
           ports:
             - containerPort: {{ .Values.container.targetPort }}
-
----
-apiVersion: autoscaling/v2
-kind: HorizontalPodAutoscaler
-spec:
-  maxReplicas: {{ .Values.autoscaling.maxReplicas }}
-  minReplicas: {{ .Values.autoscaling.minReplicas }}
-  scaleTargetRef:
-    apiVersion: apps/v1
-    kind: Deployment
-    name: {{ .Release.Name }}-deploy
-  metrics:
-    - type: Resource
-      resource:
-        name: cpu
-        target:
-          type: Utilization
-          averageUtilization: {{ .Values.autoscaling.targetCPUUtilizationPercentage }}
