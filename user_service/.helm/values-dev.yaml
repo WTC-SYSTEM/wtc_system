@@ -22,3 +22,4 @@ config:
     password: postgres
     driver_class_name: org.postgresql.Driver
     retries: 5
+    baseline: true
