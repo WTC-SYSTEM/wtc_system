@@ -8,12 +8,12 @@ jobs:
   check:
     runs-on: ubuntu-20.04
     steps:
-      - name: Checkout code
+      - name: 🚛Checkout code
         uses: actions/checkout@v2
         with:
           fetch-depth: 2
 
-      - name: check modified files
+      - name: 🏂check modified files
         id: check_files
         run: |
           echo "=============== list modified files ==============="
@@ -36,31 +36,31 @@ jobs:
     env:
       VERSION: $(git rev-parse --short "$GITHUB_SHA")
     steps:
-      - name: Log in to Docker Hub
+      - name: 🚛Checkout code
+        uses: actions/checkout@v2
+
+      - name: 🚀Log in to Docker Hub
         uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Publish to Registry
+      - name: 🛸Publish to Registry
         uses: docker/build-push-action@v2
         with:
           context: user_service/
           push: true
           tags: michaellazebny/wtc_system.user_service:${{ env.VERSION }}
 
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Install doctl
+      - name: 💎Install doctl
         uses: digitalocean/action-doctl@v2
         with:
           token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
 
-      - name: Save DigitalOcean kubeconfig with short-lived credentials
+      - name: 🍷Save DigitalOcean kubeconfig with short-lived credentials
         run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 k8s-wtc
 
-      - name: Deploy
+      - name: 🏋️Deploy
         run: |
           helm --debug upgrade --install \
           -f user_service/.helm/values-dev.yaml \
