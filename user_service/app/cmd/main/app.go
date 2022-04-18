@@ -22,7 +22,7 @@ func main() {
 	logging.Init()
 	logger := logging.GetLogger()
 	logger.Println("logger initialized")
-	logger.Println("config initializing")
+	logger.Println("config idsdsnitializing")
 	cfg := config.GetConfig()
 
 	logger.Println("router initializing")
