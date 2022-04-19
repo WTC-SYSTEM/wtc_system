@@ -3,14 +3,14 @@ kind: Deployment
 metadata:
   name: {{ .Release.Name }}-deploy
   labels:
-    app.kubernetes.io/name: {{ .Release.Name }}-deploy
+    app: {{ .Release.Name }}-deploy
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ .Release.Name }}-deploy
+      app: {{ .Release.Name }}-deploy
   strategy:
     type: RollingUpdate
   template:

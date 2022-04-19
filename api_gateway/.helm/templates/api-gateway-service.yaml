@@ -4,7 +4,7 @@ metadata:
   name: wtc-api-gateway
 spec:
   selector:
-    app.kubernetes.io/name: {{ .Release.Name }}-deploy
+    app: {{ .Release.Name }}-deploy
   ports:
     - name: {{ .Release.Name }}-listener
       port: {{ .Values.container.port }}
