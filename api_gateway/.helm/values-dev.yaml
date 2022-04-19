@@ -1,0 +1,15 @@
+image:
+  repository: "michaellazebny/wtv-system.api_gateway"
+  tag: ""
+
+container:
+  port: 8080
+  targetPort: 80
+
+replicaCount: 1
+
+autoscaling:
+  enabled: true
+  minReplicas: 1
+  maxReplicas: 4
+  targetCPUUtilizationPercentage: 80

@@ -8,6 +8,7 @@ RUN go build --mod=mod -o app cmd/main/app.go
 
 FROM alpine:3.14
 
-COPY --from=builder /usr/local/go/src/ /
+COPY --from=builder /usr/local/go/src/app /
+COPY --from=builder /usr/local/go/src/config.yml /
 
 CMD ["/app"]
