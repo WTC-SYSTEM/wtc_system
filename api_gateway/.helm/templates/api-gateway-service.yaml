@@ -4,7 +4,7 @@ metadata:
   name: wtc-api-gateway
 spec:
   selector:
-    app: {{ .Release.Name }}-gateway
+    project: {{ .Release.Name }}
   ports:
     - name: {{ .Release.Name }}-listener
       port: {{ .Values.container.port }}

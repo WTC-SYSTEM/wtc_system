@@ -1,16 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-deploy
+  labels:
+    app: {{ .Release.Name }}-deploy
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      app: {{ .Release.Name }}-gateway
+      project: {{ .Release.Name }}
+  strategy:
+    type: RollingUpdate
   template:
     metadata:
       labels:
-        app: {{ .Release.Name }}-gateway
+        project: {{ .Release.Name }}
     spec:
       containers:
         - name: gateway
