@@ -10,13 +10,13 @@ spec:
   {{- end }}
   selector:
     matchLabels:
-      app: {{ .Release.Name }}-deploy
+      project: {{ .Release.Name }}
   strategy:
     type: RollingUpdate
   template:
     metadata:
       labels:
-        app: {{ .Release.Name }}-deploy
+        project: {{ .Release.Name }}
     spec:
       containers:
         - name: {{ .Release.Name }}-container
