@@ -5,6 +5,8 @@ image:
 container:
   port: 10000
   targetPort: 10000
+  pullPolicy: Always
+  restartPolicy: Always
 
 replicaCount: 1
 
