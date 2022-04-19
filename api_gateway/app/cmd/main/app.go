@@ -32,6 +32,7 @@ func main() {
 	router := mux.NewRouter()
 
 	logger.Println("cache initializing")
+
 	refreshTokenCache := freecache.NewCacheRepo(104857600) // 100MB
 
 	logger.Println("helpers initializing")

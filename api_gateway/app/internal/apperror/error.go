@@ -45,4 +45,5 @@ func BadRequestError(message string) *AppError {
 
 func APIError(code, message, developerMessage string) *AppError {
 	return NewAppError(message, code, developerMessage)
+
 }
