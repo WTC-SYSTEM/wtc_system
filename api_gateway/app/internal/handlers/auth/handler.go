@@ -22,8 +22,8 @@ type Handler struct {
 }
 
 func (h *Handler) Register(router *mux.Router) {
-	router.HandleFunc(authURL, apperror.Middleware(h.Auth)).Methods("POST, PUT")
-	router.HandleFunc(signupURL, apperror.Middleware(h.Signup)).Methods("POST")
+	router.HandleFunc(authURL, apperror.Middleware(h.Auth)).Methods(http.MethodPost, http.MethodPut)
+	router.HandleFunc(signupURL, apperror.Middleware(h.Signup)).Methods(http.MethodPost)
 }
 
 func (h *Handler) Signup(w http.ResponseWriter, r *http.Request) error {
