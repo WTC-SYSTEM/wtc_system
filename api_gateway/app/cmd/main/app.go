@@ -7,6 +7,7 @@ import (
 	"github.com/hawkkiller/wtc_system/api_gateway/internal/config"
 	"github.com/hawkkiller/wtc_system/api_gateway/pkg/logging"
 	"github.com/hawkkiller/wtc_system/api_gateway/pkg/shutdown"
+	"io/ioutil"
 	"net"
 	"net/http"
 	"os"
@@ -28,10 +29,18 @@ func main() {
 	router := mux.NewRouter()
 
 	logger.Println("cache initializing")
-	_, err := http.Get("http://wtc-user-service/api/v1/users")
+	g, err := http.Get("http://wtc-user-service/api/v1/users")
 	if err != nil {
 		logger.Error(err)
 	}
+	body, err := ioutil.ReadAll(g.Body)
+	if err != nil {
+		logger.Infof("ANIME NE MOYA LYUBOV")
+
+		logger.Error(err)
+	}
+	logger.Infof("ANIME MOYA LYUBOV")
+	logger.Infof(string(body))
 
 	//refreshTokenCache := freecache.NewCacheRepo(104857600) // 100MB
 	//
