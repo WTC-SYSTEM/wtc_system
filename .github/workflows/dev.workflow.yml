@@ -71,7 +71,7 @@ jobs:
           helm --debug upgrade --install \
           -f api_gateway/.helm/values-dev.yaml \
           --set image.tag=${{ steps.vars.outputs.sha_short }} \
-          user-service api_gateway/.helm
+          api-gateway api_gateway/.helm
 
   user-service:
     runs-on: ubuntu-latest
