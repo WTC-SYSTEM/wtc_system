@@ -16,7 +16,7 @@ spec:
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: {{ .Release.Name }}-deploy
+        app: {{ .Release.Name }}-deploy
     spec:
       containers:
         - name: {{ .Release.Name }}-container
