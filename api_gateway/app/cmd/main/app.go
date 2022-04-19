@@ -28,7 +28,7 @@ func main() {
 	router := mux.NewRouter()
 
 	logger.Println("cache initializing")
-	_, err := http.Get("http://wtc-user_service/api/v1/users")
+	_, err := http.Get("http://wtc-user-service/api/v1/users")
 	if err != nil {
 		logger.Error(err)
 	}

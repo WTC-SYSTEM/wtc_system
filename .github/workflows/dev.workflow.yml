@@ -35,7 +35,7 @@ jobs:
   api-gateway:
     runs-on: ubuntu-latest
     needs: [ check ]
-    if: needs.check.outputs.api_gateway == 'true'
+#    if: needs.check.outputs.api_gateway == 'true'
     steps:
       - name: 🚛Checkout code
         uses: actions/checkout@v2
