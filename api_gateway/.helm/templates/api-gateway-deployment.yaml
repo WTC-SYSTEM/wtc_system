@@ -19,7 +19,7 @@ spec:
         project: {{ .Release.Name }}
     spec:
       containers:
-        - name: gateway
+        - name: {{ .Release.Name }}-container
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.container.pullPolicy }}
           ports:

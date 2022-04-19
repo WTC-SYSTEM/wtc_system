@@ -1,7 +1,6 @@
 name: CD
 on:
   push:
-  
 jobs:
   
   check:
