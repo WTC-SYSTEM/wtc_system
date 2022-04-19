@@ -1,5 +1,5 @@
 image:
-  repository: michaellazebny/wtc-system.api_gateway
+  repository: michaellazebny/wtc_system.api_gateway
   tag: ""
 
 container:
