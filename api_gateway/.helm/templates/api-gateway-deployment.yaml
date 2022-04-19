@@ -3,20 +3,20 @@ kind: Deployment
 metadata:
   name: {{ .Release.Name }}-deploy
   labels:
-    app: {{ .Release.Name }}-deploy
+    app.kubernetes.io/name: {{ .Release.Name }}-deploy
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      project: {{ .Release.Name }}
+      app.kubernetes.io/name: {{ .Release.Name }}-deploy
   strategy:
     type: RollingUpdate
   template:
     metadata:
       labels:
-        project: {{ .Release.Name }}
+        app.kubernetes.io/name: {{ .Release.Name }}-deploy
     spec:
       containers:
         - name: {{ .Release.Name }}-container
