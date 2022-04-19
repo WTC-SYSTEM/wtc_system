@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: wtc-user_service
+  name: wtc-api_gateway
 spec:
   selector:
-    project: {{ .Release.Name }}
+    app: {{ .Release.Name }}-gateway
   ports:
     - name: {{ .Release.Name }}-listener
       port: {{ .Values.container.port }}
       targetPort: {{ .Values.container.targetPort }}
       protocol: TCP
-  type: ClusterIP
+  type: LoadBalancer
