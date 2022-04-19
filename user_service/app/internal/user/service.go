@@ -20,21 +20,21 @@ func NewService(userStorage Storage, logger logging.Logger) (Service, error) {
 }
 
 type Service interface {
-	Create(ctx context.Context, dto CreateUserHashedDTO) error
+	Create(ctx context.Context, dto CreateUserHashedDTO) (string, error)
 	GetOne(ctx context.Context, uuid string) (User, error)
 	GetByEmailAndPassword(ctx context.Context, dto GetUserByEmailAndPasswordDTO) (User, error)
 	Update(ctx context.Context, dto UpdateUserDTO) error
 	//Delete(ctx context.Context, uuid string) error
 }
 
-func (s service) Create(ctx context.Context, dto CreateUserHashedDTO) error {
+func (s service) Create(ctx context.Context, dto CreateUserHashedDTO) (string, error) {
 	var user *User
 	user = dto.NewUser()
-	err := s.storage.Create(ctx, user)
+	UUID, err := s.storage.Create(ctx, user)
 	if err != nil {
-		return err
+		return "", err
 	}
-	return nil
+	return UUID, nil
 }
 
 func (s service) GetOne(ctx context.Context, uuid string) (User, error) {

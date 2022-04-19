@@ -54,7 +54,7 @@ func (r *db) FindByEmail(ctx context.Context, email string) (user.User, error) {
 	return u, nil
 }
 
-func (r *db) Create(ctx context.Context, user *user.User) error {
+func (r *db) Create(ctx context.Context, user *user.User) (string, error) {
 	q := `
 		INSERT INTO "users" ("username", "password", "email") 
 		VALUES ($1, $2, $3) 
@@ -73,17 +73,17 @@ func (r *db) Create(ctx context.Context, user *user.User) error {
 				", SQLState: ", pgErr.SQLState(),
 			)
 			if strings.Contains(pgErr.Message, "duplicate key value violates unique") {
-				return apperror.NewAppError(
+				return "", apperror.NewAppError(
 					"That email is already registered in the system",
 					"WTC-000004",
 					"enter another email",
 				)
 			}
-			return err
+			return "", err
 		}
-		return err
+		return "", err
 	}
-	return nil
+	return user.ID, nil
 }
 
 func (r *db) FindOne(ctx context.Context, id string) (user.User, error) {
