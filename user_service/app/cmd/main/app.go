@@ -50,7 +50,7 @@ func main() {
 
 	usersHandler.Register(router)
 
-	logger.Println("Start user_service")
+	logger.Println("Start user-service")
 
 	start(router, logger, cfg)
 }
