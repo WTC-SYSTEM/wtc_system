@@ -1,15 +1,15 @@
+---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: api-gateway-ingress
-  annotations:
-    kubernetes.io/ingress.class: nginx
 spec:
+  ingressClassName: nginx
   rules:
-    - host: dev.michaeldeveloper.com
+    - host: www.michaeldeveloper.com
       http:
         paths:
-          - path: /
+          - path: /test
             backend:
               service:
                 name: wtc-api-gateway
