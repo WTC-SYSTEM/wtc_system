@@ -3,8 +3,8 @@ image:
   tag: ""
 
 container:
-  port: 8080
-  targetPort: 80
+  port: 80
+  targetPort: 8080
   pullPolicy: Always
   restartPolicy: Always
 

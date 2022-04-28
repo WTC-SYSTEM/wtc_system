@@ -1,10 +1,11 @@
 ---
 
-storage:
-  host: postgres-service
-  port: 5432
-  database: postgres
-  username: postgres
-  password: postgres
-  maxAttempts: 5
+jwt:
+  secret: "secret-ke1"
+#listen:
+#  type: port
+#  bind_ip: localhost
+#  port: 8080
+user_service:
+  url: http://wtc-user-service/api
 

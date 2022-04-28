@@ -2,6 +2,7 @@ package user
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/go-playground/validator/v10"
 	"github.com/gorilla/mux"
 	"github.com/hawkkiller/wtc_system/user_service/internal/apperror"
@@ -56,7 +57,7 @@ func (h *Handler) CreateUser(w http.ResponseWriter, r *http.Request) error {
 		return err
 	}
 
-	err = h.UserService.Create(r.Context(), *userDto.Hashed(hashedPassword))
+	UUID, err := h.UserService.Create(r.Context(), *userDto.Hashed(hashedPassword))
 	if err != nil {
 		return err
 	}
@@ -64,6 +65,7 @@ func (h *Handler) CreateUser(w http.ResponseWriter, r *http.Request) error {
 	if err != nil {
 		return err
 	}
+	w.Header().Set("Location", fmt.Sprintf("%s/%s", usersURL, UUID))
 	w.WriteHeader(http.StatusCreated)
 
 	return nil

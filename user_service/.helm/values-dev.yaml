@@ -1,6 +1,7 @@
 image:
   repository: michaellazebny/wtc_system.user_service
   tag: ""
+
 container:
   port: 80
   targetPort: 8080
@@ -21,5 +22,5 @@ config:
     username: postgres
     password: postgres
     driver_class_name: org.postgresql.Driver
-    retries: 5
+    retries: 20
     baseline: true

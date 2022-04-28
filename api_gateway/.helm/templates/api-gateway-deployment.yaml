@@ -8,6 +8,7 @@ spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
+
   selector:
     matchLabels:
       project: {{ .Release.Name }}
@@ -18,9 +19,10 @@ spec:
       labels:
         project: {{ .Release.Name }}
     spec:
+      restartPolicy: {{ .Values.container.restartPolicy }}
       containers:
         - name: {{ .Release.Name }}-container
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.container.pullPolicy }}
           ports:
-            - containerPort: {{ .Values.container.port }}
+            - containerPort: {{ .Values.container.targetPort }}

@@ -24,7 +24,7 @@ func Middleware(h appHandler) http.HandlerFunc {
 				return
 			}
 			w.WriteHeader(418)
-			w.Write(systemError(err.Error()).Marshal())
+			w.Write(APIError("418", err.Error(), "").Marshal())
 		}
 	}
 }

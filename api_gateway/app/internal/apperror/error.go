@@ -43,6 +43,7 @@ func BadRequestError(message string) *AppError {
 	return NewAppError(message, "Y-000002", "some thing wrong with user data")
 }
 
-func systemError(developerMessage string) *AppError {
-	return NewAppError("system error", "Y-000001", developerMessage)
+func APIError(code, message, developerMessage string) *AppError {
+	return NewAppError(message, code, developerMessage)
+
 }

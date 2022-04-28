@@ -7,21 +7,18 @@ import (
 )
 
 type Config struct {
+	IsDebug *bool `yaml:"is_debug"`
+	JWT     struct {
+		Secret string `yaml:"secret" env-required:"true"`
+	}
 	Listen struct {
 		Type   string `yaml:"type" env-default:"port"`
 		BindIP string `yaml:"bind_ip" env-default:"localhost"`
 		Port   string `yaml:"port" env-default:"8080"`
 	}
-	Storage StorageConfig `yaml:"storage"`
-}
-
-type StorageConfig struct {
-	Host        string `yaml:"host"`
-	Port        string `yaml:"port"`
-	Database    string `yaml:"database"`
-	Username    string `yaml:"username"`
-	Password    string `yaml:"password"`
-	MaxAttempts int8   `yaml:"maxAttempts"`
+	UserService struct {
+		URL string `yaml:"url" env-required:"true"`
+	} `yaml:"user_service" env-required:"true"`
 }
 
 var instance *Config
