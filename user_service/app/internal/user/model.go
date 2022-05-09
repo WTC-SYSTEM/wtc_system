@@ -69,7 +69,6 @@ type UpdateUserDTO struct {
 	ID          string `json:"id" validate:"required"`
 	Username    string `json:"username,omitempty" `
 	Email       string `json:"email,omitempty"`
-	Password    string `json:"password,omitempty"`
 	OldPassword string `json:"old_password,omitempty"`
 	NewPassword string `json:"new_password,omitempty"`
 }
