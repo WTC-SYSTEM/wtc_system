@@ -65,6 +65,9 @@ func (s service) Update(ctx context.Context, dto UpdateUserDTO) error {
 	if err != nil {
 		return err
 	}
+	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(dto.OldPassword)); err != nil {
+		return apperror.NewAppError("User or password is incorrect", "WTC-000005", "pass right password")
+	}
 	newUser, err := dto.NewUser(&user)
 	if err != nil {
 		return err
