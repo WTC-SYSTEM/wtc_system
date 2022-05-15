@@ -2,7 +2,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: api-gateway-ingress
+  name: {{ .Release.Name }}-ingress
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
@@ -19,7 +19,7 @@ spec:
           - path: /
             backend:
               service:
-                name: wtc-api-gateway
+                name: {{ .Release.Name }}-service
                 port:
                   number: 80
             pathType: Prefix

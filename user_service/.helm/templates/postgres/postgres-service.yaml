@@ -9,4 +9,4 @@ spec:
   ports:
   - port: 5432
   selector:
-    app: postgres-deploy
+    app: {{ .Release.Name }}-postgres-deploy
