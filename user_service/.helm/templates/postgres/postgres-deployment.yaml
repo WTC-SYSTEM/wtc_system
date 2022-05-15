@@ -2,17 +2,17 @@ apiVersion: apps/v1
 kind: Deployment
 
 metadata:
-  name: postgres-deploy
+  name: {{ .Release.Name }}-postgres-deploy
 
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: postgres-deploy
+      app: {{ .Release.Name }}-postgres-deploy
   template:
     metadata:
       labels:
-        app: postgres-deploy
+        app: {{ .Release.Name }}-postgres-deploy
     spec:
       volumes:
         - name: postgres-pv-storage
