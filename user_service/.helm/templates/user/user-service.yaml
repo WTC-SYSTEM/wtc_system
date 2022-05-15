@@ -4,7 +4,7 @@ metadata:
   name: wtc-user-service
 spec:
   selector:
-    project: {{ .Release.Name }}
+    project: {{ .Release.Name }}-app-deploy
   ports:
     - name: {{ .Release.Name }}-listener
       port: {{ .Values.container.port }}
