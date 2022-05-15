@@ -2,6 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: wtc-user-service
+  namespace: {{.Values.namespace}}
 spec:
   selector:
     project: {{ .Release.Name }}-app-deploy

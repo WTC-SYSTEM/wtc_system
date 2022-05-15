@@ -3,6 +3,7 @@ kind: Deployment
 
 metadata:
   name: {{ .Release.Name }}-postgres-deploy
+  namespace: {{.Values.namespace}}
 
 spec:
   replicas: 1

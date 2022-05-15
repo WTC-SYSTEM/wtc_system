@@ -2,6 +2,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: postgres-pvc-storage
+  namespace: {{.Values.namespace}}
 spec:
   storageClassName: manual
   accessModes:

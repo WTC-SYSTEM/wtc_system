@@ -9,6 +9,8 @@ container:
 
 replicaCount: 1
 
+namespace: user-service-ns
+
 autoscaling:
   enabled: false
   minReplicas: 1

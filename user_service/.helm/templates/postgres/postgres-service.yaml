@@ -3,6 +3,7 @@ kind: Service
 
 metadata:
   name: postgres-user-service
+  namespace: {{.Values.namespace}}
   labels:
     app: postgres-user-service
 spec:
