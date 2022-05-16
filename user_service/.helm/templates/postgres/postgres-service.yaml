@@ -8,6 +8,7 @@ metadata:
     app: postgres-user-service
 spec:
   ports:
-  - port: 5432
+  - port: 5433
+    targetPort: 5432
   selector:
     app: {{ .Release.Name }}-postgres-deploy
