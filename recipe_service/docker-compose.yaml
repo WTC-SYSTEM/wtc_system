@@ -1,0 +1,54 @@
+version: "3"
+
+services:
+  app:
+    restart: always
+    depends_on:
+      - db
+      - flyway-migration
+    networks:
+      - backend
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: recipe-microservice
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_DATABASE: postgres
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
+      DB_MAX_ATTEMPTS: 5
+    ports:
+      - "8080:8080"
+
+  flyway-migration:
+    image: flyway/flyway
+    depends_on:
+      - db
+    environment:
+      - FLYWAY_USER=postgres
+      - FLYWAY_PASSWORD=postgres
+      - FLYWAY_URL=jdbc:postgresql://db:5432/postgres
+      - FLYWAY_SCHEMAS=public
+    volumes:
+      - ./.helm/migration:/flyway/sql
+    command:
+      - migrate
+    networks:
+      - backend
+  db:
+    image: postgres:latest
+    networks:
+      - backend
+    volumes:
+      - ./.db
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+      PGDATA: /tmp
+    ports:
+      - "5432:5432"
+networks:
+  backend:

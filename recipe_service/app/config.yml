@@ -1,0 +1,9 @@
+---
+
+storage:
+  host:
+  port:
+  database:
+  username:
+  password:
+  maxAttempts: 5
