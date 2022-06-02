@@ -48,12 +48,12 @@ func (s service) GetOne(ctx context.Context, uuid string) (User, error) {
 func (s service) GetByEmailAndPassword(ctx context.Context, dto GetUserByEmailAndPasswordDTO) (User, error) {
 	user, err := s.storage.FindByEmail(ctx, dto.Email)
 	if err != nil {
-		return User{}, apperror.NewAppError("User or password is incorrect", "WTC-000005", "pass right email")
+		return User{}, apperror.ErrNotFound
 	}
 
 	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(dto.Password))
 	if err != nil {
-		return User{}, apperror.NewAppError("User or password is incorrect", "WTC-000005", "pass right password")
+		return User{}, apperror.NewAppError("User or password is incorrect", "WTC-000005", "pass right data")
 	}
 
 	return user, nil
@@ -66,7 +66,7 @@ func (s service) Update(ctx context.Context, dto UpdateUserDTO) error {
 		return err
 	}
 	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(dto.OldPassword)); err != nil {
-		return apperror.NewAppError("User or password is incorrect", "WTC-000005", "pass right password")
+		return apperror.NewAppError("User or password is incorrect", "WTC-000005", "pass right data")
 	}
 	newUser, err := dto.NewUser(&user)
 	if err != nil {

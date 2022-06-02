@@ -1,0 +1,11 @@
+basePath: /api
+info:
+  contact:
+    email: miskadl09@gmail.com
+    name: Michael Lazebny
+  description: Used only for internal usage(api gateway) and was made only for docs
+    purposes
+  title: User Service API
+  version: "1.0"
+paths: {}
+swagger: "2.0"

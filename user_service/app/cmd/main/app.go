@@ -18,6 +18,14 @@ import (
 	"time"
 )
 
+// @title 		  User Service API
+// @version 	  1.0
+// @description   Used only for internal usage(api gateway) and was made only for docs purposes
+
+// @contact.name  Michael Lazebny
+// @contact.email miskadl09@gmail.com
+
+// @BasePath 	  /api
 func main() {
 	logging.Init()
 	logger := logging.GetLogger()

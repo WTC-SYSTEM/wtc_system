@@ -5,9 +5,11 @@ import (
 	"fmt"
 	"github.com/go-playground/validator/v10"
 	"github.com/gorilla/mux"
+	_ "github.com/hawkkiller/wtc_system/user_service/docs"
 	"github.com/hawkkiller/wtc_system/user_service/internal/apperror"
 	"github.com/hawkkiller/wtc_system/user_service/pkg/logging"
 	"github.com/hawkkiller/wtc_system/user_service/pkg/utils"
+	httpSwagger "github.com/swaggo/http-swagger"
 	"golang.org/x/crypto/bcrypt"
 	"net/http"
 )
@@ -32,6 +34,7 @@ func (h *Handler) Register(router *mux.Router) {
 		Methods(http.MethodGet)
 	router.HandleFunc(usersURL, apperror.Middleware(h.UpdateUser)).
 		Methods(http.MethodPatch)
+	router.PathPrefix("/swagger/").Handler(httpSwagger.WrapHandler).Methods(http.MethodGet)
 }
 
 func (h *Handler) CreateUser(w http.ResponseWriter, r *http.Request) error {
