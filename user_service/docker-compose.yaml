@@ -16,7 +16,7 @@ services:
       DB_PORT: 5430
       DB_HOST: wtc-user-db
     ports:
-      - "8888:8080"
+      - "8000:8080"
 
   flyway-migration:
     image: flyway/flyway
