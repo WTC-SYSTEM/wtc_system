@@ -2,6 +2,7 @@ package auth
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/gorilla/mux"
 	"github.com/hawkkiller/wtc_system/api_gateway/internal/apperror"
 	"github.com/hawkkiller/wtc_system/api_gateway/internal/client/user_service"
@@ -21,9 +22,30 @@ type Handler struct {
 	JWTHelper   jwt.Helper
 }
 
+func (h *Handler) loggingMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		// Do stuff here
+		h.Logger.Info(fmt.Sprintf("URL:%s METHOD:%s", r.URL, r.Method))
+		// Call the next handler, which can be another middleware in the chain, or the final handler.
+		next.ServeHTTP(w, r)
+	})
+}
+
+func (h *Handler) CORS(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		next.ServeHTTP(w, r)
+	})
+}
 func (h *Handler) Register(router *mux.Router) {
 	router.HandleFunc(authURL, apperror.Middleware(h.Auth)).Methods(http.MethodPost, http.MethodPut)
 	router.HandleFunc(signupURL, apperror.Middleware(h.Signup)).Methods(http.MethodPost)
+	fs := http.FileServer(http.Dir("../../internal/public"))
+	router.PathPrefix("/public/").Handler(http.StripPrefix("/public/", fs)).
+		Methods("GET")
+	router.Use(h.loggingMiddleware)
+	router.Use(h.CORS)
 }
 
 func (h *Handler) Signup(w http.ResponseWriter, r *http.Request) error {

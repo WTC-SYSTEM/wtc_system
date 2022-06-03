@@ -49,9 +49,6 @@ func (h *Handler) Register(router *mux.Router) {
 		Methods(http.MethodGet)
 	router.HandleFunc(usersURL, apperror.Middleware(h.UpdateUser)).
 		Methods(http.MethodPatch)
-	fs := http.FileServer(http.Dir("../../internal/user/public"))
-	router.PathPrefix("/public/").Handler(http.StripPrefix("/public/", fs)).
-		Methods("GET")
 	router.Use(h.loggingMiddleware)
 	router.Use(h.CORS)
 }
