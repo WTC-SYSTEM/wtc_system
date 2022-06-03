@@ -26,7 +26,7 @@ spec:
           - path: /public
             backend:
                 service:
-                  name: user-service
+                  name: wtc-user-service
                   port:
                     number: 80
             pathType: Prefix
