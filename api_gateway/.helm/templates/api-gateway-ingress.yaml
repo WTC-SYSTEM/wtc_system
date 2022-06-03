@@ -16,14 +16,14 @@ spec:
     - host: "www.michaeldeveloper.com"
       http:
         paths:
+{{/*          - path: /*/}}
+{{/*            backend:*/}}
+{{/*              service:*/}}
+{{/*                name: api-gateway-service*/}}
+{{/*                port:*/}}
+{{/*                  number: 80*/}}
+{{/*            pathType: Prefix*/}}
           - path: /
-            backend:
-              service:
-                name: api-gateway-service
-                port:
-                  number: 80
-            pathType: Prefix
-          - path: /public
             backend:
                 service:
                   name: wtc-user-service
