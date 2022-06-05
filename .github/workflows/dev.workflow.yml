@@ -44,7 +44,7 @@ jobs:
           -f api_gateway/.helm/values-dev.yaml \
           --set image.tag=${{ steps.vars.outputs.sha_short }} \
           --set redis.password=${{ secrets.REDIS_PASSWORD }} \
-          --set jwt.secret=${{ secrets.JWT_SECRET }} \
+          --set jwt.secret=${{ secrets.JWT_SECRET }} 
           api-gateway api_gateway/.helm
 
   user-service:
