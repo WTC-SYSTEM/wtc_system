@@ -18,3 +18,4 @@ autoscaling:
 
 redis:
   ns: redis
+  password: ""
