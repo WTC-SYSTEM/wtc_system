@@ -42,8 +42,7 @@ jobs:
         run: |
           helm --debug upgrade --install \
           -f api_gateway/.helm/values-dev.yaml \
-          --set image.tag=${{ steps.vars.outputs.sha_short }},redis.password=${{ secrets.REDIS_PASSWORD }},jwt.secret=${{ secrets.JWT_SECRET }} \
-          api-gateway api_gateway/.helm
+          --set image.tag=${{ steps.vars.outputs.sha_short }}, redis.password=${{ secrets.REDIS_PASSWORD }},jwt.secret=${{ secrets.JWT_SECRET }} api-gateway api_gateway/.helm
 
   user-service:
     runs-on: ubuntu-latest
