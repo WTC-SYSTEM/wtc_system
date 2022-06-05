@@ -15,3 +15,6 @@ autoscaling:
   minReplicas: 1
   maxReplicas: 4
   targetCPUUtilizationPercentage: 80
+
+redis:
+  ns: default
