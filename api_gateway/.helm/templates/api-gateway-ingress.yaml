@@ -23,3 +23,11 @@ spec:
                 port:
                   number: 80
             pathType: Prefix
+          - path: /usercheck
+            backend:
+              service:
+                name: wtc-user-service.default.svc.cluster.local
+                port:
+                  number: 80
+            pathType: Prefix
+
