@@ -31,5 +31,5 @@ spec:
               value: "redis.svc.cluster.local"
             - name: JWT_SECRET
               value: {{ .Values.jwt.secret }}
-            - name: REDIS-PASSWORD
+            - name: REDIS_PASSWORD
               value: {{ .Values.redis.pswrd }}
