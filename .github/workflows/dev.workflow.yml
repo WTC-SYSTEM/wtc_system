@@ -39,8 +39,13 @@ jobs:
         run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 k8s-wtc
 
       - name: 🏋️Deploy
-        run:
-          "helm --debug upgrade --install api-gateway -f api_gateway/.helm/values-dev.yaml --set image.tag=${{ steps.vars.outputs.sha_short }} --set redis.pswrd=${{ secrets.REDIS_PASSWORD }} --set jwt.secret=${{ secrets.JWT_SECRET }} api_gateway/.helm"
+        run: |
+          helm upgrade --install api-gateway \ 
+          -f api_gateway/.helm/values-dev.yaml \
+          --set image.tag=${{ steps.vars.outputs.sha_short }} \
+          --set redis.password=${{ secrets.REDIS_PASSWORD }} \
+          --set jwt.secret=${{ secrets.JWT_SECRET }} \
+          api_gateway/.helm
 
   user-service:
     runs-on: ubuntu-latest
