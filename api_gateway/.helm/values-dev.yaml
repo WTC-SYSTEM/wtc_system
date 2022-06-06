@@ -19,3 +19,6 @@ autoscaling:
 redis:
   ns: redis
   pswrd: ""
+
+jwt:
+  secret: "xxx"

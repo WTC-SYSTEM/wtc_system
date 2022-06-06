@@ -19,3 +19,6 @@ autoscaling:
 redis:
   ns: default
   pswrd: ""
+
+jwt:
+  secret: "yyy"
