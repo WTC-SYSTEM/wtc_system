@@ -4,7 +4,7 @@ jwt:
   secret: ""
 redis:
   pswrd: ""
-  addr: "redis.svc.cluster.local"
+  addr: ""
 
 #listen:
 #  type: port
