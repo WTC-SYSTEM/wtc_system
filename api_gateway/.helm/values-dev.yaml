@@ -18,4 +18,4 @@ autoscaling:
 
 redis:
   ns: redis
-  password: ""
+  pswrd: ""

@@ -47,7 +47,7 @@ spec:
             - "/etc/redis-config.conf"
           env:
             - name: REDIS_PASSWORD
-              value: {{.Values.redis.password}}
+              value: {{.Values.redis.pswrd}}
           volumeMounts:
             - name: redis-data
               mountPath: /data

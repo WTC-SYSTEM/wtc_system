@@ -3,7 +3,7 @@
 jwt:
   secret: ""
 redis:
-  password: ""
+  pswrd: ""
   addr: "redis.svc.cluster.local"
 
 #listen:
