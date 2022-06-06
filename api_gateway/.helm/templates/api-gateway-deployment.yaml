@@ -28,7 +28,7 @@ spec:
             - containerPort: {{ .Values.container.targetPort }}
           env:
             - name: REDIS_ADDR
-              value: "https://949a5b6b-9743-4f20-a6ef-5f70e1dc2163.k8s.ondigitalocean.com/api/v1/namespaces/redis/services/redis-service/proxy/_cluster/"
+              value: "redis-service.redis.svc.cluster.local:6379"
             - name: JWT_SECRET
               value: {{ .Values.jwt.secret }}
             - name: REDIS_PASSWORD
