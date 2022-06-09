@@ -2,7 +2,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ .Release.Name }}-ingress
+  name: "{{ .Release.Name }}-ingress"
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
@@ -13,13 +13,14 @@ spec:
       port:
         number: 80
   rules:
-    - host: "*.michaeldeveloper.com"
+    - host: "www.michaeldeveloper.com"
       http:
         paths:
           - path: /
             backend:
               service:
-                name: {{ .Release.Name }}-service
+                name: api-gateway-service
                 port:
                   number: 80
             pathType: Prefix
+

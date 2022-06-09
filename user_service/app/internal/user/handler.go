@@ -23,6 +23,23 @@ type Handler struct {
 	Validator   *validator.Validate
 }
 
+func (h *Handler) loggingMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		// Do stuff here
+		h.Logger.Info(fmt.Sprintf("URL:%s METHOD:%s", r.URL, r.Method))
+		// Call the next handler, which can be another middleware in the chain, or the final handler.
+		next.ServeHTTP(w, r)
+	})
+}
+
+func (h *Handler) CORS(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		next.ServeHTTP(w, r)
+	})
+}
+
 func (h *Handler) Register(router *mux.Router) {
 	router.HandleFunc(usersURL, apperror.Middleware(h.GetUserByEmailAndPassword)).
 		Methods(http.MethodGet)
@@ -32,6 +49,8 @@ func (h *Handler) Register(router *mux.Router) {
 		Methods(http.MethodGet)
 	router.HandleFunc(usersURL, apperror.Middleware(h.UpdateUser)).
 		Methods(http.MethodPatch)
+	router.Use(h.loggingMiddleware)
+	router.Use(h.CORS)
 }
 
 func (h *Handler) CreateUser(w http.ResponseWriter, r *http.Request) error {
@@ -62,9 +81,6 @@ func (h *Handler) CreateUser(w http.ResponseWriter, r *http.Request) error {
 		return err
 	}
 
-	if err != nil {
-		return err
-	}
 	w.Header().Set("Location", fmt.Sprintf("%s/%s", usersURL, UUID))
 	w.WriteHeader(http.StatusCreated)
 

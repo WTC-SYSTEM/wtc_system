@@ -1,4 +1,4 @@
-version: "2"
+version: "3"
 
 services:
   app:
@@ -9,20 +9,43 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: wtc-user_service
+    environment:
+      DB_PASSWORD: postgres
+      DB_USERNAME: postgres
+      DB_NAME: postgres
+      DB_PORT: 5430
+      DB_HOST: wtc-user-db
     ports:
-      - "80:8080"
+      - "8000:8080"
+
+  flyway-migration:
+    image: flyway/flyway
+    depends_on:
+      - db
+    environment:
+      - FLYWAY_USER=postgres
+      - FLYWAY_PASSWORD=postgres
+      - FLYWAY_URL=jdbc:postgresql://wtc-user-db:5430/postgres
+      - FLYWAY_SCHEMAS=public
+    volumes:
+      - ./.helm/migration:/flyway/sql
+    command:
+      - migrate
+    networks:
+      - backend
+
   db:
     image: postgres:latest
+    container_name: wtc-user-db
     networks:
       - backend
     volumes:
-      - ./.db
+      - .:/data/db
     environment:
       POSTGRES_PASSWORD: postgres
       POSTGRES_USER: postgres
       POSTGRES_DB: postgres
       PGDATA: /tmp
-    ports:
-      - "5432:5432"
+    command: -p 5430
 networks:
   backend:

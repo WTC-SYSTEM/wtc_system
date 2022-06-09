@@ -18,3 +18,4 @@
 /.idea/
 /user_service/app/vendor/
 /user_service/.database/
+/user_service/app/cmd/main/logs/all.log

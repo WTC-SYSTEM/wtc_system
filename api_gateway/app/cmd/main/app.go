@@ -4,10 +4,10 @@ import (
 	"errors"
 	"fmt"
 	"github.com/gorilla/mux"
+	redis "github.com/hawkkiller/wtc_system/api_gateway/internal/client/db"
 	"github.com/hawkkiller/wtc_system/api_gateway/internal/client/user_service"
 	"github.com/hawkkiller/wtc_system/api_gateway/internal/config"
 	"github.com/hawkkiller/wtc_system/api_gateway/internal/handlers/auth"
-	"github.com/hawkkiller/wtc_system/api_gateway/pkg/cache/freecache"
 	"github.com/hawkkiller/wtc_system/api_gateway/pkg/jwt"
 	"github.com/hawkkiller/wtc_system/api_gateway/pkg/logging"
 	"github.com/hawkkiller/wtc_system/api_gateway/pkg/shutdown"
@@ -28,12 +28,12 @@ func main() {
 	logger.Println("router initializing")
 	router := mux.NewRouter()
 
-	logger.Println("cache initializing")
-
-	refreshTokenCache := freecache.NewCacheRepo(104857600) // 100MB
+	logger.Println("redis initializing")
+	rc := redis.NewClient(cfg)
 
 	logger.Println("helpers initializing")
-	jwtHelper := jwt.NewHelper(refreshTokenCache, logger)
+
+	jwtHelper := jwt.NewHelper(rc, logger)
 
 	logger.Println("create and register handlers")
 

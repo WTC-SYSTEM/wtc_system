@@ -16,12 +16,12 @@ type Config struct {
 }
 
 type StorageConfig struct {
-	Host        string `yaml:"host"`
-	Port        string `yaml:"port"`
-	Database    string `yaml:"database"`
-	Username    string `yaml:"username"`
-	Password    string `yaml:"password"`
-	MaxAttempts int8   `yaml:"maxAttempts"`
+	Host        string `yaml:"host" env:"DB_HOST"`
+	Port        string `yaml:"port" env:"DB_PORT"`
+	Database    string `yaml:"database" env:"DB_NAME"`
+	Username    string `yaml:"username" env:"DB_USERNAME"`
+	Password    string `yaml:"password" env:"DB_PASSWORD"`
+	MaxAttempts int8   `yaml:"maxAttempts" env-default:"5"`
 }
 
 var instance *Config

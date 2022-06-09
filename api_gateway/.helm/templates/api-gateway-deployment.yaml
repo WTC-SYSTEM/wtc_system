@@ -26,3 +26,10 @@ spec:
           imagePullPolicy: {{ .Values.container.pullPolicy }}
           ports:
             - containerPort: {{ .Values.container.targetPort }}
+          env:
+            - name: REDIS_ADDR
+              value: "redis-service.redis.svc.cluster.local:6379"
+            - name: JWT_SECRET
+              value: {{ .Values.jwt.secret }}
+            - name: REDIS_PASSWORD
+              value: {{ .Values.redis.pswrd }}

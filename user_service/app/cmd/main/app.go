@@ -47,7 +47,6 @@ func main() {
 		UserService: userService,
 		Validator:   validator.New(),
 	}
-
 	usersHandler.Register(router)
 
 	logger.Println("Start user_service")

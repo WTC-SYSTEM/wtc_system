@@ -19,7 +19,7 @@ func NewStorage(c postgresql.Client, l logging.Logger) recipe.Storage {
 	}
 }
 
-func (d db) Create(ctx context.Context) (string, error) {
+func (d db) Create(ctx context.Context, recipe recipe.Recipe) (string, error) {
 	//TODO implement me
 	panic("implement me")
 }

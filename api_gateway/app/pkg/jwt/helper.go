@@ -1,12 +1,13 @@
 package jwt
 
 import (
+	"context"
 	"encoding/json"
 	"github.com/cristalhq/jwt/v3"
+	"github.com/go-redis/redis/v9"
 	"github.com/google/uuid"
 	"github.com/hawkkiller/wtc_system/api_gateway/internal/client/user_service"
 	"github.com/hawkkiller/wtc_system/api_gateway/internal/config"
-	"github.com/hawkkiller/wtc_system/api_gateway/pkg/cache"
 	"github.com/hawkkiller/wtc_system/api_gateway/pkg/logging"
 	"time"
 )
@@ -23,12 +24,12 @@ type RT struct {
 }
 
 type helper struct {
-	Logger  logging.Logger
-	RTCache cache.Repository
+	Logger logging.Logger
+	DB     *redis.Client
 }
 
-func NewHelper(RTCache cache.Repository, logger logging.Logger) Helper {
-	return &helper{RTCache: RTCache, Logger: logger}
+func NewHelper(DB *redis.Client, logger logging.Logger) Helper {
+	return &helper{DB: DB, Logger: logger}
 }
 
 type Helper interface {
@@ -37,14 +38,15 @@ type Helper interface {
 }
 
 func (h *helper) UpdateRefreshToken(rt RT) ([]byte, error) {
-	defer h.RTCache.Del([]byte(rt.RefreshToken))
+	ctx := context.TODO()
+	defer h.DB.Del(ctx, rt.RefreshToken)
 
-	userBytes, err := h.RTCache.Get([]byte(rt.RefreshToken))
+	userBytes, err := h.DB.Get(ctx, rt.RefreshToken).Result()
 	if err != nil {
 		return nil, err
 	}
 	var u user_service.User
-	err = json.Unmarshal(userBytes, &u)
+	err = json.Unmarshal([]byte(userBytes), &u)
 	if err != nil {
 		return nil, err
 	}
@@ -75,7 +77,7 @@ func (h *helper) GenerateAccessToken(u user_service.User) ([]byte, error) {
 	h.Logger.Info("create refresh token")
 	refreshTokenUuid := uuid.New()
 	userBytes, _ := json.Marshal(u)
-	err = h.RTCache.Set([]byte(refreshTokenUuid.String()), userBytes, 0)
+	err = h.DB.Set(context.Background(), refreshTokenUuid.String(), userBytes, 0).Err()
 	if err != nil {
 		h.Logger.Error(err)
 		return nil, err
