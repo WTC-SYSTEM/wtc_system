@@ -1,15 +1,9 @@
 ---
 name: Feature request
 about: Suggest an idea for this project
-title: "[FR] Untitled Feature Request"
+title: "[FR] "
 labels: 'enhancement'
 assignees: 'hawkkiller'
 projects: 'wtc-system'
 
 ---
-  
-**1~3 main use cases of the proposed feature**  
-  
-**What types of users can benefit from using your proposed feature**  
-  
-**Additional context**  
