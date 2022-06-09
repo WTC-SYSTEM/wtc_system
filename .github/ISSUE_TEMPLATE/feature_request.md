@@ -2,8 +2,9 @@
 name: Feature request
 about: Suggest an idea for this project
 title: "[FR] Untitled Feature Request"
-labels: ''
-assignees: ''
+labels: 'enhancement'
+assignees: 'hawkkiller'
+projects: 'wtc-system'
 
 ---
   
