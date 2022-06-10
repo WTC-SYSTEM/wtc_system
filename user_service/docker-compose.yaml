@@ -4,11 +4,11 @@ services:
   app:
     restart: always
     networks:
-      - backend
+      - wtcnet
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: wtc-user_service
+    container_name: wtc-user-service
     environment:
       DB_PASSWORD: postgres
       DB_USERNAME: postgres
@@ -16,7 +16,7 @@ services:
       DB_PORT: 5430
       DB_HOST: wtc-user-db
     ports:
-      - "8000:8080"
+      - "8888:8080"
 
   flyway-migration:
     image: flyway/flyway
@@ -32,13 +32,13 @@ services:
     command:
       - migrate
     networks:
-      - backend
+      - wtcnet
 
   db:
     image: postgres:latest
     container_name: wtc-user-db
     networks:
-      - backend
+      - wtcnet
     volumes:
       - .:/data/db
     environment:
@@ -47,5 +47,7 @@ services:
       POSTGRES_DB: postgres
       PGDATA: /tmp
     command: -p 5430
+
 networks:
-  backend:
+  wtcnet:
+    external: true

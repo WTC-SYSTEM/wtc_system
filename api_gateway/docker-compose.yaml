@@ -1,15 +1,30 @@
 version: "2"
-
+# local development
 services:
   api_gateway:
     restart: always
     networks:
-      - backend
+      - wtcnet
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: wtc-api_gateway
+    container_name: wtc-api-gateway
+    environment:
+      REDIS_PASSWORD: "rediska"
+      JWT_SECRET: "secret-ke1"
+      REDIS_ADDR: "redis:6379"
+      USER_SERVICE_URL: "http://wtc-user-service:8080/api"
     ports:
       - "80:8080"
+  redis:
+    image: redis:latest
+    networks:
+      - wtcnet
+    ports:
+      - "6379:6379"
+    environment:
+      REDIS_PASSWORD: "rediska"
+
 networks:
-  backend:
+  wtcnet:
+    external: true
