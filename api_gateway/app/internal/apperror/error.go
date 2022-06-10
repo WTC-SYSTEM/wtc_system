@@ -7,13 +7,14 @@ import (
 
 var (
 	ErrNotFound = NewAppError("not found", "Y-000001", "")
+	ErrNotKnown = NewAppError("not known issue", "Y-000005", "")
 )
 
 type AppError struct {
 	Err              error  `json:"-"`
-	Message          string `json:"message,omitempty"`
-	DeveloperMessage string `json:"developer_message,omitempty"`
-	Code             string `json:"code,omitempty"`
+	Message          string `json:"message"`
+	DeveloperMessage string `json:"developer_message"`
+	Code             string `json:"code"`
 }
 
 func NewAppError(message, code, developerMessage string) *AppError {

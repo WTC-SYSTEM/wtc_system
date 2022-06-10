@@ -1,6 +1,7 @@
 package apperror
 
 import (
+	"encoding/json"
 	"errors"
 	"net/http"
 )
@@ -10,21 +11,22 @@ type appHandler func(http.ResponseWriter, *http.Request) error
 func Middleware(h appHandler) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var appErr *AppError
+		encoder := json.NewEncoder(w)
 		err := h(w, r)
 		if err != nil {
 			if errors.As(err, &appErr) {
 				if errors.Is(err, ErrNotFound) {
 					w.WriteHeader(http.StatusNotFound)
-					w.Write(ErrNotFound.Marshal())
+					encoder.Encode(err)
 					return
 				}
 				err := err.(*AppError)
 				w.WriteHeader(http.StatusBadRequest)
-				w.Write(err.Marshal())
+				encoder.Encode(err)
 				return
 			}
 			w.WriteHeader(418)
-			w.Write(APIError("418", err.Error(), "").Marshal())
+			encoder.Encode(ErrNotKnown)
 		}
 	}
 }

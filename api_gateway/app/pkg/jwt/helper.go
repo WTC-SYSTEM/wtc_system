@@ -6,6 +6,7 @@ import (
 	"github.com/cristalhq/jwt/v3"
 	"github.com/go-redis/redis/v9"
 	"github.com/google/uuid"
+	"github.com/hawkkiller/wtc_system/api_gateway/internal/apperror"
 	"github.com/hawkkiller/wtc_system/api_gateway/internal/client/user_service"
 	"github.com/hawkkiller/wtc_system/api_gateway/internal/config"
 	"github.com/hawkkiller/wtc_system/api_gateway/pkg/logging"
@@ -43,7 +44,7 @@ func (h *helper) UpdateRefreshToken(rt RT) ([]byte, error) {
 
 	userBytes, err := h.DB.Get(ctx, rt.RefreshToken).Result()
 	if err != nil {
-		return nil, err
+		return nil, apperror.ErrNotFound
 	}
 	var u user_service.User
 	err = json.Unmarshal([]byte(userBytes), &u)
