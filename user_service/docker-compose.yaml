@@ -2,13 +2,15 @@ version: "3"
 
 services:
   app:
-    restart: always
+    restart: on-failure
     networks:
-      - backend
+      - wtcnet
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: wtc-user_service
+    depends_on:
+      - db
+    container_name: wtc-user-service
     environment:
       DB_PASSWORD: postgres
       DB_USERNAME: postgres
@@ -16,10 +18,11 @@ services:
       DB_PORT: 5430
       DB_HOST: wtc-user-db
     ports:
-      - "8000:8080"
+      - "8888:8080"
 
   flyway-migration:
     image: flyway/flyway
+    restart: on-failure
     depends_on:
       - db
     environment:
@@ -32,13 +35,18 @@ services:
     command:
       - migrate
     networks:
-      - backend
+      - wtcnet
 
   db:
     image: postgres:latest
     container_name: wtc-user-db
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:5430" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
     networks:
-      - backend
+      - wtcnet
     volumes:
       - .:/data/db
     environment:
@@ -47,5 +55,7 @@ services:
       POSTGRES_DB: postgres
       PGDATA: /tmp
     command: -p 5430
+
 networks:
-  backend:
+  wtcnet:
+    external: true
