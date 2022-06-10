@@ -3,6 +3,8 @@ version: "2"
 services:
   api_gateway:
     restart: always
+    depends_on:
+      - redis
     networks:
       - wtcnet
     build:
