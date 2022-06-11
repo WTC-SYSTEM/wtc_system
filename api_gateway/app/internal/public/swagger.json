@@ -1,20 +1,29 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "description": "A microservice where the users are stored.  It is responsible for creating, updating, deleting user. **Closed for public usage** and is created only for docs purposes. How api gateway uses this check here: [ApiGateway]()",
-    "title": "wtc-user-service",
+    "description": "Recipe social media.",
+    "title": "WTC",
     "version": "1.0.0"
   },
   "tags": [
     {
-      "name": "API"
+      "name": "user-service",
+      "description": "Only internal usage"
+    },
+    {
+      "name": "api-gateway-service",
+      "description": "publicly-opened"
+    },
+    {
+      "name": "recipe-service",
+      "description": "Only internal usage"
     }
   ],
   "paths": {
-    "/v1/users": {
+    "/api/v1/users": {
       "get": {
         "tags": [
-          "API"
+          "user-service"
         ],
         "summary": "Get user by email and password",
         "operationId": "getUserByEmailAndPassword",
@@ -61,19 +70,142 @@
       },
       "post": {
         "tags": [
-          "API"
+          "user-service"
         ],
         "summary": "Create user",
+        "operationId": "createUser",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/UserDto"
+        },
+        "responses": {
+          "201": {
+            "description": "User successfully created and UUID is returned.",
+            "headers": {
+              "Location": {
+                "schema": {
+                  "type": "string",
+                  "example": "/api/v1/users/ddcdb3d0-58d2-42c3-9358-417dc4139144"
+                },
+                "description": "Where to locate after successful response"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Wrong passed data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "user-service"
+        ],
+        "summary": "Update user data",
+        "operationId": "patchUserData",
         "requestBody": {
           "$ref": "#/components/requestBodies/User"
         },
         "responses": {
-          "201": {
+          "202": {
+            "description": "Successfully updated"
+          },
+          "400": {
+            "description": "Wrong passed data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/users/{uuid}": {
+      "get": {
+        "tags": [
+          "user-service"
+        ],
+        "summary": "Get user by UUID",
+        "operationId": "getUserByUUID",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/UUIDPathParam"
+          }
+        ],
+        "responses": {
+          "200": {
             "description": "The request is right and the body is returned.",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/signup": {
+      "post": {
+        "tags": [
+          "api-gateway-service"
+        ],
+        "operationId": "apiGatewaySignup",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/UserDto"
+        },
+        "responses": {
+          "201": {
+            "description": "User was successfully created and access token returned"
+          },
+          "400": {
+            "description": "Wrong passed data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth": {
+      "post": {
+        "tags": [
+          "api-gateway-service"
+        ],
+        "operationId": "apiGatewayAuth",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/UserDto"
+        },
+        "responses": {
+          "201": {
+            "description": "User was successfully authenticated and access token returned"
+          },
+          "400": {
+            "description": "Wrong passed data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -88,7 +220,8 @@
         "name": "email",
         "in": "query",
         "schema": {
-          "type": "string"
+          "type": "string",
+          "example": "qwerty@gmail.com"
         },
         "required": true,
         "description": "user email",
@@ -98,20 +231,51 @@
         "name": "password",
         "in": "query",
         "schema": {
-          "type": "string"
+          "type": "string",
+          "example": "qwerty123"
         },
         "description": "user password",
+        "required": true,
+        "allowEmptyValue": false
+      },
+      "UUIDPathParam": {
+        "name": "uuid",
+        "in": "path",
+        "schema": {
+          "type": "string",
+          "example": "c9e797be-fae0-41c2-a20e-315d98962b9c"
+        },
         "required": true,
         "allowEmptyValue": false
       }
     },
     "requestBodies": {
-      "User": {
+      "UserDto": {
         "required": true,
         "content": {
           "application/json": {
             "schema": {
               "$ref": "#/components/schemas/UserDto"
+            }
+          }
+        }
+      },
+      "User": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/User"
+            }
+          }
+        }
+      },
+      "EmailPassword": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/EmailPassword"
             }
           }
         }
@@ -125,6 +289,19 @@
             "type": "string",
             "description": "The user username"
           },
+          "email": {
+            "type": "string",
+            "description": "The user email"
+          },
+          "password": {
+            "type": "string",
+            "description": "The user password"
+          }
+        }
+      },
+      "EmailPassword": {
+        "type": "object",
+        "properties": {
           "email": {
             "type": "string",
             "description": "The user email"
