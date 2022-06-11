@@ -2,7 +2,7 @@ version: "3"
 
 services:
   app:
-    restart: always
+    restart: on-failure
     depends_on:
       - db
       - flyway-migration
@@ -24,6 +24,7 @@ services:
 
   flyway-migration:
     image: flyway/flyway
+    restart: on-failure
     depends_on:
       - db
     environment:
@@ -39,6 +40,11 @@ services:
       - backend
   db:
     image: postgres:latest
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:5455" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
     networks:
       - backend
     volumes:
@@ -48,8 +54,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_DB: postgres
       PGDATA: /tmp
-    ports:
-      - "5432:5432"
+    command: -p 5445
 
 networks:
   backend:
