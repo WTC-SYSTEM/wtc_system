@@ -3,11 +3,11 @@ package auth
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/WTC-SYSTEM/wtc_system/api_gateway/internal/apperror"
+	"github.com/WTC-SYSTEM/wtc_system/api_gateway/internal/client/user_service"
+	"github.com/WTC-SYSTEM/wtc_system/api_gateway/pkg/jwt"
+	"github.com/WTC-SYSTEM/wtc_system/api_gateway/pkg/logging"
 	"github.com/gorilla/mux"
-	"github.com/hawkkiller/wtc_system/api_gateway/internal/apperror"
-	"github.com/hawkkiller/wtc_system/api_gateway/internal/client/user_service"
-	"github.com/hawkkiller/wtc_system/api_gateway/pkg/jwt"
-	"github.com/hawkkiller/wtc_system/api_gateway/pkg/logging"
 	"net/http"
 )
 

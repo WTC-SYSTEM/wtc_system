@@ -1,4 +1,4 @@
-module github.com/hawkkiller/wtc_system/user_service
+module github.com/WTC-SYSTEM/wtc_system/user_service
 
 go 1.18
 

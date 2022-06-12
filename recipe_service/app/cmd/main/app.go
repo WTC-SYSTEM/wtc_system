@@ -4,15 +4,16 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"github.com/WTC-SYSTEM/wtc_system/recipe_service/internal/config"
+	"github.com/WTC-SYSTEM/wtc_system/recipe_service/internal/recipe"
+	_ "github.com/WTC-SYSTEM/wtc_system/recipe_service/internal/recipe"
+	"github.com/WTC-SYSTEM/wtc_system/recipe_service/internal/recipe/db"
+	"github.com/WTC-SYSTEM/wtc_system/recipe_service/pkg/client/aws"
+	"github.com/WTC-SYSTEM/wtc_system/recipe_service/pkg/client/postgresql"
+	"github.com/WTC-SYSTEM/wtc_system/recipe_service/pkg/logging"
+	"github.com/WTC-SYSTEM/wtc_system/recipe_service/pkg/shutdown"
 	"github.com/go-playground/validator/v10"
 	"github.com/gorilla/mux"
-	"github.com/hawkkiller/wtc_system/recipe_service/internal/config"
-	"github.com/hawkkiller/wtc_system/recipe_service/internal/recipe"
-	_ "github.com/hawkkiller/wtc_system/recipe_service/internal/recipe"
-	"github.com/hawkkiller/wtc_system/recipe_service/internal/recipe/db"
-	"github.com/hawkkiller/wtc_system/recipe_service/pkg/client/postgresql"
-	"github.com/hawkkiller/wtc_system/recipe_service/pkg/logging"
-	"github.com/hawkkiller/wtc_system/recipe_service/pkg/shutdown"
 	"net/http"
 	"os"
 	"syscall"
@@ -34,8 +35,16 @@ func main() {
 		logger.Println("failed to connect to postgresql")
 		logger.Error(err)
 	}
+	logger.Println("s3 initializing")
 
-	recipeStorage := db.NewStorage(postgresqlClient, logger)
+	awsCfg, err := aws.NewS3(cfg.AwsCfg)
+
+	if err != nil {
+		logger.Fatal(err)
+	}
+	logger.Println("s3 initialized")
+
+	recipeStorage := db.NewStorage(postgresqlClient, logger, awsCfg)
 
 	recipeService, err := recipe.NewService(recipeStorage, logger)
 

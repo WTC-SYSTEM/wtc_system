@@ -1,12 +1,19 @@
 package recipe
 
 import (
+	"bytes"
+	"encoding/json"
+	"github.com/WTC-SYSTEM/wtc_system/recipe_service/internal/apperror"
+	"github.com/WTC-SYSTEM/wtc_system/recipe_service/pkg/logging"
+	"github.com/WTC-SYSTEM/wtc_system/recipe_service/pkg/utils"
 	"github.com/go-playground/validator/v10"
 	"github.com/gorilla/mux"
-	"github.com/hawkkiller/wtc_system/recipe_service/internal/apperror"
-	"github.com/hawkkiller/wtc_system/recipe_service/pkg/logging"
+	"io/ioutil"
+	"mime/multipart"
 	"net/http"
+	"runtime/debug"
 	"strconv"
+	"strings"
 )
 
 const (
@@ -26,33 +33,121 @@ func (h *Handler) Register(router *mux.Router) {
 
 // CreateRecipe create recipe
 func (h *Handler) CreateRecipe(w http.ResponseWriter, r *http.Request) error {
-	//var recipe Recipe
-	//if err := json.NewDecoder(r.Body).Decode(&recipe); err != nil {
-	//	h.Logger.Error(err)
-	//	return apperror.BadRequestError("invalid json")
-	//}
+	defer func() {
+		if err := recover(); err != nil {
+			h.Logger.Error(err, debug.Stack())
+		}
+	}()
+	var dto CreateRecipeDTO
 
 	err := r.ParseMultipartForm(32 << 20)
 	if err != nil {
 		return err
 	}
-	_, f, err := r.FormFile("image")
+	var stepsCount int
+	for s := range r.MultipartForm.Value {
+		if strings.Contains(s, "step") {
+			stepsCount++
+		}
+	}
+
+	// get recipe-data and decode json in multipart form
+	err = func() error {
+		v := r.MultipartForm.Value["recipe-data"][0]
+		d := json.NewDecoder(bytes.NewReader([]byte(v)))
+		err = d.Decode(&dto)
+		if err != nil {
+			return err
+		}
+		return nil
+	}()
 	if err != nil {
 		return err
 	}
-	w.Write([]byte(strconv.FormatInt(f.Size, 10)))
-	//if err := h.Validator.Struct(recipe); err != nil {
-	//	h.Logger.Error(err)
-	//	w.WriteHeader(http.StatusBadRequest)
-	//	return
-	//}
 
-	//if err := h.RecipeService.CreateRecipe(recipe); err != nil {
-	//	h.Logger.Error(err)
-	//	w.WriteHeader(http.StatusInternalServerError)
-	//	return
-	//}
+	for _, f := range r.MultipartForm.File["recipe-photos"] {
+		err := func() error {
+			open, err := f.Open()
+			if err != nil {
+				return err
+			}
+			defer func(open multipart.File) {
+				err := open.Close()
+				if err != nil {
+					h.Logger.Errorf(err.Error())
+				}
+			}(open)
+			r, err := ioutil.ReadAll(open)
+			if err != nil {
+				h.Logger.Errorf(err.Error())
+				return err
+			}
 
+			dto.Photos = append(dto.Photos, Photo{
+				MimeType: http.DetectContentType(r),
+				Filename: utils.FileNameWithoutExtSliceNotation(f.Filename),
+				Size:     f.Size,
+				Data:     r,
+			})
+			return nil
+		}()
+		if err != nil {
+			return err
+		}
+	}
+	for i := 0; i < stepsCount; i++ {
+		dto.Steps = append(dto.Steps, CreateStepDTO{})
+		// read step-i-data and decode json in multipart form
+		err := func() error {
+			v := r.MultipartForm.Value["step-"+strconv.Itoa(i+1)+"-data"][0]
+			if err != nil {
+				return err
+			}
+			d := json.NewDecoder(bytes.NewReader([]byte(v)))
+			err = d.Decode(&dto.Steps[i])
+			if err != nil {
+				return err
+			}
+			return nil
+		}()
+		if err != nil {
+			return err
+		}
+		for _, f := range r.MultipartForm.File["step-"+strconv.Itoa(i+1)+"-photos"] {
+			err := func() error {
+				open, err := f.Open()
+				if err != nil {
+					return err
+				}
+				defer func(open multipart.File) {
+					err := open.Close()
+					if err != nil {
+						h.Logger.Errorf(err.Error())
+					}
+				}(open)
+				r, err := ioutil.ReadAll(open)
+				if err != nil {
+					return err
+				}
+				dto.Steps[i].Photos = append(dto.Steps[i].Photos, Photo{
+					MimeType: http.DetectContentType(r),
+					Filename: utils.FileNameWithoutExtSliceNotation(f.Filename),
+					Size:     f.Size,
+					Data:     r,
+				})
+				return nil
+			}()
+			if err != nil {
+				return err
+			}
+		}
+
+	}
+	if err := h.RecipeService.Create(r.Context(), dto); err != nil {
+		return err
+	}
 	w.WriteHeader(http.StatusCreated)
 	return nil
 }
+
+// Update Recipe

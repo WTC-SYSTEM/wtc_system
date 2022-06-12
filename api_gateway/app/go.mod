@@ -1,4 +1,4 @@
-module github.com/hawkkiller/wtc_system/api_gateway
+module github.com/WTC-SYSTEM/wtc_system/api_gateway
 
 go 1.18
 

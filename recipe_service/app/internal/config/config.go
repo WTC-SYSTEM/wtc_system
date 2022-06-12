@@ -1,7 +1,7 @@
 package config
 
 import (
-	"github.com/hawkkiller/wtc_system/recipe_service/pkg/logging"
+	"github.com/WTC-SYSTEM/wtc_system/recipe_service/pkg/logging"
 	"github.com/ilyakaznacheev/cleanenv"
 	"sync"
 )
@@ -13,6 +13,7 @@ type Config struct {
 		Port   string `yaml:"port" env-default:"8080"`
 	}
 	Storage StorageConfig `yaml:"storage"`
+	AwsCfg  AwsConfig     `yaml:"aws"`
 }
 
 type StorageConfig struct {
@@ -22,6 +23,13 @@ type StorageConfig struct {
 	Username    string `yaml:"username" env:"DB_USERNAME" env-required:"true"`
 	Password    string `yaml:"password" env:"DB_PASSWORD" env-required:"true"`
 	MaxAttempts int8   `yaml:"maxAttempts" env:"DB_MAX_ATTEMPTS" env-default:"5"`
+}
+
+type AwsConfig struct {
+	AccessKeyID     string `yaml:"accessKeyID" env:"AWS_ACCESS_KEY_ID" env-required:"true"`
+	SecretAccessKey string `yaml:"secretAccessKey" env:"AWS_SECRET_ACCESS_KEY" env-required:"true"`
+	Region          string `yaml:"region" env:"AWS_REGION" env-required:"true"`
+	Bucket          string `yaml:"bucket" env:"AWS_BUCKET" env-required:"true"`
 }
 
 var instance *Config

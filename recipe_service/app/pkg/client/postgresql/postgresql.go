@@ -3,8 +3,8 @@ package postgresql
 import (
 	"context"
 	"fmt"
-	"github.com/hawkkiller/wtc_system/recipe_service/internal/config"
-	repeatable "github.com/hawkkiller/wtc_system/recipe_service/pkg/utils"
+	"github.com/WTC-SYSTEM/wtc_system/recipe_service/internal/config"
+	repeatable "github.com/WTC-SYSTEM/wtc_system/recipe_service/pkg/utils"
 	"github.com/jackc/pgconn"
 	"github.com/jackc/pgx/v4"
 	"github.com/jackc/pgx/v4/pgxpool"

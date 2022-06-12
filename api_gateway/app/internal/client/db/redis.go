@@ -1,8 +1,8 @@
 package redis
 
 import (
+	"github.com/WTC-SYSTEM/wtc_system/api_gateway/internal/config"
 	"github.com/go-redis/redis/v9"
-	"github.com/hawkkiller/wtc_system/api_gateway/internal/config"
 )
 
 func NewClient(config *config.Config) *redis.Client {

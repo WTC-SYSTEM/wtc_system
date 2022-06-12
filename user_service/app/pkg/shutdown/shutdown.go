@@ -1,7 +1,7 @@
 package shutdown
 
 import (
-	"github.com/hawkkiller/wtc_system/user_service/pkg/logging"
+	"github.com/WTC-SYSTEM/wtc_system/user_service/pkg/logging"
 	"io"
 	"os"
 	"os/signal"

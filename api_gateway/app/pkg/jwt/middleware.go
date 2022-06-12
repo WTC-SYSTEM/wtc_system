@@ -3,9 +3,9 @@ package jwt
 import (
 	"context"
 	"encoding/json"
+	"github.com/WTC-SYSTEM/wtc_system/api_gateway/internal/config"
+	"github.com/WTC-SYSTEM/wtc_system/api_gateway/pkg/logging"
 	"github.com/cristalhq/jwt/v3"
-	"github.com/hawkkiller/wtc_system/api_gateway/internal/config"
-	"github.com/hawkkiller/wtc_system/api_gateway/pkg/logging"
 	"net/http"
 	"strings"
 	"time"

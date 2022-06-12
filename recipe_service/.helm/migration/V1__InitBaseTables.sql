@@ -9,7 +9,8 @@ CREATE TABLE IF NOT EXISTS recipes
     calories    INTEGER,
     tags        TEXT[],
     photos      TEXT[],
-    takes_time  INTEGER
+    takes_time  INTEGER,
+    user_id     TEXT
 );
 
 CREATE TABLE IF NOT EXISTS steps

@@ -3,13 +3,13 @@ package jwt
 import (
 	"context"
 	"encoding/json"
+	"github.com/WTC-SYSTEM/wtc_system/api_gateway/internal/apperror"
+	"github.com/WTC-SYSTEM/wtc_system/api_gateway/internal/client/user_service"
+	"github.com/WTC-SYSTEM/wtc_system/api_gateway/internal/config"
+	"github.com/WTC-SYSTEM/wtc_system/api_gateway/pkg/logging"
 	"github.com/cristalhq/jwt/v3"
 	"github.com/go-redis/redis/v9"
 	"github.com/google/uuid"
-	"github.com/hawkkiller/wtc_system/api_gateway/internal/apperror"
-	"github.com/hawkkiller/wtc_system/api_gateway/internal/client/user_service"
-	"github.com/hawkkiller/wtc_system/api_gateway/internal/config"
-	"github.com/hawkkiller/wtc_system/api_gateway/pkg/logging"
 	"time"
 )
 

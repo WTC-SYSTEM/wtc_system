@@ -2,8 +2,8 @@ package user
 
 import (
 	"context"
-	"github.com/hawkkiller/wtc_system/user_service/internal/apperror"
-	"github.com/hawkkiller/wtc_system/user_service/pkg/logging"
+	"github.com/WTC-SYSTEM/wtc_system/user_service/internal/apperror"
+	"github.com/WTC-SYSTEM/wtc_system/user_service/pkg/logging"
 	"golang.org/x/crypto/bcrypt"
 )
 
