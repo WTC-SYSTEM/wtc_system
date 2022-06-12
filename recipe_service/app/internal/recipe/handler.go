@@ -54,9 +54,6 @@ func (h *Handler) CreateRecipe(w http.ResponseWriter, r *http.Request) error {
 	// get recipe-data and decode json in multipart form
 	err = func() error {
 		v := r.MultipartForm.Value["recipe-data"][0]
-		if err != nil {
-			return err
-		}
 		d := json.NewDecoder(bytes.NewReader([]byte(v)))
 		err = d.Decode(&dto)
 		if err != nil {
@@ -152,3 +149,5 @@ func (h *Handler) CreateRecipe(w http.ResponseWriter, r *http.Request) error {
 	w.WriteHeader(http.StatusCreated)
 	return nil
 }
+
+// Update Recipe
