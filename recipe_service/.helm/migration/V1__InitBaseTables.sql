@@ -7,10 +7,9 @@ CREATE TABLE IF NOT EXISTS recipes
     updated_at  TIMESTAMP NOT NULL DEFAULT now(),
     deleted_at  TIMESTAMP,
     calories    INTEGER,
-    tags        TEXT[],
-    photos      TEXT[],
     takes_time  INTEGER,
-    user_id     TEXT
+    user_id     TEXT,
+    hidden      BOOLEAN
 );
 
 CREATE TABLE IF NOT EXISTS steps
@@ -19,11 +18,40 @@ CREATE TABLE IF NOT EXISTS steps
     recipe_id   UUID    NOT NULL,
     title       TEXT    NOT NULL,
     description TEXT    NOT NULL,
-    photo       TEXT,
     takes_time  INTEGER,
     required    BOOLEAN NOT NULL DEFAULT true,
     CONSTRAINT fk_recipe_id FOREIGN KEY (recipe_id)
         REFERENCES recipes (id)
+        ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS recipe_photos
+(
+    id        UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    recipe_id UUID NOT NULL,
+    url       TEXT NOT NULL,
+    CONSTRAINT fk_recipe_id FOREIGN KEY (recipe_id)
+        REFERENCES recipes (id)
+        ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS recipe_tags
+(
+    id        UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    recipe_id UUID        NOT NULL,
+    tag       VARCHAR(30) NOT NULL,
+    CONSTRAINT fk_recipe_id FOREIGN KEY (recipe_id)
+        REFERENCES recipes (id)
+        ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS step_photos
+(
+    id      UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    step_id UUID NOT NULL,
+    url     TEXT NOT NULL,
+    CONSTRAINT fk_recipe_id FOREIGN KEY (step_id)
+        REFERENCES steps (id)
         ON DELETE CASCADE
 );
 

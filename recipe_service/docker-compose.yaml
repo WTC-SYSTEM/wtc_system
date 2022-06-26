@@ -7,14 +7,14 @@ services:
       - db
       - flyway-migration
     networks:
-      - backend
+      - wtcnet
     build:
       context: .
       dockerfile: Dockerfile
     container_name: recipe-microservice
     environment:
       DB_HOST: db
-      DB_PORT: 5432
+      DB_PORT: 5445
       DB_DATABASE: postgres
       DB_USERNAME: postgres
       DB_PASSWORD: postgres
@@ -30,32 +30,34 @@ services:
     environment:
       - FLYWAY_USER=postgres
       - FLYWAY_PASSWORD=postgres
-      - FLYWAY_URL=jdbc:postgresql://db:5432/postgres
+      - FLYWAY_URL=jdbc:postgresql://db:5445/postgres
       - FLYWAY_SCHEMAS=public
     volumes:
       - ./.helm/migration:/flyway/sql
     command:
       - migrate
     networks:
-      - backend
+      - wtcnet
   db:
     image: postgres:latest
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:5455" ]
+      test: [ "CMD", "curl", "-f", "http://localhost:5445" ]
       interval: 30s
       timeout: 10s
       retries: 5
     networks:
-      - backend
+      - wtcnet
     volumes:
-      - ./.db
+      - .:/data/db
     environment:
       POSTGRES_PASSWORD: postgres
       POSTGRES_USER: postgres
       POSTGRES_DB: postgres
       PGDATA: /tmp
     command: -p 5445
+    ports:
+      - "5445:5445"
 
 networks:
-  backend:
+  wtcnet:
     external: true
