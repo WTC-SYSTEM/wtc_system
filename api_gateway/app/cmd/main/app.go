@@ -8,8 +8,8 @@ import (
 	"github.com/WTC-SYSTEM/wtc_system/api_gateway/internal/config"
 	"github.com/WTC-SYSTEM/wtc_system/api_gateway/internal/handlers/auth"
 	"github.com/WTC-SYSTEM/wtc_system/api_gateway/pkg/jwt"
-	"github.com/WTC-SYSTEM/wtc_system/api_gateway/pkg/logging"
-	"github.com/WTC-SYSTEM/wtc_system/api_gateway/pkg/shutdown"
+	"github.com/WTC-SYSTEM/wtc_system/libs/logging"
+	"github.com/WTC-SYSTEM/wtc_system/libs/utils"
 	"github.com/gorilla/mux"
 	"net/http"
 	"os"
@@ -58,7 +58,7 @@ func start(router http.Handler, logger logging.Logger, cfg *config.Config) {
 		ReadTimeout:  15 * time.Second,
 	}
 
-	go shutdown.Graceful(
+	go utils.Graceful(
 		[]os.Signal{
 			syscall.SIGABRT,
 			syscall.SIGQUIT,

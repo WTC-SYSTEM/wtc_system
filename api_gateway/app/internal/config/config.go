@@ -1,7 +1,7 @@
 package config
 
 import (
-	"github.com/WTC-SYSTEM/wtc_system/api_gateway/pkg/logging"
+	"github.com/WTC-SYSTEM/wtc_system/libs/logging"
 	"github.com/ilyakaznacheev/cleanenv"
 	"sync"
 )

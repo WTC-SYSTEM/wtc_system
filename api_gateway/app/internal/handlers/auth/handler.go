@@ -6,7 +6,7 @@ import (
 	"github.com/WTC-SYSTEM/wtc_system/api_gateway/internal/apperror"
 	"github.com/WTC-SYSTEM/wtc_system/api_gateway/internal/client/user_service"
 	"github.com/WTC-SYSTEM/wtc_system/api_gateway/pkg/jwt"
-	"github.com/WTC-SYSTEM/wtc_system/api_gateway/pkg/logging"
+	"github.com/WTC-SYSTEM/wtc_system/libs/logging"
 	"github.com/gorilla/mux"
 	"net/http"
 )
