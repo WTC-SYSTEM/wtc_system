@@ -4,14 +4,14 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"github.com/WTC-SYSTEM/wtc_system/libs/logging"
+	"github.com/WTC-SYSTEM/wtc_system/libs/utils"
 	"github.com/WTC-SYSTEM/wtc_system/recipe_service/internal/config"
 	"github.com/WTC-SYSTEM/wtc_system/recipe_service/internal/recipe"
 	_ "github.com/WTC-SYSTEM/wtc_system/recipe_service/internal/recipe"
 	"github.com/WTC-SYSTEM/wtc_system/recipe_service/internal/recipe/db"
 	"github.com/WTC-SYSTEM/wtc_system/recipe_service/pkg/client/aws"
 	"github.com/WTC-SYSTEM/wtc_system/recipe_service/pkg/client/postgresql"
-	"github.com/WTC-SYSTEM/wtc_system/recipe_service/pkg/logging"
-	"github.com/WTC-SYSTEM/wtc_system/recipe_service/pkg/shutdown"
 	"github.com/go-playground/validator/v10"
 	"github.com/gorilla/mux"
 	"net/http"
@@ -75,7 +75,7 @@ func start(router http.Handler, logger logging.Logger, cfg *config.Config) {
 		ReadTimeout:  15 * time.Second,
 	}
 
-	go shutdown.Graceful(
+	go utils.Graceful(
 		[]os.Signal{
 			syscall.SIGABRT,
 			syscall.SIGQUIT,

@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/WTC-SYSTEM/wtc_system/api_gateway/pkg/logging"
+	"github.com/WTC-SYSTEM/wtc_system/libs/logging"
 	"net/http"
 	"net/url"
 	"path"

@@ -10,19 +10,20 @@ type Recipe struct {
 	Steps       []Step        `json:"steps"`
 	Photos      []string      `json:"photos"` // S3 Bucket URLs of photos
 	Tags        []string      `json:"tags"`
-	TakesTime   time.Duration `json:"takes_time"` // how much time is needed to complete this recipe in minutes
+	TakesTime   time.Duration `json:"takes_time"`
+	Hidden      bool          `json:"hidden"`
 	CreatedAt   int           `json:"created_at"`
 	UpdatedAt   int           `json:"updated_at"`
 	DeletedAt   int           `json:"deleted_at"`
 }
 
 type Step struct {
-	ID          string        `json:"id"`
-	RecipeID    string        `json:"recipe_id"`
+	ID          string        `json:"id,omitempty"`
+	RecipeID    string        `json:"recipe_id,omitempty"`
 	Title       string        `json:"title"`
 	Description string        `json:"description"`
-	Photos      []string      `json:"photos"`     // S3 Bucket URL of a photo
-	TakesTime   time.Duration `json:"takes_time"` // how much time is needed to complete this step in minutes
+	Photos      []string      `json:"photos"` // S3 Bucket URL of a photo
+	TakesTime   time.Duration `json:"takes_time"`
 	Required    bool          `json:"required"`
 }
 
@@ -31,16 +32,36 @@ type CreateRecipeDTO struct {
 	Description string          `json:"description"`
 	Calories    int             `json:"calories"`
 	Steps       []CreateStepDTO `json:"steps"`
-	Photos      []Photo         `json:"photos"` // raw photos
+	Photos      []string        `json:"photos"` // raw photos
 	Tags        []string        `json:"tags"`
-	TakesTime   time.Duration   `json:"takes_time"` // how much time is needed to complete this recipe in minutes
+	TakesTime   time.Duration   `json:"takes_time"`
+	Hidden      bool            `json:"hidden"`
+}
+
+type EditRecipeDTO struct {
+	Title       string        `json:"title"`
+	Description string        `json:"description"`
+	Calories    int           `json:"calories"`
+	Steps       []EditStepDTO `json:"steps"`
+	Photos      []string      `json:"photos"` // raw photos
+	Tags        []string      `json:"tags"`
+	TakesTime   time.Duration `json:"takes_time"`
+	Hidden      bool          `json:"hidden"`
+}
+
+type EditStepDTO struct {
+	Title       string        `json:"title"`
+	Description string        `json:"description"`
+	Photos      []string      `json:"photos"` // raw photo
+	TakesTime   time.Duration `json:"takes_time"`
+	Required    bool          `json:"required"`
 }
 
 type CreateStepDTO struct {
 	Title       string        `json:"title"`
 	Description string        `json:"description"`
-	Photos      []Photo       `json:"photos"`     // raw photo
-	TakesTime   time.Duration `json:"takes_time"` // how much time is needed to complete this step in minutes
+	Photos      []string      `json:"photos"` // raw photo
+	TakesTime   time.Duration `json:"takes_time"`
 	Required    bool          `json:"required"`
 }
 
@@ -61,6 +82,16 @@ func (s CreateStepDTO) ToStep() Step {
 	}
 }
 
+func (s EditStepDTO) ToStep() Step {
+	return Step{
+		Title:       s.Title,
+		Description: s.Description,
+		Photos:      []string{},
+		TakesTime:   s.TakesTime,
+		Required:    s.Required,
+	}
+}
+
 func (r CreateRecipeDTO) ToRecipe() Recipe {
 	return Recipe{
 		Title:       r.Title,
@@ -70,5 +101,19 @@ func (r CreateRecipeDTO) ToRecipe() Recipe {
 		Photos:      []string{},
 		Tags:        r.Tags,
 		TakesTime:   r.TakesTime,
+		Hidden:      r.Hidden,
+	}
+}
+
+func (r EditRecipeDTO) ToRecipe() Recipe {
+	return Recipe{
+		Title:       r.Title,
+		Description: r.Description,
+		Calories:    r.Calories,
+		Steps:       []Step{},
+		Photos:      []string{},
+		Tags:        r.Tags,
+		TakesTime:   r.TakesTime,
+		Hidden:      r.Hidden,
 	}
 }
