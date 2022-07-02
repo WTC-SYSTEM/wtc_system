@@ -3,7 +3,8 @@ module github.com/WTC-SYSTEM/wtc_system/photo_service
 go 1.18
 
 require (
-	github.com/WTC-SYSTEM/wtc_system/libs/utils v0.0.0-00010101000000-000000000000
+	github.com/WTC-SYSTEM/wtc_system/libs/utils latest
+	github.com/WTC-SYSTEM/wtc_system/libs/logging latest
 	github.com/aws/aws-sdk-go v1.44.47
 	github.com/go-playground/validator/v10 v10.11.0
 	github.com/gorilla/mux v1.8.0
@@ -24,6 +25,3 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	olympos.io/encoding/edn v0.0.0-20201019073823-d3554ca0b0a3 // indirect
 )
-
-replace github.com/WTC-SYSTEM/wtc_system/libs/utils => ../../libs/utils
-replace github.com/WTC-SYSTEM/wtc_system/libs/logging => ../../libs/logging
