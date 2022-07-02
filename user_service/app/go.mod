@@ -3,8 +3,8 @@ module github.com/WTC-SYSTEM/wtc_system/user_service
 go 1.18
 
 require (
-	github.com/WTC-SYSTEM/wtc_system/libs/logging v0.0.0-00010101000000-000000000000
-	github.com/WTC-SYSTEM/wtc_system/libs/utils v0.0.0-00010101000000-000000000000
+	github.com/WTC-SYSTEM/wtc_system/libs/logging v0.0.0-20220702174402-8bce3a3a771f
+	github.com/WTC-SYSTEM/wtc_system/libs/utils v0.0.0-20220702174402-8bce3a3a771f
 	github.com/go-playground/validator/v10 v10.11.0
 	github.com/gorilla/mux v1.8.0
 	github.com/ilyakaznacheev/cleanenv v1.2.6
@@ -32,7 +32,3 @@ require (
 	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b // indirect
 	olympos.io/encoding/edn v0.0.0-20201019073823-d3554ca0b0a3 // indirect
 )
-
-replace github.com/WTC-SYSTEM/wtc_system/libs/utils => ../../libs/utils
-
-replace github.com/WTC-SYSTEM/wtc_system/libs/logging => ../../libs/logging
