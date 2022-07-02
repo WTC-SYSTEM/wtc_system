@@ -3,13 +3,13 @@ module github.com/WTC-SYSTEM/wtc_system/photo_service
 go 1.18
 
 require (
-	github.com/WTC-SYSTEM/wtc_system/libs/utils latest
-	github.com/WTC-SYSTEM/wtc_system/libs/logging latest
+	github.com/WTC-SYSTEM/wtc_system/libs/logging v0.0.0-20220702180609-e8436e93ead9
+	github.com/WTC-SYSTEM/wtc_system/libs/utils v0.0.0-20220702180609-e8436e93ead9
 	github.com/aws/aws-sdk-go v1.44.47
 	github.com/go-playground/validator/v10 v10.11.0
+	github.com/google/uuid v1.3.0
 	github.com/gorilla/mux v1.8.0
 	github.com/ilyakaznacheev/cleanenv v1.3.0
-	github.com/sirupsen/logrus v1.8.1
 )
 
 require (
@@ -19,6 +19,7 @@ require (
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
 	github.com/joho/godotenv v1.4.0 // indirect
 	github.com/leodido/go-urn v1.2.1 // indirect
+	github.com/sirupsen/logrus v1.8.1 // indirect
 	golang.org/x/crypto v0.0.0-20211215153901-e495a2d5b3d3 // indirect
 	golang.org/x/sys v0.0.0-20220627191245-f75cf1eec38b // indirect
 	golang.org/x/text v0.3.7 // indirect
