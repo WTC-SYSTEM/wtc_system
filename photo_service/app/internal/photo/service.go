@@ -33,7 +33,7 @@ func (s service) Upload(ctx context.Context, dto *UploadDTO) ([]UploadedItem, er
 			defer wg.Done()
 			url, err := s.storage.Create(ctx, photo.Bytes, dto.Folder)
 			if err != nil {
-				return
+				panic(err)
 			}
 			photos[i].Url = url
 			photos[i].Filename = photo.Filename

@@ -1,7 +1,7 @@
 ---
 
 aws:
-  accessKeyID: AKIA2NGGILWHEJRM3U4A
-  secretAccessKey: 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
-  region: us-east-2
-  bucket: wtc-recipe-bucket
+#  accessKeyID: AWS_ACCESS_KEY_ID
+#  secretAccessKey: AWS_SECRET_ACCESS_KEY
+#  region: AWS_REGION
+#  bucket: AWS_BUCKET

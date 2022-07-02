@@ -1,5 +1,8 @@
 version: "3"
-
+# to be launched with additional arguments like
+#AWS_ACCESS_KEY_ID=akeyId
+#AWS_SECRET_ACCESS_KEY=akey
+#AWS_REGION=region AWS_BUCKET=bucket docker compose up --build
 services:
   app:
     restart: on-failure
@@ -9,6 +12,11 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: photo-service
+    environment:
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_REGION=${AWS_REGION}
+      - AWS_BUCKET=${AWS_BUCKET}
     ports:
       - "8080:8080"
 
