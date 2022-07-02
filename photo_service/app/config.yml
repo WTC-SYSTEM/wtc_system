@@ -1,0 +1,7 @@
+---
+
+aws:
+  accessKeyID: AKIA2NGGILWHEJRM3U4A
+  secretAccessKey: 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
+  region: us-east-2
+  bucket: wtc-recipe-bucket

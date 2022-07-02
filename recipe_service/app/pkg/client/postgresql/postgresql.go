@@ -3,8 +3,8 @@ package postgresql
 import (
 	"context"
 	"fmt"
+	"github.com/WTC-SYSTEM/wtc_system/libs/utils"
 	"github.com/WTC-SYSTEM/wtc_system/recipe_service/internal/config"
-	repeatable "github.com/WTC-SYSTEM/wtc_system/recipe_service/pkg/utils"
 	"github.com/jackc/pgconn"
 	"github.com/jackc/pgx/v4"
 	"github.com/jackc/pgx/v4/pgxpool"
@@ -23,7 +23,7 @@ func NewClient(ctx context.Context, sc config.StorageConfig) (pool *pgxpool.Pool
 	dsn := fmt.Sprintf("postgresql://%s:%s@%s:%s/%s",
 		sc.Username, sc.Password, sc.Host, sc.Port, sc.Database,
 	)
-	err = repeatable.DoWithTries(func() error {
+	err = utils.DoWithTries(func() error {
 		log.Println("Trying to connect to ", dsn)
 		ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
 		defer cancel()

@@ -2,8 +2,8 @@ package recipe
 
 import (
 	"encoding/json"
+	"github.com/WTC-SYSTEM/wtc_system/libs/logging"
 	"github.com/WTC-SYSTEM/wtc_system/recipe_service/internal/apperror"
-	"github.com/WTC-SYSTEM/wtc_system/recipe_service/pkg/logging"
 	"github.com/go-playground/validator/v10"
 	"github.com/gorilla/mux"
 	"net/http"

@@ -1,17 +1,13 @@
 package main
 
 import (
-	"context"
 	"errors"
 	"fmt"
 	"github.com/WTC-SYSTEM/wtc_system/libs/logging"
 	"github.com/WTC-SYSTEM/wtc_system/libs/utils"
-	"github.com/WTC-SYSTEM/wtc_system/recipe_service/internal/config"
-	"github.com/WTC-SYSTEM/wtc_system/recipe_service/internal/recipe"
-	_ "github.com/WTC-SYSTEM/wtc_system/recipe_service/internal/recipe"
-	"github.com/WTC-SYSTEM/wtc_system/recipe_service/internal/recipe/db"
-	"github.com/WTC-SYSTEM/wtc_system/recipe_service/pkg/client/aws"
-	"github.com/WTC-SYSTEM/wtc_system/recipe_service/pkg/client/postgresql"
+	"github.com/WTC-SYSTEM/wtc_system/photo_service/internal/config"
+	"github.com/WTC-SYSTEM/wtc_system/photo_service/internal/photo"
+	"github.com/WTC-SYSTEM/wtc_system/photo_service/pkg/client/aws"
 	"github.com/go-playground/validator/v10"
 	"github.com/gorilla/mux"
 	"net/http"
@@ -30,11 +26,6 @@ func main() {
 	logger.Println("router initializing")
 	router := mux.NewRouter()
 
-	postgresqlClient, err := postgresql.NewClient(context.Background(), cfg.Storage)
-	if err != nil {
-		logger.Println("failed to connect to postgresql")
-		logger.Error(err)
-	}
 	logger.Println("s3 initializing")
 
 	awsCfg, err := aws.NewS3(cfg.AwsCfg)
@@ -44,23 +35,17 @@ func main() {
 	}
 	logger.Println("s3 initialized")
 
-	recipeStorage := db.NewStorage(postgresqlClient, logger, awsCfg)
+	storage := photo.NewStorage(logger, awsCfg)
 
-	recipeService, err := recipe.NewService(recipeStorage, logger)
+	service := photo.NewService(storage, logger)
 
-	if err != nil {
-		logger.Fatal(err)
-	}
-
-	recipeHandler := recipe.Handler{
-		Logger:        logger,
-		RecipeService: recipeService,
-		Validator:     validator.New(),
-	}
-
-	recipeHandler.Register(router)
-
-	logger.Println("Start recipe service")
+	handler := photo.NewHandler(
+		logger,
+		service,
+		validator.New(),
+	)
+	handler.Register(router)
+	logger.Println("Start photos service")
 
 	start(router, logger, cfg)
 }

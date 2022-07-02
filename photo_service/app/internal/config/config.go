@@ -12,17 +12,7 @@ type Config struct {
 		BindIP string `yaml:"bind_ip" env-default:"localhost"`
 		Port   string `yaml:"port" env-default:"8080"`
 	}
-	Storage StorageConfig `yaml:"storage"`
-	AwsCfg  AwsConfig     `yaml:"aws"`
-}
-
-type StorageConfig struct {
-	Host        string `yaml:"host" env:"DB_HOST" env-required:"true"`
-	Port        string `yaml:"port" env:"DB_PORT" env-required:"true"`
-	Database    string `yaml:"database" env:"DB_DATABASE" env-required:"true"`
-	Username    string `yaml:"username" env:"DB_USERNAME" env-required:"true"`
-	Password    string `yaml:"password" env:"DB_PASSWORD" env-required:"true"`
-	MaxAttempts int8   `yaml:"maxAttempts" env:"DB_MAX_ATTEMPTS" env-default:"5"`
+	AwsCfg AwsConfig `yaml:"aws"`
 }
 
 type AwsConfig struct {

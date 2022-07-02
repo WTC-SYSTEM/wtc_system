@@ -3,7 +3,7 @@ package recipe
 import (
 	"context"
 	"encoding/base64"
-	"github.com/WTC-SYSTEM/wtc_system/recipe_service/pkg/logging"
+	"github.com/WTC-SYSTEM/wtc_system/libs/logging"
 )
 
 type service struct {
