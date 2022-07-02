@@ -120,6 +120,5 @@ func (h *handler) UploadPhoto(w http.ResponseWriter, r *http.Request) error {
 	if _, err := w.Write(res); err != nil {
 		return err
 	}
-	w.WriteHeader(http.StatusCreated)
 	return nil
 }
