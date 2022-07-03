@@ -24,5 +24,15 @@ spec:
         - name: {{ .Release.Name }}-container
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.container.pullPolicy }}
+          env:
+            - name: AWS_ACCESS_KEY_ID
+              value: {{ .Values.aws.accessKeyId }}
+            - name: AWS_SECRET_ACCESS_KEY
+              value: {{ .Values.aws.secretAccessKey }}
+            - name: AWS_REGION
+              value: {{ .Values.aws.region }}
+            - name: AWS_S3_BUCKET
+              value: {{ .Values.aws.bucket }}
+
           ports:
             - containerPort: {{ .Values.container.targetPort }}
