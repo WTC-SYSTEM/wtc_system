@@ -20,6 +20,9 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
+      - name: 🚘Log tag
+        run: echo ${{ inputs.tag }}
+
       - name: 🚛Checkout code
         uses: actions/checkout@v2
 
