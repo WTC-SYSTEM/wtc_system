@@ -1,50 +1,23 @@
 package db
 
 import (
-	"bytes"
 	"context"
-	"fmt"
 	sq "github.com/Masterminds/squirrel"
 	"github.com/WTC-SYSTEM/wtc_system/libs/logging"
 	"github.com/WTC-SYSTEM/wtc_system/recipe_service/internal/recipe"
-	"github.com/WTC-SYSTEM/wtc_system/recipe_service/pkg/client/aws"
 	"github.com/WTC-SYSTEM/wtc_system/recipe_service/pkg/client/postgresql"
-	"github.com/aws/aws-sdk-go/service/s3"
-	uuid2 "github.com/google/uuid"
-	"net/http"
-	"strconv"
-	"time"
 )
 
 type db struct {
 	client postgresql.Client
 	logger logging.Logger
-	awsCfg aws.Aws
 }
 
-func NewStorage(c postgresql.Client, l logging.Logger, awsCfg aws.Aws) recipe.Storage {
+func NewStorage(c postgresql.Client, l logging.Logger) recipe.Storage {
 	return &db{
 		client: c,
 		logger: l,
-		awsCfg: awsCfg,
 	}
-}
-
-func (d db) UploadFile(ctx context.Context, photo []byte, folder string) (string, error) {
-	uniq, _ := uuid2.NewUUID()
-	fName := folder + "/" + uniq.String() + "-" + strconv.FormatInt(time.Now().Unix(), 10) + ".jpg"
-	ct := http.DetectContentType(photo)
-	params := &s3.PutObjectInput{
-		Bucket:      &d.awsCfg.Config.Bucket,
-		Key:         &fName,
-		Body:        bytes.NewReader(photo),
-		ContentType: &ct,
-	}
-	_, err := d.awsCfg.S3.PutObject(params)
-	if err != nil {
-		return "", err
-	}
-	return fmt.Sprintf("https://%s.s3.%s.amazonaws.com/%s", d.awsCfg.Config.Bucket, d.awsCfg.Config.Region, fName), nil
 }
 
 func (d db) Create(ctx context.Context, r recipe.Recipe) error {

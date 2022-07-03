@@ -1,6 +1,9 @@
 package recipe
 
-import "time"
+import (
+	"github.com/WTC-SYSTEM/wtc_system/libs/utils"
+	"time"
+)
 
 type Recipe struct {
 	ID          string        `json:"id"`
@@ -76,7 +79,7 @@ func (s CreateStepDTO) ToStep() Step {
 	return Step{
 		Title:       s.Title,
 		Description: s.Description,
-		Photos:      []string{},
+		Photos:      s.Photos,
 		TakesTime:   s.TakesTime,
 		Required:    s.Required,
 	}
@@ -86,7 +89,7 @@ func (s EditStepDTO) ToStep() Step {
 	return Step{
 		Title:       s.Title,
 		Description: s.Description,
-		Photos:      []string{},
+		Photos:      s.Photos,
 		TakesTime:   s.TakesTime,
 		Required:    s.Required,
 	}
@@ -97,11 +100,13 @@ func (r CreateRecipeDTO) ToRecipe() Recipe {
 		Title:       r.Title,
 		Description: r.Description,
 		Calories:    r.Calories,
-		Steps:       []Step{},
-		Photos:      []string{},
-		Tags:        r.Tags,
-		TakesTime:   r.TakesTime,
-		Hidden:      r.Hidden,
+		Steps: utils.Map(r.Steps, func(s CreateStepDTO) Step {
+			return s.ToStep()
+		}),
+		Photos:    r.Photos,
+		Tags:      r.Tags,
+		TakesTime: r.TakesTime,
+		Hidden:    r.Hidden,
 	}
 }
 
@@ -110,10 +115,12 @@ func (r EditRecipeDTO) ToRecipe() Recipe {
 		Title:       r.Title,
 		Description: r.Description,
 		Calories:    r.Calories,
-		Steps:       []Step{},
-		Photos:      []string{},
-		Tags:        r.Tags,
-		TakesTime:   r.TakesTime,
-		Hidden:      r.Hidden,
+		Steps: utils.Map(r.Steps, func(s EditStepDTO) Step {
+			return s.ToStep()
+		}),
+		Photos:    r.Photos,
+		Tags:      r.Tags,
+		TakesTime: r.TakesTime,
+		Hidden:    r.Hidden,
 	}
 }
