@@ -31,7 +31,7 @@ spec:
               value: {{ .Values.aws.secretAccessKey }}
             - name: AWS_REGION
               value: {{ .Values.aws.region }}
-            - name: AWS_S3_BUCKET
+            - name: AWS_BUCKET
               value: {{ .Values.aws.bucket }}
 
           ports:
