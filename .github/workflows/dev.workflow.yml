@@ -8,33 +8,24 @@ on:
 jobs:
   
   api-gateway-build:
-    uses: ./.github/workflows/reusable-build.workflow.yml
+    uses: ./.github/workflows/reusable_build.workflow.yml
     with:
       service_name: api_gateway
       context: api_gateway/
     secrets: inherit
-#    runs-on: ubuntu-latest
-#    needs: [ user-service ]
-#    steps:
-#      - name: 🚛Building and pushing to the dockerhub
-#
-#
-#      - name: 💎Install doctl
-#        uses: digitalocean/action-doctl@v2
-#        with:
-#          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
-#
-#      - name: 🍷Save DigitalOcean kubeconfig with short-lived credentials
-#        run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 k8s-wtc
-#
-#      - name: 🏋️Deploy
-#        run: |
-#          helm upgrade --install api-gateway -f api_gateway/.helm/values-dev.yaml \
-#          --set image.tag="${{ steps.vars.outputs.sha_short }}",redis.pswrd="${{ secrets.REDIS_PASSWORD }}" \
-#          --set jwt.secret=${{ secrets.JWT_SECRET }} api_gateway/.helm
+
+  api-gateway-deploy:
+    uses: ./.github/workflows/reusable_deploy.workflow.yml
+    needs:
+      - api-gateway-build
+    with:
+      service_name: api_gateway
+      tag: ${{ needs.api-gateway-build.outputs.tag }}
+    secrets: inherit
+
 
   user-service-build:
-    uses: ./.github/workflows/reusable-build.workflow.yml
+    uses: ./.github/workflows/reusable_build.workflow.yml
     with:
       service_name: user_service
       context: user_service/
