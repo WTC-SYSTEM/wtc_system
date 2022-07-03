@@ -18,6 +18,7 @@ jobs:
     uses: ./.github/workflows/reusable_deploy.workflow.yml
     needs:
       - api-gateway-build
+      - user-service-deploy
     with:
       service_name: api_gateway
       release_name: api-gateway
@@ -31,5 +32,15 @@ jobs:
     with:
       service_name: user_service
       context: user_service/
+    secrets: inherit
+
+  user-service-deploy:
+    uses: ./.github/workflows/reusable_deploy.workflow.yml
+    needs:
+      - user-service-build
+    with:
+      service_name: user_service
+      release_name: user-service
+      tag: ${{ needs.user-service-build.outputs.tag }}
     secrets: inherit
   # user-service
