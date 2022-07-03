@@ -1,0 +1,17 @@
+image:
+  repository: ""
+  tag: ""
+
+container:
+  port: 80
+  targetPort: 8080
+  pullPolicy: Always
+  restartPolicy: Always
+
+replicaCount: 1
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 4
+  targetCPUUtilizationPercentage: 80

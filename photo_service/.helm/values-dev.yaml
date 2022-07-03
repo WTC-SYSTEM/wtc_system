@@ -1,0 +1,17 @@
+image:
+  repository: michaellazebny/wtc_system.user_service
+  tag: ""
+
+container:
+  port: 80
+  targetPort: 8080
+  pullPolicy: Always
+  restartPolicy: Always
+
+replicaCount: 1
+
+autoscaling:
+  enabled: true
+  minReplicas: 1
+  maxReplicas: 4
+  targetCPUUtilizationPercentage: 80
