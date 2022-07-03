@@ -34,13 +34,12 @@ jobs:
 
   user-service:
     runs-on: ubuntu-latest
+    uses: ./.github/workflows/reusable-build.workflow.yml@main
+    with:
+      service_name: user_service
+      context: user_service/
+      secrets: inherit
     steps:
-      - uses: ./.github/workflows/reusable-build.workflow.yml@main
-        with:
-          service_name: user_service
-          context: user_service/
-          secrets: inherit
-
       - name: 💎Install doctl
         uses: digitalocean/action-doctl@v2
         with:
