@@ -1,0 +1,41 @@
+name: Deploy service to k8s
+on:
+  workflow_call:
+    inputs:
+      tag:
+        required: true
+        type: string
+      service_name:
+        required: true
+        type: string
+      release_name:
+        required: true
+        type: string
+    secrets:
+      JWT_SECRET:
+        required: true
+      REDIS_PASSWORD:
+        required: true
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🚘Log tag
+        run: echo ${{ inputs.tag }}
+
+      - name: 🚛Checkout code
+        uses: actions/checkout@v2
+
+      - name: 💎Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+
+      - name: 🍷Save DigitalOcean kubeconfig with short-lived credentials
+        run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 k8s-wtc
+
+      - name: 🏋️Deploy
+        run: |
+          helm upgrade --install ${{ inputs.release_name }} -f ${{ inputs.service_name }}/.helm/values-dev.yaml \
+          --set image.tag="${{ inputs.tag }}",redis.pswrd="${{ secrets.REDIS_PASSWORD }}" \
+          --set jwt.secret=${{ secrets.JWT_SECRET }} ${{ inputs.service_name }}/.helm
