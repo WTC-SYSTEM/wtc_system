@@ -16,6 +16,7 @@ jobs:
         with:
           service_name: api_gateway
           context: api_gateway/
+          secrets: inherit
 
       - name: 💎Install doctl
         uses: digitalocean/action-doctl@v2
@@ -34,11 +35,11 @@ jobs:
   user-service:
     runs-on: ubuntu-latest
     steps:
-      - name: 🚛Building and pushing to the dockerhub
-        uses: WTC-SYSTEM/wtc_system/.github/workflows/reusable-build.workflow.yml@main
+      - uses: ./.github/workflows/reusable-build.workflow.yml@main
         with:
           service_name: user_service
           context: user_service/
+          secrets: inherit
 
       - name: 💎Install doctl
         uses: digitalocean/action-doctl@v2
