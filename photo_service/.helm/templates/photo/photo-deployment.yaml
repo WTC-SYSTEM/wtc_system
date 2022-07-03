@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-app-deploy
+  labels:
+    app: {{ .Release.Name }}-app-deploy
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+
+  selector:
+    matchLabels:
+      project: {{ .Release.Name }}-app-deploy
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        project: {{ .Release.Name }}-app-deploy
+    spec:
+      restartPolicy: {{ .Values.container.restartPolicy }}
+      containers:
+        - name: {{ .Release.Name }}-container
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.container.pullPolicy }}
+          env:
+            - name: AWS_ACCESS_KEY_ID
+              value: {{ .Values.aws.accessKeyId }}
+            - name: AWS_SECRET_ACCESS_KEY
+              value: {{ .Values.aws.secretAccessKey }}
+            - name: AWS_REGION
+              value: {{ .Values.aws.region }}
+            - name: AWS_BUCKET
+              value: {{ .Values.aws.bucket }}
+
+          ports:
+            - containerPort: {{ .Values.container.targetPort }}

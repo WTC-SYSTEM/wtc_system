@@ -1,0 +1,277 @@
+openapi: 3.0.0
+info:
+  description: Recipe social media.
+  title: WTC
+  version: 1.0.0
+tags:
+  - name: user-service
+    description: users service where users are stored
+  - name: api-gateway-service
+    description: api gateway pattern
+  - name: recipe-service
+    description: service where we can store, edit, etc. recipes
+  - name: photo-service
+    description: service that is used to upload photos
+paths:
+  /api/v1/users:
+    get:
+      tags:
+        - user-service
+      summary: Get user by email and password
+      operationId: getUserByEmailAndPassword
+      parameters:
+        - $ref: '#/components/parameters/EmailQueryParam'
+        - $ref: '#/components/parameters/PasswordQueryParam'
+      responses:
+        '200':
+          description: The request is right and the body is returned.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Wrong passed data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: User with that email not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      tags:
+        - user-service
+      summary: Create user
+      operationId: createUser
+      requestBody:
+        $ref: '#/components/requestBodies/UserDto'
+      responses:
+        '201':
+          description: User successfully created and UUID is returned.
+          headers:
+            Location:
+              schema:
+                type: string
+                example: /api/v1/users/ddcdb3d0-58d2-42c3-9358-417dc4139144
+              description: Where to locate after successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Wrong passed data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    patch:
+      tags:
+        - user-service
+      summary: Update user data
+      operationId: patchUserData
+      requestBody:
+        $ref: '#/components/requestBodies/User'
+      responses:
+        '202':
+          description: Successfully updated
+        '400':
+          description: Wrong passed data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/v1/users/{uuid}:
+    get:
+      tags:
+        - user-service
+      summary: Get user by UUID
+      operationId: getUserByUUID
+      parameters:
+        - $ref: '#/components/parameters/UUIDPathParam'
+      responses:
+        '200':
+          description: The request is right and the body is returned.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+  /api/v1/photo:
+    post:
+      tags:
+        - photo-service
+      summary: Upload photo(s)
+      operationId: uploadPhotos
+      requestBody:
+        $ref: '#/components/requestBodies/PhotosFormData'
+      responses:
+        '200':
+          description: "Returns array of uploaded photos in a right order"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UploadPhotosResponse'
+        '400':
+          description: "Passed data is wrong"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/signup:
+    post:
+      tags:
+        - api-gateway-service
+      operationId: apiGatewaySignup
+      requestBody:
+        $ref: '#/components/requestBodies/UserDto'
+      responses:
+        '201':
+          description: User was successfully created and access token returned
+        '400':
+          description: Wrong passed data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/auth:
+    post:
+      tags:
+        - api-gateway-service
+      operationId: apiGatewayAuth
+      requestBody:
+        $ref: '#/components/requestBodies/UserDto'
+      responses:
+        '201':
+          description: User was successfully authenticated and access token returned
+        '400':
+          description: Wrong passed data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  parameters:
+    EmailQueryParam:
+      name: email
+      in: query
+      schema:
+        type: string
+        example: qwerty@gmail.com
+      required: true
+      description: user email
+      allowEmptyValue: false
+    PasswordQueryParam:
+      name: password
+      in: query
+      schema:
+        type: string
+        example: qwerty123
+      description: user password
+      required: true
+      allowEmptyValue: false
+    UUIDPathParam:
+      name: uuid
+      in: path
+      schema:
+        type: string
+        example: c9e797be-fae0-41c2-a20e-315d98962b9c
+      required: true
+      allowEmptyValue: false
+  requestBodies:
+    PhotosFormData:
+      required: true
+      content:
+        multipart/form-data:
+          schema:
+            properties:
+              images:
+                type: array
+                items:
+                  type: string
+                  format: binary
+
+    UserDto:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UserDto'
+    User:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/User'
+    EmailPassword:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/EmailPassword'
+  schemas:
+    UploadPhotosResponse:
+      type: array
+      items:
+        $ref: '#/components/schemas/UploadedPhotoItem'
+
+    UploadedPhotoItem:
+      type: object
+      properties:
+        url:
+          type: string
+          description: the uploaded url to s3
+        filename:
+          type: string
+          description: the title of the uploaded file
+
+    UserDto:
+      type: object
+      properties:
+        username:
+          type: string
+          description: The user username
+        email:
+          type: string
+          description: The user email
+        password:
+          type: string
+          description: The user password
+    EmailPassword:
+      type: object
+      properties:
+        email:
+          type: string
+          description: The user email
+        password:
+          type: string
+          description: The user password
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The user uid
+        username:
+          type: string
+          description: The user username
+        email:
+          type: string
+          description: The user email
+        password:
+          type: string
+          description: The user password
+    ErrorResponse:
+      type: object
+      properties:
+        developer_message:
+          type: string
+          description: The message sent by developer
+        message:
+          type: string
+          description: The error's message
+        code:
+          type: string
+          description: The error code

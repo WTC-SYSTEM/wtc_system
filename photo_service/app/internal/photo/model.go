@@ -2,7 +2,6 @@ package photo
 
 import (
 	"fmt"
-	"sync"
 )
 
 type PhotoDTO struct {
@@ -17,5 +16,10 @@ func (p *PhotoDTO) String() string {
 
 type UploadDTO struct {
 	Photos []*PhotoDTO `json:"photos"`
-	Mutex  sync.Mutex
+	Folder string      `json:"folder"`
+}
+
+type UploadedItem struct {
+	Url      string `json:"url"`
+	Filename string `json:"filename"`
 }

@@ -16,6 +16,15 @@ on:
         required: true
       REDIS_PASSWORD:
         required: true
+      AWS_ACCESS_KEY_ID:
+        required: true
+      AWS_SECRET_ACCESS_KEY:
+        required: true
+      AWS_REGION:
+        required: true
+      AWS_BUCKET:
+        required: true
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -38,4 +47,5 @@ jobs:
         run: |
           helm upgrade --install ${{ inputs.release_name }} -f ${{ inputs.service_name }}/.helm/values-dev.yaml \
           --set image.tag="${{ inputs.tag }}",redis.pswrd="${{ secrets.REDIS_PASSWORD }}" \
+          --set aws.accessKeyId="${{ secrets.AWS_ACCESS_KEY_ID }}",aws.secretAccessKey="${{ secrets.AWS_SECRET_ACCESS_KEY }}",aws.region="${{ secrets.AWS_REGION }}",aws.bucket="${{ secrets.AWS_BUCKET }}" \
           --set jwt.secret=${{ secrets.JWT_SECRET }} ${{ inputs.service_name }}/.helm

@@ -4,7 +4,6 @@ on:
     branches:
       - main
       - feature/*
-  pull_request:
 jobs:
   # api-gateway
   api-gateway-build:
@@ -19,7 +18,7 @@ jobs:
     needs:
       - api-gateway-build
       - user-service-deploy
-
+      - photo-service-deploy
     with:
       service_name: api_gateway
       release_name: api-gateway
@@ -45,3 +44,22 @@ jobs:
       tag: ${{ needs.user-service-build.outputs.tag }}
     secrets: inherit
   # user-service
+  # -------------------------------------------------------------------------------- #
+  # photo-service
+  photo-service-build:
+    uses: ./.github/workflows/reusable_build.workflow.yml
+    with:
+      service_name: photo_service
+      context: photo_service/
+    secrets: inherit
+
+  photo-service-deploy:
+    uses: ./.github/workflows/reusable_deploy.workflow.yml
+    needs:
+      - photo-service-build
+    with:
+      service_name: photo_service
+      release_name: photo-service
+      tag: ${{ needs.photo-service-build.outputs.tag }}
+    secrets: inherit
+  # photo-service

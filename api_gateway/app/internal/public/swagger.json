@@ -8,15 +8,19 @@
   "tags": [
     {
       "name": "user-service",
-      "description": "Only internal usage"
+      "description": "users service where users are stored"
     },
     {
       "name": "api-gateway-service",
-      "description": "publicly-opened"
+      "description": "api gateway pattern"
     },
     {
       "name": "recipe-service",
-      "description": "Only internal usage"
+      "description": "service where we can store, edit, etc. recipes"
+    },
+    {
+      "name": "photo-service",
+      "description": "service that is used to upload photos"
     }
   ],
   "paths": {
@@ -161,6 +165,40 @@
         }
       }
     },
+    "/api/v1/photo": {
+      "post": {
+        "tags": [
+          "photo-service"
+        ],
+        "summary": "Upload photo(s)",
+        "operationId": "uploadPhotos",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/PhotosFormData"
+        },
+        "responses": {
+          "200": {
+            "description": "Returns array of uploaded photos in a right order",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UploadPhotosResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Passed data is wrong",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/signup": {
       "post": {
         "tags": [
@@ -250,6 +288,24 @@
       }
     },
     "requestBodies": {
+      "PhotosFormData": {
+        "required": true,
+        "content": {
+          "multipart/form-data": {
+            "schema": {
+              "properties": {
+                "images": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
       "UserDto": {
         "required": true,
         "content": {
@@ -282,6 +338,25 @@
       }
     },
     "schemas": {
+      "UploadPhotosResponse": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/UploadedPhotoItem"
+        }
+      },
+      "UploadedPhotoItem": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "description": "the uploaded url to s3"
+          },
+          "filename": {
+            "type": "string",
+            "description": "the title of the uploaded file"
+          }
+        }
+      },
       "UserDto": {
         "type": "object",
         "properties": {

@@ -93,7 +93,6 @@ func (h *handler) UploadPhoto(w http.ResponseWriter, r *http.Request) error {
 
 	filteredPhotos := utils.Where(photos, func(p *PhotoDTO) bool {
 		ext := http.DetectContentType(p.Bytes)
-		h.Logger.Println("ext: ", ext)
 		return ext == "image/jpeg" || ext == "image/png"
 	})
 
@@ -101,6 +100,25 @@ func (h *handler) UploadPhoto(w http.ResponseWriter, r *http.Request) error {
 		return apperror.BadRequestError("no valid photo")
 	}
 
-	w.WriteHeader(http.StatusCreated)
+	// get folder string from query
+	folder := r.URL.Query().Get("folder")
+
+	if folder == "" {
+		return apperror.BadRequestError("no folder")
+	}
+
+	dto := &UploadDTO{Photos: filteredPhotos, Folder: folder}
+
+	urls, err := h.Service.Upload(r.Context(), dto)
+	if err != nil {
+		return err
+	}
+	res, err := utils.CreateResponse(urls)
+	if err != nil {
+		return err
+	}
+	if _, err := w.Write(res); err != nil {
+		return err
+	}
 	return nil
 }
