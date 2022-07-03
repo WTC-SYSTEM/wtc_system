@@ -6,7 +6,7 @@ on:
       - feature/*
   pull_request:
 jobs:
-  
+  # api-gateway
   api-gateway-build:
     uses: ./.github/workflows/reusable_build.workflow.yml
     with:
@@ -20,31 +20,16 @@ jobs:
       - api-gateway-build
     with:
       service_name: api_gateway
+      release_name: api-gateway
       tag: ${{ needs.api-gateway-build.outputs.tag }}
     secrets: inherit
+  # api-gateway
 
-
+  # user-service
   user-service-build:
     uses: ./.github/workflows/reusable_build.workflow.yml
     with:
       service_name: user_service
       context: user_service/
     secrets: inherit
-#    steps:
-#      - name: 🚛Building and pushing to the dockerhub
-#
-#
-#      - name: 💎Install doctl
-#        uses: digitalocean/action-doctl@v2
-#        with:
-#          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
-#
-#      - name: 🍷Save DigitalOcean kubeconfig with short-lived credentials
-#        run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 k8s-wtc
-#
-#      - name: 🏋️Deploy
-#        run: |
-#          helm --debug upgrade --install \
-#          -f user_service/.helm/values-dev.yaml \
-#          --set image.tag=${{ steps.vars.outputs.sha_short }} \
-#          user-service user_service/.helm
+  # user-service
