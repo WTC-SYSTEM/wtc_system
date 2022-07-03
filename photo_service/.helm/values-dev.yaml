@@ -1,5 +1,5 @@
 image:
-  repository: michaellazebny/wtc_system.user_service
+  repository: michaellazebny/wtc_system.photo_service
   tag: ""
 
 container:
