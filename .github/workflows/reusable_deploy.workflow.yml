@@ -37,5 +37,5 @@ jobs:
       - name: 🏋️Deploy
         run: |
           helm upgrade --install ${{ inputs.release_name }} -f ${{ inputs.service_name }}/.helm/values-dev.yaml \
-          --set image.tag="${{ steps.vars.outputs.sha_short }}",redis.pswrd="${{ secrets.REDIS_PASSWORD }}" \
+          --set image.tag="${{ inputs.tag }}",redis.pswrd="${{ secrets.REDIS_PASSWORD }}" \
           --set jwt.secret=${{ secrets.JWT_SECRET }} ${{ inputs.service_name }}/.helm
