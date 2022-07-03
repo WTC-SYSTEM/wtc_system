@@ -1,0 +1,37 @@
+name: Build service
+on:
+  workflow_call:
+    inputs:
+      service_name:
+        required: true
+        type: string
+      context:
+        required: true
+        type: string
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Build service ${{ inputs.service_name }}
+    steps:
+      - name: 🚛Checkout code
+        uses: actions/checkout@v2
+
+      - name: 🍦Setup var
+        id: vars
+        run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+
+      - name: 🐝Log git short version
+        run: echo ${{ steps.vars.outputs.sha_short }}
+
+      - name: 🚀Log in to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: 🛸Publish to Registry
+        uses: docker/build-push-action@v2
+        with:
+          context: ${{ inputs.context }}
+          push: true
+          tags: michaellazebny/wtc_system.${{ inputs.service_name }}:${{ steps.vars.outputs.sha_short }}
