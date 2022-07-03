@@ -19,6 +19,7 @@ jobs:
     needs:
       - api-gateway-build
       - user-service-deploy
+
     with:
       service_name: api_gateway
       release_name: api-gateway

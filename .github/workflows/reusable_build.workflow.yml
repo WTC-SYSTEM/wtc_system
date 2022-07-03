@@ -13,6 +13,10 @@ on:
         required: true
       DOCKER_PASSWORD:
         required: true
+    outputs:
+      tag:
+        description: "Tag of the built image"
+        value: ${{ jobs.build.outputs.tag }}
 jobs:
   build:
     runs-on: ubuntu-latest
