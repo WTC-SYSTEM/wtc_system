@@ -1,6 +1,9 @@
 package recipe
 
-import "time"
+import (
+	"github.com/WTC-SYSTEM/wtc_system/libs/utils"
+	"time"
+)
 
 type Recipe struct {
 	ID          string        `json:"id"`
@@ -32,18 +35,19 @@ type CreateRecipeDTO struct {
 	Description string          `json:"description"`
 	Calories    int             `json:"calories"`
 	Steps       []CreateStepDTO `json:"steps"`
-	Photos      []string        `json:"photos"` // raw photos
+	Photos      []string        `json:"photos"` // urls
 	Tags        []string        `json:"tags"`
 	TakesTime   time.Duration   `json:"takes_time"`
 	Hidden      bool            `json:"hidden"`
 }
 
 type EditRecipeDTO struct {
+	ID          string        `json:"id,omitempty"`
 	Title       string        `json:"title"`
 	Description string        `json:"description"`
 	Calories    int           `json:"calories"`
 	Steps       []EditStepDTO `json:"steps"`
-	Photos      []string      `json:"photos"` // raw photos
+	Photos      []string      `json:"photos"` // urls
 	Tags        []string      `json:"tags"`
 	TakesTime   time.Duration `json:"takes_time"`
 	Hidden      bool          `json:"hidden"`
@@ -52,7 +56,7 @@ type EditRecipeDTO struct {
 type EditStepDTO struct {
 	Title       string        `json:"title"`
 	Description string        `json:"description"`
-	Photos      []string      `json:"photos"` // raw photo
+	Photos      []string      `json:"photos"` // urls
 	TakesTime   time.Duration `json:"takes_time"`
 	Required    bool          `json:"required"`
 }
@@ -60,7 +64,7 @@ type EditStepDTO struct {
 type CreateStepDTO struct {
 	Title       string        `json:"title"`
 	Description string        `json:"description"`
-	Photos      []string      `json:"photos"` // raw photo
+	Photos      []string      `json:"photos"` // urls
 	TakesTime   time.Duration `json:"takes_time"`
 	Required    bool          `json:"required"`
 }
@@ -76,7 +80,7 @@ func (s CreateStepDTO) ToStep() Step {
 	return Step{
 		Title:       s.Title,
 		Description: s.Description,
-		Photos:      []string{},
+		Photos:      s.Photos,
 		TakesTime:   s.TakesTime,
 		Required:    s.Required,
 	}
@@ -86,7 +90,7 @@ func (s EditStepDTO) ToStep() Step {
 	return Step{
 		Title:       s.Title,
 		Description: s.Description,
-		Photos:      []string{},
+		Photos:      s.Photos,
 		TakesTime:   s.TakesTime,
 		Required:    s.Required,
 	}
@@ -97,23 +101,28 @@ func (r CreateRecipeDTO) ToRecipe() Recipe {
 		Title:       r.Title,
 		Description: r.Description,
 		Calories:    r.Calories,
-		Steps:       []Step{},
-		Photos:      []string{},
-		Tags:        r.Tags,
-		TakesTime:   r.TakesTime,
-		Hidden:      r.Hidden,
+		Steps: utils.Map(r.Steps, func(s CreateStepDTO) Step {
+			return s.ToStep()
+		}),
+		Photos:    r.Photos,
+		Tags:      r.Tags,
+		TakesTime: r.TakesTime,
+		Hidden:    r.Hidden,
 	}
 }
 
 func (r EditRecipeDTO) ToRecipe() Recipe {
 	return Recipe{
+		ID:          r.ID,
 		Title:       r.Title,
 		Description: r.Description,
 		Calories:    r.Calories,
-		Steps:       []Step{},
-		Photos:      []string{},
-		Tags:        r.Tags,
-		TakesTime:   r.TakesTime,
-		Hidden:      r.Hidden,
+		Steps: utils.Map(r.Steps, func(s EditStepDTO) Step {
+			return s.ToStep()
+		}),
+		Photos:    r.Photos,
+		Tags:      r.Tags,
+		TakesTime: r.TakesTime,
+		Hidden:    r.Hidden,
 	}
 }

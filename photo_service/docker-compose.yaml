@@ -2,6 +2,7 @@ version: "3"
 # to be launched with additional arguments like
 #AWS_ACCESS_KEY_ID=akeyId AWS_SECRET_ACCESS_KEY=akey AWS_REGION=region
 #AWS_BUCKET=bucket docker compose up --build
+# or you can configure the .env
 services:
   app:
     restart: on-failure
@@ -17,7 +18,7 @@ services:
       - AWS_REGION=${AWS_REGION}
       - AWS_BUCKET=${AWS_BUCKET}
     ports:
-      - "8080:8080"
+      - "8989:8080"
 
 networks:
   wtcnet:

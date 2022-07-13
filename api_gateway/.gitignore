@@ -18,3 +18,4 @@
 /.idea/
 /app/vendor/
 /.database/
+.env
