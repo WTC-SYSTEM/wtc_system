@@ -11,7 +11,8 @@ import (
 )
 
 const (
-	recipe = "/api/v1/recipe"
+	recipe     = "/api/v1/recipe"
+	editRecipe = "/api/v1/recipe/{id}"
 )
 
 type Handler struct {
@@ -23,7 +24,7 @@ type Handler struct {
 func (h *Handler) Register(router *mux.Router) {
 	router.HandleFunc(recipe, apperror.Middleware(h.CreateRecipe)).
 		Methods(http.MethodPost)
-	router.HandleFunc(recipe, apperror.Middleware(h.EditRecipe)).Methods(http.MethodPatch)
+	router.HandleFunc(editRecipe, apperror.Middleware(h.EditRecipe)).Methods(http.MethodPatch)
 	router.HandleFunc(recipe, apperror.Middleware(h.GetRecipe)).Methods(http.MethodGet)
 }
 
@@ -58,6 +59,14 @@ func (h *Handler) EditRecipe(w http.ResponseWriter, r *http.Request) error {
 	if err := json.NewDecoder(r.Body).Decode(&dto); err != nil {
 		return apperror.BadRequestError("Failed to decode passed data")
 	}
+
+	id := mux.Vars(r)["id"]
+
+	if id == "" {
+		return apperror.BadRequestError("Recipe id is empty")
+	}
+
+	dto.ID = id
 
 	if err := h.RecipeService.Patch(r.Context(), dto); err != nil {
 		return err
