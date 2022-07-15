@@ -5,8 +5,8 @@ github.com/WTC-SYSTEM/wtc_system/libs/apperror v0.0.0-20220715211119-2850083e019
 github.com/WTC-SYSTEM/wtc_system/libs/apperror v0.0.0-20220715211119-2850083e0199/go.mod h1:XrNYYjAdoDGhML7epFgJ7pfekbq7/DGi+1orwf8iqkA=
 github.com/WTC-SYSTEM/wtc_system/libs/logging v0.0.0-20220702174402-8bce3a3a771f h1:42GyrqCNglb3unsUkT3YR0lbg0RrYDsuL9nLJI3qH+0=
 github.com/WTC-SYSTEM/wtc_system/libs/logging v0.0.0-20220702174402-8bce3a3a771f/go.mod h1:SRJCbc9XtGPBQKbnBc/ltEBfg+8eIYjD3Sw1PuJKUws=
-github.com/WTC-SYSTEM/wtc_system/libs/utils v0.0.0-20220715211119-2850083e0199 h1:95Y4NPCdL6AV5PMAyxX2TmC/2H+nS9BuU1GjG+SBNvk=
-github.com/WTC-SYSTEM/wtc_system/libs/utils v0.0.0-20220715211119-2850083e0199/go.mod h1:RDT5iI6rI19nAlgKGrTvG/Z8nMsB1q3EtEdKXwRQo84=
+github.com/WTC-SYSTEM/wtc_system/libs/utils v0.0.0-20220715213612-340a1653668b h1:qHBCH3WT3/+atrUs/bi62hT7HIOZ3D+Gt2fNP6z6DF8=
+github.com/WTC-SYSTEM/wtc_system/libs/utils v0.0.0-20220715213612-340a1653668b/go.mod h1:RDT5iI6rI19nAlgKGrTvG/Z8nMsB1q3EtEdKXwRQo84=
 github.com/cespare/xxhash/v2 v2.1.2 h1:YRXhKfTDauu4ajMg1TPgFO5jnlC2HCbmLXMcTG5cbYE=
 github.com/cespare/xxhash/v2 v2.1.2/go.mod h1:VGX0DQ3Q6kWi7AoAeZDth3/j3BFtOZR5XLFGgcrjCOs=
 github.com/creack/pty v1.1.9/go.mod h1:oKZEueFk5CKHvIhNR5MUki03XCEU+Q6VDXinZuGJ33E=
