@@ -6,7 +6,7 @@ import (
 )
 
 type Recipe struct {
-	ID          string        `json:"id"`
+	ID          string        `json:"id,omitempty"`
 	Title       string        `json:"title"`
 	Description string        `json:"description"`
 	Calories    int           `json:"calories"`
@@ -15,9 +15,9 @@ type Recipe struct {
 	Tags        []string      `json:"tags"`
 	TakesTime   time.Duration `json:"takes_time"`
 	Hidden      bool          `json:"hidden"`
-	CreatedAt   int           `json:"created_at"`
-	UpdatedAt   int           `json:"updated_at"`
-	DeletedAt   int           `json:"deleted_at"`
+	CreatedAt   time.Time     `json:"created_at"`
+	UpdatedAt   time.Time     `json:"updated_at"`
+	DeletedAt   time.Time     `json:"deleted_at"`
 }
 
 type Step struct {
