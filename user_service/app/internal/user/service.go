@@ -2,7 +2,7 @@ package user
 
 import (
 	"context"
-	"github.com/WTC-SYSTEM/wtc_system/libs/apperror"
+	"github.com/WTC-SYSTEM/apperror"
 	"github.com/WTC-SYSTEM/wtc_system/libs/logging"
 	"golang.org/x/crypto/bcrypt"
 )

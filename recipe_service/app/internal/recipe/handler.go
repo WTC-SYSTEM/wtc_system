@@ -2,7 +2,7 @@ package recipe
 
 import (
 	"encoding/json"
-	"github.com/WTC-SYSTEM/wtc_system/libs/apperror"
+	"github.com/WTC-SYSTEM/apperror"
 	"github.com/WTC-SYSTEM/wtc_system/libs/logging"
 	"github.com/go-playground/validator/v10"
 	"github.com/gorilla/mux"

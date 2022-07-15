@@ -4,12 +4,10 @@ go 1.18
 
 require (
 	github.com/Masterminds/squirrel v1.5.3
+	github.com/WTC-SYSTEM/apperror v0.0.2
 	github.com/WTC-SYSTEM/wtc_system/libs/logging v0.0.0-20220703172800-a3f4f615f678
 	github.com/WTC-SYSTEM/wtc_system/libs/utils v0.0.0-20220703172800-a3f4f615f678
-	github.com/WTC-SYSTEM/wtc_system/libs/apperror latest
-	github.com/aws/aws-sdk-go v1.44.24
 	github.com/go-playground/validator/v10 v10.11.0
-	github.com/google/uuid v1.3.0
 	github.com/gorilla/mux v1.8.0
 	github.com/ilyakaznacheev/cleanenv v1.2.6
 	github.com/jackc/pgconn v1.12.1
@@ -27,11 +25,11 @@ require (
 	github.com/jackc/pgservicefile v0.0.0-20200714003250-2b9c44734f2b // indirect
 	github.com/jackc/pgtype v1.11.0 // indirect
 	github.com/jackc/puddle v1.2.1 // indirect
-	github.com/jmespath/go-jmespath v0.4.0 // indirect
 	github.com/joho/godotenv v1.3.0 // indirect
 	github.com/lann/builder v0.0.0-20180802200727-47ae307949d0 // indirect
 	github.com/lann/ps v0.0.0-20150810152359-62de8c46ede0 // indirect
 	github.com/leodido/go-urn v1.2.1 // indirect
+	github.com/pkg/errors v0.9.1 // indirect
 	github.com/sirupsen/logrus v1.8.1 // indirect
 	golang.org/x/crypto v0.0.0-20211215153901-e495a2d5b3d3 // indirect
 	golang.org/x/sys v0.0.0-20211216021012-1d35b9e2eb4e // indirect

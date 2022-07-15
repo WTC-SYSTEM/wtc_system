@@ -3,7 +3,7 @@ package user
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/WTC-SYSTEM/wtc_system/libs/apperror"
+	"github.com/WTC-SYSTEM/apperror"
 	"github.com/WTC-SYSTEM/wtc_system/libs/logging"
 	"github.com/WTC-SYSTEM/wtc_system/libs/utils"
 	"github.com/go-playground/validator/v10"
