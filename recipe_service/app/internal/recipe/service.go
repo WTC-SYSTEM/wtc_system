@@ -11,7 +11,7 @@ type service struct {
 }
 
 type Service interface {
-	Create(ctx context.Context, recipe CreateRecipeDTO) error
+	Create(ctx context.Context, recipe CreateRecipeDTO) (string, error)
 	Patch(ctx context.Context, recipe EditRecipeDTO) error
 	Get(ctx context.Context, id string) (Recipe, error)
 }
@@ -33,16 +33,16 @@ func (s service) Patch(ctx context.Context, rDto EditRecipeDTO) error {
 	return nil
 }
 
-func (s service) Create(ctx context.Context, rDto CreateRecipeDTO) error {
+func (s service) Create(ctx context.Context, rDto CreateRecipeDTO) (string, error) {
 	var r Recipe
 	// fill recipe model
 	r = rDto.ToRecipe()
 
-	err := s.storage.Create(ctx, r)
+	id, err := s.storage.Create(ctx, r)
 	if err != nil {
-		return err
+		return "", err
 	}
-	return nil
+	return id, nil
 }
 
 func NewService(recipeStorage Storage, logger logging.Logger) (Service, error) {

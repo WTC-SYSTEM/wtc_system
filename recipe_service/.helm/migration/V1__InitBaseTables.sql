@@ -54,10 +54,10 @@ CREATE TABLE IF NOT EXISTS step_photos
         REFERENCES steps (id)
         ON DELETE CASCADE
 );
-
 CREATE INDEX ON steps (id, recipe_id);
 CREATE INDEX ON recipes (id);
 -- trigger to update updated_at on update
+DROP TRIGGER IF EXISTS update_on_recipe ON recipes;
 CREATE FUNCTION update_on_recipe()
     RETURNS TRIGGER AS
 $$
@@ -73,4 +73,3 @@ CREATE TRIGGER update_on_recipe
         recipes
     FOR EACH ROW
 EXECUTE PROCEDURE update_on_recipe();
---

@@ -20,7 +20,7 @@ func NewStorage(c postgresql.Client, l logging.Logger) recipe.Storage {
 	}
 }
 
-func (d db) Create(ctx context.Context, r recipe.Recipe) error {
+func (d db) Create(ctx context.Context, r recipe.Recipe) (string, error) {
 	// save recipe to db
 	sql, args, err := sq.Insert("recipes").
 		Columns("title", "description", "calories", "takes_time", "hidden").
@@ -30,12 +30,12 @@ func (d db) Create(ctx context.Context, r recipe.Recipe) error {
 		ToSql()
 
 	if err != nil {
-		return err
+		return "", err
 	}
 	var id string
 
 	if err := d.client.QueryRow(ctx, sql, args...).Scan(&id); err != nil {
-		return err
+		return "", err
 	}
 
 	// save recipe images to db
@@ -47,10 +47,10 @@ func (d db) Create(ctx context.Context, r recipe.Recipe) error {
 			ToSql()
 
 		if err != nil {
-			return err
+			return "", err
 		}
 		if _, err := d.client.Exec(ctx, sql, args...); err != nil {
-			return err
+			return "", err
 		}
 	}
 
@@ -62,10 +62,10 @@ func (d db) Create(ctx context.Context, r recipe.Recipe) error {
 			ToSql()
 
 		if err != nil {
-			return err
+			return "", err
 		}
 		if _, err := d.client.Exec(ctx, sql, args...); err != nil {
-			return err
+			return "", err
 		}
 	}
 
@@ -79,12 +79,12 @@ func (d db) Create(ctx context.Context, r recipe.Recipe) error {
 			ToSql()
 
 		if err != nil {
-			return err
+			return "", err
 		}
 		var id string
 
 		if err := d.client.QueryRow(ctx, sql, args...).Scan(&id); err != nil {
-			return err
+			return "", err
 		}
 
 		// save step photos to db
@@ -96,22 +96,21 @@ func (d db) Create(ctx context.Context, r recipe.Recipe) error {
 				ToSql()
 
 			if err != nil {
-				return err
+				return "", err
 			}
 			if _, err := d.client.Exec(ctx, sql, args...); err != nil {
-				return err
+				return "", err
 			}
 		}
 
 	}
 
-	return nil
+	return id, nil
 }
 
 func (d db) FindOne(ctx context.Context, id string) (recipe.Recipe, error) {
 
 	var r recipe.Recipe
-
 	// fill recipe
 	sql, args, err := sq.
 		Select("title", "description", "calories", "takes_time", "hidden").
@@ -245,7 +244,7 @@ func (d db) Update(ctx context.Context, r recipe.Recipe) error {
 		return err
 	}
 
-	if _, err := d.client.Query(ctx, sql, args...); err != nil {
+	if _, err := d.client.Exec(ctx, sql, args...); err != nil {
 		return err
 	}
 
@@ -259,7 +258,7 @@ func (d db) Update(ctx context.Context, r recipe.Recipe) error {
 		return err
 	}
 
-	if _, err := d.client.Query(ctx, sql, args...); err != nil {
+	if _, err := d.client.Exec(ctx, sql, args...); err != nil {
 		return err
 	}
 
@@ -273,7 +272,7 @@ func (d db) Update(ctx context.Context, r recipe.Recipe) error {
 		return err
 	}
 
-	if _, err := d.client.Query(ctx, sql, args...); err != nil {
+	if _, err := d.client.Exec(ctx, sql, args...); err != nil {
 		return err
 	}
 
@@ -287,7 +286,7 @@ func (d db) Update(ctx context.Context, r recipe.Recipe) error {
 		return err
 	}
 
-	if _, err := d.client.Query(ctx, sql, args...); err != nil {
+	if _, err := d.client.Exec(ctx, sql, args...); err != nil {
 		return err
 	}
 
