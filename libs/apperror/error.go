@@ -50,3 +50,7 @@ func systemError(developerMessage string) *AppError {
 func fromError(err error) *AppError {
 	return NewAppError("Something went wrong...", WTC_000001, err.Error())
 }
+
+func APIError(code, message, developerMessage string) *AppError {
+	return NewAppError(message, code, developerMessage)
+}

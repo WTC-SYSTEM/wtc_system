@@ -2,9 +2,9 @@ package photo
 
 import (
 	"bytes"
+	"github.com/WTC-SYSTEM/wtc_system/libs/apperror"
 	"github.com/WTC-SYSTEM/wtc_system/libs/logging"
 	"github.com/WTC-SYSTEM/wtc_system/libs/utils"
-	"github.com/WTC-SYSTEM/wtc_system/photo_service/internal/apperror"
 	"github.com/go-playground/validator/v10"
 	"github.com/gorilla/mux"
 	"io"

@@ -43,8 +43,3 @@ func (e *AppError) Marshal() []byte {
 func BadRequestError(message string) *AppError {
 	return NewAppError(message, "Y-000002", "some thing wrong with user data")
 }
-
-func APIError(code, message, developerMessage string) *AppError {
-	return NewAppError(message, code, developerMessage)
-
-}
