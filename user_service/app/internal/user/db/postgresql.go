@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/WTC-SYSTEM/apperror"
-	"github.com/WTC-SYSTEM/wtc_system/libs/logging"
+	"github.com/WTC-SYSTEM/logging"
 	"github.com/WTC-SYSTEM/wtc_system/user_service/internal/user"
 	"github.com/WTC-SYSTEM/wtc_system/user_service/pkg/client/postgresql"
 	"github.com/jackc/pgconn"

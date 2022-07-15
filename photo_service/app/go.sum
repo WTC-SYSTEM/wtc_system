@@ -2,10 +2,10 @@ github.com/BurntSushi/toml v1.1.0 h1:ksErzDEI1khOiGPgpwuI7x2ebx/uXQNw7xJpn9Eq1+I
 github.com/BurntSushi/toml v1.1.0/go.mod h1:CxXYINrC8qIiEnFrOxCa7Jy5BFHlXnUU2pbicEuybxQ=
 github.com/WTC-SYSTEM/apperror v0.0.2 h1:hney/IcFtjDf/wqOxFxbDILgd6OhMG23cKGI4XMkZpE=
 github.com/WTC-SYSTEM/apperror v0.0.2/go.mod h1:pJG2J3YGUmUmG8C1NhwApXmGpXsDUGmR+PMlqNyrVsg=
-github.com/WTC-SYSTEM/wtc_system/libs/logging v0.0.0-20220702180609-e8436e93ead9 h1:U3a26Mo2TUm8F866Q/CisolWbG1TYQl70RyYnOllMfM=
-github.com/WTC-SYSTEM/wtc_system/libs/logging v0.0.0-20220702180609-e8436e93ead9/go.mod h1:SRJCbc9XtGPBQKbnBc/ltEBfg+8eIYjD3Sw1PuJKUws=
-github.com/WTC-SYSTEM/wtc_system/libs/utils v0.0.0-20220702180609-e8436e93ead9 h1:QUWCQ6HjQkn6vhOvkly4ijb7blYGnPdHoFFMZ/Jtatk=
-github.com/WTC-SYSTEM/wtc_system/libs/utils v0.0.0-20220702180609-e8436e93ead9/go.mod h1:RDT5iI6rI19nAlgKGrTvG/Z8nMsB1q3EtEdKXwRQo84=
+github.com/WTC-SYSTEM/logging v0.0.1 h1:H3aN2WeIXBxetjxqUzwfbrAWU+/D/66syw/1oDT5QZA=
+github.com/WTC-SYSTEM/logging v0.0.1/go.mod h1:HyxNrMfwXSaAx/ElBMdBrSK7eR9rAmm5F7fM2ppBfH4=
+github.com/WTC-SYSTEM/utils v0.0.2 h1:pLTJYw+FAFBheO0zceVbVAKQFEXrt9IaU6wQwkmX/Yg=
+github.com/WTC-SYSTEM/utils v0.0.2/go.mod h1:xL/PVDpuRnEkD1x5FrDmm4w3vAtMnAFj57Jz3390T7E=
 github.com/aws/aws-sdk-go v1.44.47 h1:uyiNvoR4wfZ8Bp4ghgbyzGFIg5knjZMUAd5S9ba9qNU=
 github.com/aws/aws-sdk-go v1.44.47/go.mod h1:y4AeaBuwd2Lk+GepC1E9v0qOiTws0MIWAX4oIKwKHZo=
 github.com/creack/pty v1.1.9/go.mod h1:oKZEueFk5CKHvIhNR5MUki03XCEU+Q6VDXinZuGJ33E=

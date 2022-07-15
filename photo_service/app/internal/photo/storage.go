@@ -4,7 +4,7 @@ import (
 	b "bytes"
 	"context"
 	"fmt"
-	"github.com/WTC-SYSTEM/wtc_system/libs/logging"
+	"github.com/WTC-SYSTEM/logging"
 	"github.com/WTC-SYSTEM/wtc_system/photo_service/pkg/client/aws"
 	"github.com/aws/aws-sdk-go/service/s3"
 	"github.com/google/uuid"

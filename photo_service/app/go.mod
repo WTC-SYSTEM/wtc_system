@@ -4,8 +4,8 @@ go 1.18
 
 require (
 	github.com/WTC-SYSTEM/apperror v0.0.2
-	github.com/WTC-SYSTEM/wtc_system/libs/logging v0.0.0-20220702180609-e8436e93ead9
-	github.com/WTC-SYSTEM/wtc_system/libs/utils v0.0.0-20220702180609-e8436e93ead9
+	github.com/WTC-SYSTEM/logging v0.0.1
+	github.com/WTC-SYSTEM/utils v0.0.2
 	github.com/aws/aws-sdk-go v1.44.47
 	github.com/go-playground/validator/v10 v10.11.0
 	github.com/google/uuid v1.3.0

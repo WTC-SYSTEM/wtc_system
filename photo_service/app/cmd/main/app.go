@@ -3,8 +3,8 @@ package main
 import (
 	"errors"
 	"fmt"
-	"github.com/WTC-SYSTEM/wtc_system/libs/logging"
-	"github.com/WTC-SYSTEM/wtc_system/libs/utils"
+	"github.com/WTC-SYSTEM/logging"
+	"github.com/WTC-SYSTEM/utils"
 	"github.com/WTC-SYSTEM/wtc_system/photo_service/internal/config"
 	"github.com/WTC-SYSTEM/wtc_system/photo_service/internal/photo"
 	"github.com/WTC-SYSTEM/wtc_system/photo_service/pkg/client/aws"

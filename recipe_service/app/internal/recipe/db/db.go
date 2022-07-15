@@ -3,7 +3,7 @@ package db
 import (
 	"context"
 	sq "github.com/Masterminds/squirrel"
-	"github.com/WTC-SYSTEM/wtc_system/libs/logging"
+	"github.com/WTC-SYSTEM/logging"
 	"github.com/WTC-SYSTEM/wtc_system/recipe_service/internal/recipe"
 	"github.com/WTC-SYSTEM/wtc_system/recipe_service/pkg/client/postgresql"
 )

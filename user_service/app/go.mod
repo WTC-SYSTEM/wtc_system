@@ -4,8 +4,8 @@ go 1.18
 
 require (
 	github.com/WTC-SYSTEM/apperror v0.0.2
-	github.com/WTC-SYSTEM/wtc_system/libs/logging v0.0.0-20220702174402-8bce3a3a771f
-	github.com/WTC-SYSTEM/wtc_system/libs/utils v0.0.0-20220702174402-8bce3a3a771f
+	github.com/WTC-SYSTEM/logging v0.0.1
+	github.com/WTC-SYSTEM/utils v0.0.2
 	github.com/go-playground/validator/v10 v10.11.0
 	github.com/gorilla/mux v1.8.0
 	github.com/ilyakaznacheev/cleanenv v1.2.6

@@ -2,7 +2,7 @@ package photo
 
 import (
 	"context"
-	"github.com/WTC-SYSTEM/wtc_system/libs/logging"
+	"github.com/WTC-SYSTEM/logging"
 	"sync"
 )
 

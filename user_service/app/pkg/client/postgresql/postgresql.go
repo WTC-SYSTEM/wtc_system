@@ -3,7 +3,7 @@ package postgresql
 import (
 	"context"
 	"fmt"
-	"github.com/WTC-SYSTEM/wtc_system/libs/utils"
+	"github.com/WTC-SYSTEM/utils"
 	"github.com/WTC-SYSTEM/wtc_system/user_service/internal/config"
 	"github.com/jackc/pgconn"
 	"github.com/jackc/pgx/v4"

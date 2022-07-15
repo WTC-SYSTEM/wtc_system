@@ -3,8 +3,8 @@ module github.com/WTC-SYSTEM/wtc_system/api_gateway
 go 1.18
 
 require (
-	github.com/WTC-SYSTEM/wtc_system/libs/logging v0.0.0-20220702174402-8bce3a3a771f
-	github.com/WTC-SYSTEM/wtc_system/libs/utils v0.0.0-20220715213612-340a1653668b
+	github.com/WTC-SYSTEM/utils v0.0.2
+	github.com/WTC-SYSTEM/logging v0.0.1
 	github.com/WTC-SYSTEM/apperror v0.0.2
 	github.com/cristalhq/jwt/v3 v3.1.0
 	github.com/fatih/structs v1.1.0

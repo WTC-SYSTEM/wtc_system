@@ -3,8 +3,8 @@ package jwt
 import (
 	"context"
 	"encoding/json"
+	"github.com/WTC-SYSTEM/logging"
 	"github.com/WTC-SYSTEM/wtc_system/api_gateway/internal/config"
-	"github.com/WTC-SYSTEM/wtc_system/libs/logging"
 	"github.com/cristalhq/jwt/v3"
 	"net/http"
 	"strings"

@@ -6,8 +6,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/WTC-SYSTEM/apperror"
+	"github.com/WTC-SYSTEM/logging"
 	"github.com/WTC-SYSTEM/wtc_system/api_gateway/pkg/rest"
-	"github.com/WTC-SYSTEM/wtc_system/libs/logging"
+
 	"github.com/fatih/structs"
 	"net/http"
 	"strings"

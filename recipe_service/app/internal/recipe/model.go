@@ -1,7 +1,7 @@
 package recipe
 
 import (
-	"github.com/WTC-SYSTEM/wtc_system/libs/utils"
+	"github.com/WTC-SYSTEM/utils"
 	"time"
 )
 

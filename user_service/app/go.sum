@@ -2,10 +2,12 @@ github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03
 github.com/BurntSushi/toml v1.0.0 h1:dtDWrepsVPfW9H/4y7dDgFc2MBUSeJhlaDtK13CxFlU=
 github.com/BurntSushi/toml v1.0.0/go.mod h1:CxXYINrC8qIiEnFrOxCa7Jy5BFHlXnUU2pbicEuybxQ=
 github.com/Masterminds/semver/v3 v3.1.1/go.mod h1:VPu/7SZ7ePZ3QOrcuXROw5FAcLl4a0cBrbBpGY/8hQs=
-github.com/WTC-SYSTEM/wtc_system/libs/logging v0.0.0-20220702174402-8bce3a3a771f h1:42GyrqCNglb3unsUkT3YR0lbg0RrYDsuL9nLJI3qH+0=
-github.com/WTC-SYSTEM/wtc_system/libs/logging v0.0.0-20220702174402-8bce3a3a771f/go.mod h1:SRJCbc9XtGPBQKbnBc/ltEBfg+8eIYjD3Sw1PuJKUws=
-github.com/WTC-SYSTEM/wtc_system/libs/utils v0.0.0-20220702174402-8bce3a3a771f h1:qsiNidwvRwyKoDvWXlBuPACuwiD+NrV5gLXyXgR1lX4=
-github.com/WTC-SYSTEM/wtc_system/libs/utils v0.0.0-20220702174402-8bce3a3a771f/go.mod h1:RDT5iI6rI19nAlgKGrTvG/Z8nMsB1q3EtEdKXwRQo84=
+github.com/WTC-SYSTEM/apperror v0.0.2 h1:hney/IcFtjDf/wqOxFxbDILgd6OhMG23cKGI4XMkZpE=
+github.com/WTC-SYSTEM/apperror v0.0.2/go.mod h1:pJG2J3YGUmUmG8C1NhwApXmGpXsDUGmR+PMlqNyrVsg=
+github.com/WTC-SYSTEM/logging v0.0.1 h1:H3aN2WeIXBxetjxqUzwfbrAWU+/D/66syw/1oDT5QZA=
+github.com/WTC-SYSTEM/logging v0.0.1/go.mod h1:HyxNrMfwXSaAx/ElBMdBrSK7eR9rAmm5F7fM2ppBfH4=
+github.com/WTC-SYSTEM/utils v0.0.2 h1:pLTJYw+FAFBheO0zceVbVAKQFEXrt9IaU6wQwkmX/Yg=
+github.com/WTC-SYSTEM/utils v0.0.2/go.mod h1:xL/PVDpuRnEkD1x5FrDmm4w3vAtMnAFj57Jz3390T7E=
 github.com/cockroachdb/apd v1.1.0 h1:3LFP3629v+1aKXU5Q37mxmRxX/pIu1nijXydLShEq5I=
 github.com/cockroachdb/apd v1.1.0/go.mod h1:8Sl8LxpKi29FqWXR16WEFZRNSz3SoPzUzeMeY4+DwBQ=
 github.com/coreos/go-systemd v0.0.0-20190321100706-95778dfbb74e/go.mod h1:F5haX7vjVVG0kc13fIWeqUViNPyEJxv/OmvnBo0Yme4=
