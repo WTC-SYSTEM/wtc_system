@@ -24,8 +24,10 @@ type Handler struct {
 func (h *Handler) Register(router *mux.Router) {
 	router.HandleFunc(recipe, apperror.Middleware(h.CreateRecipe)).
 		Methods(http.MethodPost)
-	router.HandleFunc(editRecipe, apperror.Middleware(h.EditRecipe)).Methods(http.MethodPatch)
-	router.HandleFunc(recipe, apperror.Middleware(h.GetRecipe)).Methods(http.MethodGet)
+	router.HandleFunc(recipe, apperror.Middleware(h.GetRecipe)).
+		Methods(http.MethodGet)
+	router.HandleFunc(editRecipe, apperror.Middleware(h.EditRecipe)).
+		Methods(http.MethodPatch)
 }
 
 // CreateRecipe create recipe
@@ -41,10 +43,12 @@ func (h *Handler) CreateRecipe(w http.ResponseWriter, r *http.Request) error {
 		return apperror.BadRequestError("Failed to decode passed data")
 	}
 
-	if err := h.RecipeService.Create(r.Context(), dto); err != nil {
+	if id, err := h.RecipeService.Create(r.Context(), dto); err != nil {
 		return err
+	} else {
+		w.WriteHeader(http.StatusCreated)
+		w.Write([]byte(id))
 	}
-	w.WriteHeader(http.StatusCreated)
 	return nil
 }
 

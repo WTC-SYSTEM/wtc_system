@@ -20,7 +20,7 @@ func NewStorage(c postgresql.Client, l logging.Logger) recipe.Storage {
 	}
 }
 
-func (d db) Create(ctx context.Context, r recipe.Recipe) error {
+func (d db) Create(ctx context.Context, r recipe.Recipe) (string, error) {
 	// save recipe to db
 	sql, args, err := sq.Insert("recipes").
 		Columns("title", "description", "calories", "takes_time", "hidden").
@@ -30,12 +30,12 @@ func (d db) Create(ctx context.Context, r recipe.Recipe) error {
 		ToSql()
 
 	if err != nil {
-		return err
+		return "", err
 	}
 	var id string
 
 	if err := d.client.QueryRow(ctx, sql, args...).Scan(&id); err != nil {
-		return err
+		return "", err
 	}
 
 	// save recipe images to db
@@ -47,10 +47,10 @@ func (d db) Create(ctx context.Context, r recipe.Recipe) error {
 			ToSql()
 
 		if err != nil {
-			return err
+			return "", err
 		}
 		if _, err := d.client.Exec(ctx, sql, args...); err != nil {
-			return err
+			return "", err
 		}
 	}
 
@@ -62,10 +62,10 @@ func (d db) Create(ctx context.Context, r recipe.Recipe) error {
 			ToSql()
 
 		if err != nil {
-			return err
+			return "", err
 		}
 		if _, err := d.client.Exec(ctx, sql, args...); err != nil {
-			return err
+			return "", err
 		}
 	}
 
@@ -79,12 +79,12 @@ func (d db) Create(ctx context.Context, r recipe.Recipe) error {
 			ToSql()
 
 		if err != nil {
-			return err
+			return "", err
 		}
 		var id string
 
 		if err := d.client.QueryRow(ctx, sql, args...).Scan(&id); err != nil {
-			return err
+			return "", err
 		}
 
 		// save step photos to db
@@ -96,25 +96,24 @@ func (d db) Create(ctx context.Context, r recipe.Recipe) error {
 				ToSql()
 
 			if err != nil {
-				return err
+				return "", err
 			}
 			if _, err := d.client.Exec(ctx, sql, args...); err != nil {
-				return err
+				return "", err
 			}
 		}
 
 	}
 
-	return nil
+	return id, nil
 }
 
 func (d db) FindOne(ctx context.Context, id string) (recipe.Recipe, error) {
 
 	var r recipe.Recipe
-
 	// fill recipe
 	sql, args, err := sq.
-		Select("title", "description", "calories", "takes_time", "hidden").
+		Select("title", "description", "calories", "takes_time", "hidden", "created_at", "updated_at").
 		From("recipes").
 		Where(sq.Eq{"id": id}).
 		PlaceholderFormat(sq.Dollar).
@@ -124,7 +123,7 @@ func (d db) FindOne(ctx context.Context, id string) (recipe.Recipe, error) {
 	}
 
 	if err := d.client.QueryRow(ctx, sql, args...).
-		Scan(&r.Title, &r.Description, &r.Calories, &r.TakesTime, &r.Hidden); err != nil {
+		Scan(&r.Title, &r.Description, &r.Calories, &r.TakesTime, &r.Hidden, &r.CreatedAt, &r.UpdatedAt); err != nil {
 		return recipe.Recipe{}, err
 	}
 
@@ -230,132 +229,138 @@ func (d db) FindOne(ctx context.Context, id string) (recipe.Recipe, error) {
 }
 
 func (d db) Update(ctx context.Context, r recipe.Recipe) error {
-	// save recipe to db
-	sql, args, err := sq.Update("recipes").
-		Set("title", r.Title).
-		Set("description", r.Description).
-		Set("calories", r.Calories).
-		Set("takes_time", r.TakesTime).
-		Set("hidden", r.Hidden).
+	updBuilder := sq.Update("recipes")
+
+	if r.Title != "" {
+		updBuilder = updBuilder.Set("title", r.Title)
+	}
+
+	if r.Description != "" {
+		updBuilder = updBuilder.Set("description", r.Description)
+	}
+
+	if r.Calories != 0 {
+		updBuilder = updBuilder.Set("calories", r.Calories)
+	}
+
+	if r.TakesTime != 0 {
+		updBuilder = updBuilder.Set("takes_time", r.TakesTime)
+	}
+
+	updBuilder = updBuilder.Set("hidden", r.Hidden)
+
+	// Update fields in database for recipe
+	sql, args, _ := updBuilder.
 		Where(sq.Eq{"id": r.ID}).
 		PlaceholderFormat(sq.Dollar).
 		ToSql()
 
-	if err != nil {
+	if _, err := d.client.Exec(ctx, sql, args...); err != nil {
 		return err
 	}
-
-	if _, err := d.client.Query(ctx, sql, args...); err != nil {
-		return err
-	}
-
-	// delete resources
-	sql, args, err = sq.Delete("recipe_photos").
-		Where(sq.Eq{"recipe_id": r.ID}).
-		PlaceholderFormat(sq.Dollar).
-		ToSql()
-
-	if err != nil {
-		return err
-	}
-
-	if _, err := d.client.Query(ctx, sql, args...); err != nil {
-		return err
-	}
-
-	// delete resources
-	sql, args, err = sq.Delete("recipe_tags").
-		Where(sq.Eq{"recipe_id": r.ID}).
-		PlaceholderFormat(sq.Dollar).
-		ToSql()
-
-	if err != nil {
-		return err
-	}
-
-	if _, err := d.client.Query(ctx, sql, args...); err != nil {
-		return err
-	}
-
-	// delete steps associated with recipe
-	sql, args, err = sq.Delete("steps").
-		Where(sq.Eq{"recipe_id": r.ID}).
-		PlaceholderFormat(sq.Dollar).
-		ToSql()
-
-	if err != nil {
-		return err
-	}
-
-	if _, err := d.client.Query(ctx, sql, args...); err != nil {
-		return err
-	}
-
-	// save recipe images to db
-	for _, photo := range r.Photos {
-		sql, args, err := sq.Insert("recipe_photos").
-			Columns("recipe_id", "url").
-			Values(r.ID, photo).
+	/*
+		Recipe Photos
+	*/
+	if len(r.Photos) > 0 {
+		// delete recipe photos
+		sql, args, _ = sq.Delete("recipe_photos").
+			Where(sq.Eq{"recipe_id": r.ID}).
 			PlaceholderFormat(sq.Dollar).
 			ToSql()
 
-		if err != nil {
-			return err
-		}
 		if _, err := d.client.Exec(ctx, sql, args...); err != nil {
 			return err
 		}
-	}
 
-	for _, t := range r.Tags {
-		sql, args, err := sq.Insert("recipe_tags").
-			Columns("recipe_id", "tag").
-			Values(r.ID, t).
-			PlaceholderFormat(sq.Dollar).
-			ToSql()
-
-		if err != nil {
-			return err
-		}
-		if _, err := d.client.Exec(ctx, sql, args...); err != nil {
-			return err
-		}
-	}
-
-	// save steps to db with recipe id
-	for _, step := range r.Steps {
-		sql, args, err := sq.Insert("steps").
-			Columns("recipe_id", "title", "description", "takes_time", "required").
-			Values(r.ID, step.Title, step.Description, step.TakesTime, step.Required).
-			PlaceholderFormat(sq.Dollar).
-			Suffix("RETURNING id").
-			ToSql()
-
-		if err != nil {
-			return err
-		}
-		var id string
-
-		if err := d.client.QueryRow(ctx, sql, args...).Scan(&id); err != nil {
-			return err
-		}
-
-		// save step photos to db
-		for _, photo := range step.Photos {
-			sql, args, err := sq.Insert("step_photos").
-				Columns("step_id", "url").
-				Values(id, photo).
+		// save recipe photos to db
+		for _, photo := range r.Photos {
+			sql, args, _ := sq.Insert("recipe_photos").
+				Columns("recipe_id", "url").
+				Values(r.ID, photo).
 				PlaceholderFormat(sq.Dollar).
 				ToSql()
 
-			if err != nil {
-				return err
-			}
 			if _, err := d.client.Exec(ctx, sql, args...); err != nil {
 				return err
 			}
 		}
+	}
 
+	/*
+		Recipe Tags
+	*/
+	if len(r.Tags) > 0 {
+		// delete recipe tags
+		sql, args, _ = sq.Delete("recipe_tags").
+			Where(sq.Eq{"recipe_id": r.ID}).
+			PlaceholderFormat(sq.Dollar).
+			ToSql()
+
+		if _, err := d.client.Exec(ctx, sql, args...); err != nil {
+			return err
+		}
+		// create recipe tags
+		for _, t := range r.Tags {
+			sql, args, _ := sq.Insert("recipe_tags").
+				Columns("recipe_id", "tag").
+				Values(r.ID, t).
+				PlaceholderFormat(sq.Dollar).
+				ToSql()
+
+			if _, err := d.client.Exec(ctx, sql, args...); err != nil {
+				return err
+			}
+		}
+	}
+	/*
+		Recipe Steps
+	*/
+	if len(r.Steps) > 0 {
+		/*
+			Delete all steps associated with recipe
+			This will also delete all photos associated with step
+		*/
+		sql, args, _ = sq.Delete("steps").
+			Where(sq.Eq{"recipe_id": r.ID}).
+			PlaceholderFormat(sq.Dollar).
+			ToSql()
+
+		if _, err := d.client.Exec(ctx, sql, args...); err != nil {
+			return err
+		}
+
+		/*
+			Save steps and steps photos to db
+		*/
+		for _, step := range r.Steps {
+			// save step to db
+			sql, args, _ := sq.Insert("steps").
+				Columns("recipe_id", "title", "description", "takes_time", "required").
+				Values(r.ID, step.Title, step.Description, step.TakesTime, step.Required).
+				PlaceholderFormat(sq.Dollar).
+				Suffix("RETURNING id").
+				ToSql()
+
+			var id string
+
+			if err := d.client.QueryRow(ctx, sql, args...).Scan(&id); err != nil {
+				return err
+			}
+
+			// save step photos to db
+			for _, photo := range step.Photos {
+				sql, args, _ := sq.Insert("step_photos").
+					Columns("step_id", "url").
+					Values(id, photo).
+					PlaceholderFormat(sq.Dollar).
+					ToSql()
+
+				if _, err := d.client.Exec(ctx, sql, args...); err != nil {
+					return err
+				}
+			}
+
+		}
 	}
 
 	return nil
