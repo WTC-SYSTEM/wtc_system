@@ -3,7 +3,7 @@ module github.com/WTC-SYSTEM/wtc_system/user_service
 go 1.18
 
 require (
-	github.com/WTC-SYSTEM/apperror v0.0.2
+	github.com/WTC-SYSTEM/apperror v0.0.3
 	github.com/WTC-SYSTEM/logging v0.0.1
 	github.com/WTC-SYSTEM/utils v0.0.2
 	github.com/go-playground/validator/v10 v10.11.0

@@ -5,6 +5,8 @@ github.com/Masterminds/squirrel v1.5.3 h1:YPpoceAcxuzIljlr5iWpNKaql7hLeG1KLSrhvd
 github.com/Masterminds/squirrel v1.5.3/go.mod h1:NNaOrjSoIDfDA40n7sr2tPNZRfjzjA400rg+riTZj10=
 github.com/WTC-SYSTEM/apperror v0.0.2 h1:hney/IcFtjDf/wqOxFxbDILgd6OhMG23cKGI4XMkZpE=
 github.com/WTC-SYSTEM/apperror v0.0.2/go.mod h1:pJG2J3YGUmUmG8C1NhwApXmGpXsDUGmR+PMlqNyrVsg=
+github.com/WTC-SYSTEM/apperror v0.0.3 h1:NX0xTGM/UuHizxQQXFW86/j0iwbi2f8LwCATc22oDh0=
+github.com/WTC-SYSTEM/apperror v0.0.3/go.mod h1:pJG2J3YGUmUmG8C1NhwApXmGpXsDUGmR+PMlqNyrVsg=
 github.com/WTC-SYSTEM/logging v0.0.1 h1:H3aN2WeIXBxetjxqUzwfbrAWU+/D/66syw/1oDT5QZA=
 github.com/WTC-SYSTEM/logging v0.0.1/go.mod h1:HyxNrMfwXSaAx/ElBMdBrSK7eR9rAmm5F7fM2ppBfH4=
 github.com/WTC-SYSTEM/utils v0.0.2 h1:pLTJYw+FAFBheO0zceVbVAKQFEXrt9IaU6wQwkmX/Yg=
