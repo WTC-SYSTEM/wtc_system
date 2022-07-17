@@ -7,12 +7,11 @@ import (
 	"github.com/go-playground/validator/v10"
 	"github.com/gorilla/mux"
 	"net/http"
-	"runtime/debug"
 )
 
 const (
 	recipe     = "/api/v1/recipe"
-	editRecipe = "/api/v1/recipe/{id}"
+	pathRecipe = "/api/v1/recipe/{id}"
 )
 
 type Handler struct {
@@ -22,21 +21,19 @@ type Handler struct {
 }
 
 func (h *Handler) Register(router *mux.Router) {
+	// /api/v1/recipe
 	router.HandleFunc(recipe, apperror.Middleware(h.CreateRecipe)).
 		Methods(http.MethodPost)
-	router.HandleFunc(recipe, apperror.Middleware(h.GetRecipe)).
+	// /api/v1/recipe/{id}
+	router.HandleFunc(pathRecipe, apperror.Middleware(h.DeleteRecipe)).
+		Methods(http.MethodDelete)
+	router.HandleFunc(pathRecipe, apperror.Middleware(h.GetRecipe)).
 		Methods(http.MethodGet)
-	router.HandleFunc(editRecipe, apperror.Middleware(h.EditRecipe)).
+	router.HandleFunc(pathRecipe, apperror.Middleware(h.EditRecipe)).
 		Methods(http.MethodPatch)
 }
 
-// CreateRecipe create recipe
 func (h *Handler) CreateRecipe(w http.ResponseWriter, r *http.Request) error {
-	defer func() {
-		if err := recover(); err != nil {
-			h.Logger.Error(err, debug.Stack())
-		}
-	}()
 	var dto CreateRecipeDTO
 
 	if err := json.NewDecoder(r.Body).Decode(&dto); err != nil {
@@ -53,11 +50,6 @@ func (h *Handler) CreateRecipe(w http.ResponseWriter, r *http.Request) error {
 }
 
 func (h *Handler) EditRecipe(w http.ResponseWriter, r *http.Request) error {
-	defer func() {
-		if err := recover(); err != nil {
-			h.Logger.Error(err, debug.Stack())
-		}
-	}()
 	var dto EditRecipeDTO
 
 	if err := json.NewDecoder(r.Body).Decode(&dto); err != nil {
@@ -81,14 +73,8 @@ func (h *Handler) EditRecipe(w http.ResponseWriter, r *http.Request) error {
 
 func (h *Handler) GetRecipe(w http.ResponseWriter, r *http.Request) error {
 
-	//defer func() {
-	//	if err := recover(); err != nil {
-	//		h.Logger.Error(err, debug.Stack())
-	//	}
-	//}()
-
-	// get recipe id from url
-	id := r.URL.Query().Get("id")
+	// get recipe id from path
+	id := mux.Vars(r)["id"]
 
 	// if id is empty return error
 	if id == "" {
@@ -107,5 +93,22 @@ func (h *Handler) GetRecipe(w http.ResponseWriter, r *http.Request) error {
 	}
 
 	w.WriteHeader(http.StatusOK)
+	return nil
+}
+
+func (h *Handler) DeleteRecipe(w http.ResponseWriter, r *http.Request) error {
+	// get recipe id from path
+	id := mux.Vars(r)["id"]
+
+	// if id is empty return error
+	if id == "" {
+		return apperror.BadRequestError("Recipe id is empty")
+	}
+
+	// delete recipe from storage
+	if err := h.RecipeService.Delete(r.Context(), id); err != nil {
+		return err
+	}
+	w.WriteHeader(http.StatusAccepted)
 	return nil
 }

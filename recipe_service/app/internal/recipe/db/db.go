@@ -6,6 +6,7 @@ import (
 	"github.com/WTC-SYSTEM/logging"
 	"github.com/WTC-SYSTEM/wtc_system/recipe_service/internal/recipe"
 	"github.com/WTC-SYSTEM/wtc_system/recipe_service/pkg/client/postgresql"
+	"time"
 )
 
 type db struct {
@@ -367,6 +368,15 @@ func (d db) Update(ctx context.Context, r recipe.Recipe) error {
 }
 
 func (d db) Delete(ctx context.Context, id string) error {
-	//TODO implement me
-	panic("implement me")
+	/*
+		Actually, we do not delete it.
+		We just set the deleted_at to current timestamp.
+	*/
+	sql, args, _ := sq.Update("recipes").
+		Set("deleted_at", time.Now()).
+		Where(sq.Eq{"id": id}).
+		PlaceholderFormat(sq.Dollar).
+		ToSql()
+	_, err := d.client.Exec(ctx, sql, args...)
+	return err
 }
