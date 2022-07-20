@@ -10,7 +10,7 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - db
-    container_name: wtc-user-service
+    container_name: user-microservice
     environment:
       DB_PASSWORD: postgres
       DB_USERNAME: postgres

@@ -21,6 +21,36 @@ func NewStorage(c postgresql.Client, l logging.Logger) recipe.Storage {
 	}
 }
 
+/*
+FindAll
+*/
+
+func (d db) FindAll(ctx context.Context, filter recipe.Filter) ([]recipe.Recipe, error) {
+	// get recipes with filter
+	sql, args, _ := sq.Select(
+		"title",
+		"description",
+		"calories",
+		"takes_time",
+		"hidden",
+		"created_at",
+		"updated_at",
+	).
+		From("recipes").
+		Where(sq.Eq{"hidden": false, "deleted_at": ""}).
+		Where(sq.Expr("id IN (SELECT recipe_id FROM recipe_tags WHERE tag IN ($1)) OR $1 IS NULL", filter.Tags)).
+		Offset(uint64(filter.Limit * filter.Page)).
+		PlaceholderFormat(sq.Dollar).
+		ToSql()
+
+	d.logger.Info(sql, args)
+	return []recipe.Recipe{}, nil
+}
+
+/*
+Create
+*/
+
 func (d db) Create(ctx context.Context, r recipe.Recipe) (string, error) {
 	// save recipe to db
 	sql, args, err := sq.Insert("recipes").
@@ -109,6 +139,9 @@ func (d db) Create(ctx context.Context, r recipe.Recipe) (string, error) {
 	return id, nil
 }
 
+/*
+FindOne
+*/
 func (d db) FindOne(ctx context.Context, id string) (recipe.Recipe, error) {
 
 	var r recipe.Recipe
@@ -229,6 +262,9 @@ func (d db) FindOne(ctx context.Context, id string) (recipe.Recipe, error) {
 	return r, nil
 }
 
+/*
+Update
+*/
 func (d db) Update(ctx context.Context, r recipe.Recipe) error {
 	updBuilder := sq.Update("recipes")
 
@@ -367,6 +403,9 @@ func (d db) Update(ctx context.Context, r recipe.Recipe) error {
 	return nil
 }
 
+/*
+Delete
+*/
 func (d db) Delete(ctx context.Context, id string) error {
 	/*
 		Actually, we do not delete it.

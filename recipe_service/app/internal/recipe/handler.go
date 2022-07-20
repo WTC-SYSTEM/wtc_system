@@ -112,3 +112,7 @@ func (h *Handler) DeleteRecipe(w http.ResponseWriter, r *http.Request) error {
 	w.WriteHeader(http.StatusAccepted)
 	return nil
 }
+
+func (h *Handler) GetRecipes(w http.ResponseWriter, r *http.Request) error {
+	return nil
+}

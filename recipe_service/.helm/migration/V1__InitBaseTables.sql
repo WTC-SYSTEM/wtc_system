@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS recipes
     updated_at  TIMESTAMP NOT NULL DEFAULT now(),
     deleted_at  TIMESTAMP,
     calories    INTEGER,
-    takes_time  INTEGER,
+    takes_time  BIGINT,
     user_id     TEXT,
     hidden      BOOLEAN
 );
@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS steps
     recipe_id   UUID    NOT NULL,
     title       TEXT    NOT NULL,
     description TEXT    NOT NULL,
-    takes_time  INTEGER,
+    takes_time  BIGINT,
     required    BOOLEAN NOT NULL DEFAULT true,
     CONSTRAINT fk_recipe_id FOREIGN KEY (recipe_id)
         REFERENCES recipes (id)

@@ -10,12 +10,12 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: wtc-api-gateway
+    container_name: api-gateway-microservice
     environment:
       REDIS_PASSWORD: "rediska"
       JWT_SECRET: "secret-ke1"
       REDIS_ADDR: "redis:6379"
-      USER_SERVICE_URL: "http://wtc-user-service:8080/api"
+      USER_SERVICE_URL: "http://user-microservice:8080/api"
     ports:
       - "80:8080"
   redis:

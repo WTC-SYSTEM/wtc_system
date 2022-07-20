@@ -126,3 +126,10 @@ func (r EditRecipeDTO) ToRecipe() Recipe {
 		Hidden:    r.Hidden,
 	}
 }
+
+// filter recipes model
+type Filter struct {
+	Tags  []string `json:"tags"`
+	Page  int      `json:"page" validate:"min=0"`
+	Limit int      `json:"limit" validate:"min=1,max=100"`
+}
